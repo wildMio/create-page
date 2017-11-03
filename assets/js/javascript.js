@@ -2,6 +2,7 @@ $(document).ready(function(){
 	$('.navicon').click(function() {
 		navToggle();
 	});
+	$('body').height($(document).height());
 });
 
 const navToggle = () => {

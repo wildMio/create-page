@@ -48,9 +48,11 @@ table {
 }
 
 /* start */
+@import url(//fonts.googleapis.com/earlyaccess/notosanstc.css);
 
 body {
 	background: linear-gradient(to right, #F0F8FF, #F0FFF0);
+    font-family: 'Noto Sans TC', sans-serif;
 }
 
 .topnav {
@@ -58,18 +60,20 @@ body {
     overflow: hidden;
 }
 
-.navheader {
-	display: none;
-}
-
 .topnav a, .topnav .navheader {
     float: left;
     display: block;
     color: #f2f2f2;
     text-align: center;
-    padding: 14px 16px;
+    padding: 12px 8px;
     text-decoration: none;
-    font-size: 17px;
+    font-size: 21px;
+    width: 100px;
+}
+
+.navheader {
+	border-right: 1px solid #fff;
+	font-weight: bold;
 }
 
 .topnav a:hover {
@@ -81,17 +85,19 @@ body {
     display: none;
 }
 
+
 @media screen and (max-width: 600px) {
   .topnav {position: fixed;width: 100%;}
-  .navheader { border-bottom: 1px dashed #fff }
+  .navheader { border-right-width: 0px; border-bottom: 1px dashed #fff; }
   .navcontent { display: none; margin-top: 10px;}
   .topnav .navcontent a, .topnav .navheader{
   	width: 100%;
     text-align: center;
-    padding: 14px 0;
+    padding: 12px 0;
   }
   .topnav a.navicon {
     position: absolute;
+    width: auto;
     right: 0;
     top: 0;
     display: block;
