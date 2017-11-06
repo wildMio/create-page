@@ -96,19 +96,18 @@ body {
   position: relative;
 }
 
-.repoCell {
+.repoCol {
   display: inline-block;
-  margin-top: 10px;
   float: left;
-  width: 25%;
+  width: 33.3%;
 }
 
-.repoCell hr {
+.repoCol hr {
   border: 0.5px solid #C4B4F5;
 }
 
 .item {
-  margin:0 1%;
+  margin:5px 1% 5px 1%;
   padding: 5px;
   border: 2px solid #888BC4;
   border-radius: 5px 5px 0 0;
@@ -164,7 +163,7 @@ body {
 }
 
 @media screen and (max-width: 1200px) {
-  .repoCell {
+  .repoCol {
     width: 50%;
   }
   .title {
@@ -193,7 +192,7 @@ body {
     padding: 46px 0 0 0;
   }
 
-  .repoCell {
+  .repoCol {
     display: block;
     width: 100%;
   }
