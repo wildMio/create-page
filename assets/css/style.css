@@ -47,17 +47,14 @@ table {
 	border-spacing: 0;
 }
 
-/* start */
-@import url(//fonts.googleapis.com/earlyaccess/notosanstc.css);
-
 body {
 	background: linear-gradient(to right, #F0F8FF, #F0FFF0);
-    font-family: 'Noto Sans TC', sans-serif;
+  font-family: Verdana,sans-serif,"Microsoft YaHei","Heiti TC";
 }
 
 .topnav {
     position: fixed;
-    background-color: #333;
+    background-color: #25285C;
     overflow: hidden;
     width: 100%;
     z-index: 5;
@@ -115,6 +112,7 @@ body {
 }
 
 .title {
+  cursor: default;
   color: #0E36D4;
   font-size: 20px;
   font-weight: bold;
@@ -126,8 +124,9 @@ body {
 }
 
 .itemContainer {
-  background: #fff;
+  background: #BFE4F8;
   padding: 5px;
+  margin-bottom: 5px;
 }
 
 .itemContainer p {
@@ -144,6 +143,7 @@ body {
 }
 
 .itembtn {
+    font-weight: bold;
     background-color: rgba(255, 255, 255, 0);
     border: 2px solid #008CBA;
     color: black; 
@@ -195,6 +195,7 @@ body {
   .repoCol {
     display: block;
     width: 100%;
+    margin-top: 10px;
   }
 
 }
