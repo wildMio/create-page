@@ -52,6 +52,8 @@ body {
   font-family: Verdana,sans-serif,"Microsoft YaHei","Heiti TC";
 }
 
+/*nav*/
+
 .topnav {
     position: fixed;
     background-color: #25285C;
@@ -71,6 +73,10 @@ body {
     width: 100px;
 }
 
+.navLight {
+  background: #8184BC;
+}
+
 .navheader {
 	border-right: 1px solid #fff;
 	font-weight: bold;
@@ -79,15 +85,39 @@ body {
 .topnav a:hover {
     background-color: #ddd;
     color: black;
+    /*animation: navcolor 0.5s infinite;*/
+    animation-name: navcolor;
+    animation-duration: 0.5s;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: 3;
+    animation-direction: alternate;
+}
+
+@keyframes navcolor {
+  from {
+    opacity: 0.3;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .topnav .navicon {
     display: none;
 }
 
+/*main*/
+
 .main {
   padding: 45px 10% 0 10%;
 }
+
+.about, .home, .recommend {
+  position: relative;
+  display: none;
+}
+
+/*repository*/
 
 .repoTable {
   position: relative;
@@ -161,6 +191,134 @@ body {
     background-color: #008CBA;
     color: white;
 }
+
+/*about*/
+
+.about {
+  width: 100%;
+}
+
+.profile {
+  margin: 10px;
+  background: #1D1D1D;
+  border: 1px solid #1D1D1D;
+  color: white;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+}
+
+.profile-info {
+  margin-left: 10px;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.profile-img {
+  width: 150px;
+  height: 150px;
+  border: 3px solid #fff;
+  border-radius: 75px;
+  object-fit: cover;
+  margin-right: 10px;
+}
+
+.profile-name {
+  font-size: 26px;
+}
+
+.profile-intro, .profile-connect {
+  margin-top: 10px;
+  font-size: 18px;
+}
+
+.profile-connect {
+  display: flex;
+}
+
+.sprite {
+  margin-left: 10px;
+}
+
+.sprite a{
+  display: inline-flex;
+}
+
+.sprite a:not(:last-child) {
+  margin-right: 10px;
+}
+
+.sprite-face {
+  background: url('../img/sprites_social.png');
+  background-position: -11px -74px;
+  width: 50px;
+  height: 50px;
+  float:left;
+  display: inline-block;
+  transform: perspective(1000);
+  transform-style: preserve-3d;
+  transition: all 800ms ease;
+  object-fit: cover;
+  border: 1px dashed white;
+  border-radius: 5px;
+}
+.sprite-face:hover {
+  background: url('../img/sprites_social.png');
+  background-position: -10px -10px;
+  width: 50px;
+  height: 50px;
+  transform: rotate(-360deg);
+  border: 0;
+}
+.sprite-youtube {
+  background: url('../img/sprites_social.png');
+  background-position: -292px -74px;
+  width: 50px;
+  height: 50px;
+  float:left;
+  display: inline-block;
+  transform: perspective(1000);
+  transform-style: preserve-3d;
+  transition: all 800ms ease;
+  object-fit: cover;
+  border: 1px dashed white;
+  border-radius: 5px;
+}
+.sprite-youtube:hover {
+  background: url('../img/sprites_social.png');
+  background-position: -292px -11px;
+  width: 50px;
+  height: 50px;
+  transform: rotate(-360deg);
+  border: 0;
+}
+.sprite-github {
+  background: url('../img/sprites_social.png');
+  background-position: -80px -144px;
+  width: 50px;
+  height: 50px;
+  float:left;
+  display: inline-block;
+  transform: perspective(1000);
+  transform-style: preserve-3d;
+  transition: all 800ms ease;
+  object-fit: fill;
+  border: 1px dashed white;
+  border-radius: 5px;
+}
+.sprite-github:hover {
+  background: url('../img/sprites_social.png');
+  background-position: -10px -144px;
+  width: 50px;
+  height: 50px;
+  transform: rotate(-360deg);
+  border: 0;
+}
+
+/*media setting*/
 
 @media screen and (max-width: 1200px) {
   .repoCol {

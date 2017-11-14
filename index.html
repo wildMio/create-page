@@ -14,18 +14,46 @@
 	<nav class="topnav" id="myTopnav">
 		<div class="navheader">wildMio</div>
 		<div class="navcontent">
-			<a href="javascript:void(0);" onclick="loadContent()">首頁</a>
-			<a href="javascript:void(0);" onclick="loadContent()">作品集</a>
-			<a href="javascript:void(0);" onclick="loadContent()">推薦</a>
-			<a href="javascript:void(0);" onclick="loadContent()">關於我</a>
+			<a href="javascript:void(0);" onclick="loadContent('home')">首頁</a>
+			<a href="javascript:void(0);" onclick="loadContent('repoTable')" class="navLight">作品集</a>
+			<a href="javascript:void(0);" onclick="loadContent('recommend')">推薦</a>
+			<a href="javascript:void(0);" onclick="loadContent('about')">關於我</a>
 		</div>
 			<a href="javascript:void(0);" class="navicon" >&#9776;</a>
 	</nav>
 
 	<div class="main">
-		
+
+		<!-- home -->
+		<div class="home">
+			home
+		</div>
+
+		<!-- repoTable -->
 		<div class="repoTable">
+
 			<div class="repoCol">
+
+				<div class="item">
+					<div class="title">計時器</div>
+					<hr>
+					<img src="assets/img/web-react.png">
+					<hr>
+					<div class="itemContainer">
+						<p>使用<span class="en">react/react-bootstrap</span>所建立的網站。</p>
+						<p>功能:計時器。</p>
+					</div>
+					<div class="linkbtn">
+						<a href="https://wildmio.github.io/web-react/" target="_blank">
+							<button class="itembtn">網站</button>
+						</a>
+						<a href="https://github.com/wildMio/web-react" target="_blank">
+							<button class="itembtn">原始碼</button>
+						</a>
+					</div>
+				</div>
+
+
 				<div class="item">
 					<div class="title">😄取得Newsapp資料</div>
 					<hr>
@@ -45,7 +73,6 @@
 					</div>
 				</div>
 			</div>
-
 
 			<div class="repoCol">
 				<div class="item">
@@ -86,6 +113,42 @@
 						<a href="https://github.com/wildMio/bootstrap4-web" target="_blank">
 							<button class="itembtn">原始碼</button>
 						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- recommend -->
+		<div class="recommend">
+			推薦
+		</div>
+
+		<!-- about -->
+		<div class="about">
+			<div class="profile">
+				<img 
+					src='assets/img/Universe.jpg'
+					alt="Profile"
+					class="profile-img"
+				/>
+				<div className="profile-info">
+					<div class="profile-name">wildMio</div>
+					<div class="profile-intro">
+						個人簡介: Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+						tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+						quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+						consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+						cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+						proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+					</div>
+					<div class="profile-connect">
+						社群連結: 
+						<div class="sprite">
+							<a href="https://www.facebook.com/profile.php?id=100000481811054" title="Facebook"><div class="sprite-face"></div></a>
+							<a href="https://www.youtube.com/channel/UCKF1HC-_1yxhLJI-brRFE_A?view_as=subscriber" title="YouTube"><div class="sprite-youtube"></div></a>
+							<a href="#" title="GitHub"><div class="sprite-github"></div></a>
+							
+						</div>
 					</div>
 				</div>
 			</div>
