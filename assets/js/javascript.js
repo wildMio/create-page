@@ -1,3 +1,11 @@
+const user = {
+	email: '',
+	password: '',
+	error: {
+		message: ''
+	}
+}
+
 firebaseApp.auth().onAuthStateChanged(user => {
 	if(user) {
 		// console.log('user has signed in or up', user);
@@ -16,6 +24,20 @@ $(document).ready(function(){
 		navToggle();
 	});
 	$('body').height($(document).height());
+
+	$('.img-ex').click(function() {
+		if($(this).hasClass('img-ex-rot')){
+			let src = event.path[2].children[0].src;
+			src = src.slice(0, src.length-11) + ".png";
+			event.path[2].children[0].src = src;
+		} else {
+			let src = event.path[2].children[0].src;
+			src = src.slice(0, src.length-4) + "-mobile.png";
+			event.path[2].children[0].src = src;
+		}
+		$(this).toggleClass('img-ex-rot');
+	});
+
 });
 
 function navToggle() {
@@ -28,7 +50,7 @@ const page = {
 
 
 function loadContent(next, first=false) {
-	if($(document).width() <= 600) {
+	if($(document).width() <= 600 && !first) {
 		navToggle();
 	}
 	if(page.now !== next){
@@ -63,18 +85,6 @@ function firstload() {
 
 firstload();
 
-function showMobilePage() {
-	let src = event.target.src;
-	src = src.slice(0, src.length-4) + "-mobile.png";
-	event.target.src = src;
-}
-
-function showWebPage() {
-	let src = event.target.src;
-	src = src.slice(0, src.length-11) + ".png";
-	event.target.src = src;
-}
-
 function signInModal() {
 	if($(document).width() <= 600) {
 		navToggle();
@@ -83,9 +93,12 @@ function signInModal() {
 }
 
 const navSignIn = document.querySelector('#navSignIn');
+const signInIcon = '<i class="fa fa-user-o" aria-hidden="true"></i> 登入';
+const closeIcon = '<i class="fa fa-window-close-o" aria-hidden="true"></i>';
+const chooseIcon = '<i class="fa fa-superpowers" aria-hidden="true"></i>';
 
 function changeSignTxt() {
-	navSignIn.innerHTML = (navSignIn.innerHTML !== '×') ? '&times;' : '登入';
+	navSignIn.innerHTML = (navSignIn.innerHTML !== closeIcon) ? closeIcon : signInIcon;
 }
 
 const nowTab = {
@@ -98,7 +111,7 @@ const tabup = document.querySelector('#tabup');
 function showIn() {
 	if(nowTab.now !== "in") {
 		nowTab.now = "in";
-		tabin.innerHTML = "&rsaquo;登入";
+		tabin.innerHTML = chooseIcon + " 登入";
 		tabup.innerHTML = "註冊";
 		$('#signUp').fadeOut(300, function() {$('#signIn').fadeIn(500)});
 	}
@@ -107,18 +120,11 @@ function showUp() {
 	if(nowTab.now !== "up") {
 		nowTab.now = "up";
 		tabin.innerHTML = "登入";
-		tabup.innerHTML = "&rsaquo;註冊";
+		tabup.innerHTML = chooseIcon + " 註冊";
 		$('#signIn').fadeOut(300, function() {$('#signUp').fadeIn(500)});
 	}
 }
 
-const user = {
-	email: '',
-	password: '',
-	error: {
-		message: ''
-	}
-}
 function getUser() {
 	user.email = $('input[name="email"]').val();
 	user.password = $('input[name="password"]').val();
@@ -130,12 +136,13 @@ function signIn() {
 	if(!checkUser()){
 		return;
 	}
+	user.error.message = '';
 	firebaseApp.auth().signInWithEmailAndPassword(email, password)
 		.catch(error => {
 			user.error = error;
 			haveErr();
 		})
-	if(!user.error.message)
+	if(user.error.message)
 		return;
 	signInModal();
 }
@@ -148,7 +155,7 @@ function signUp() {
 			user.error = error;
 			haveErr();
 		})
-	if(!user.error.message)
+	if(user.error.message)
 		return;
 	signInModal();
 }

@@ -7,6 +7,8 @@
 	<title>wildMio</title>
 	<link rel="icon" type="image/png" href="assets/img/favicon.ico">
 	<link rel="stylesheet" href="assets/css/style.css">
+	<link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/2.4.1/firebaseui.css" />
+	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 </head>
 
 <body>
@@ -17,8 +19,8 @@
 			<a href="#section-repoTable" onclick="loadContent('repoTable')" class="navLight">作品集</a>
 			<a href="#section-recommend" onclick="loadContent('recommend')">推薦</a>
 			<a href="#section-about" onclick="loadContent('about')">關於我</a>
-			<a href="javascript:void(0);" onclick="signInModal()" style="float: right; display: none;" id="navSignIn">登入</a>
-			<a href="javascript:void(0)" onclick="signOut()" style="float: right; display: none;" id="signOut">登出</a>
+			<a href="javascript:void(0);" onclick="signInModal()" style="float: right; display: none;" id="navSignIn"><i class="fa fa-user-o" aria-hidden="true"></i> 登入</a>
+			<a href="javascript:void(0)" onclick="signOut()" style="float: right; display: none;" id="signOut">登出 <i class="fa fa-sign-out" aria-hidden="true"></i></a>
 		</div>
 			<a href="javascript:void(0);" class="navicon" >&#9776;</a>
 	</nav>
@@ -37,10 +39,14 @@
 			<div class="repoCol">
 
 				<div class="item">
-					<div class="title">😄取得Newsapp資料</div>
+					<div class="title">
+						<span class="fa-stack fa-1g">
+							<i class="fa fa-square fa-stack-2x"></i><i class="fa fa-terminal fa-stack-1x fa-inverse"></i>
+						</span> 取得Newsapp資料</div>
 					<hr class="hr-one">
 					<div class="image-box">
-						<img src="assets/img/udemy-react-newsapp.png" onmouseenter="showMobilePage()" onmouseout="showWebPage()">
+						<img src="assets/img/udemy-react-newsapp.png">
+						<div class="img-ex"><i class="fa fa-exchange" aria-hidden="true"></i></div>
 					</div>
 					<hr class="hr-one">
 					<div class="itemContainer">
@@ -49,19 +55,23 @@
 					</div>
 					<div class="linkbtn">
 						<a href="https://wildmio.github.io/udemy-react-newsapp/" target="_blank">
-							<button class="itembtn">網站</button>
+							<button class="itembtn"><i class="fa fa-html5" aria-hidden="true"></i> 網站</button>
 						</a>
 						<a href="https://github.com/wildMio/udemy-react-newsapp" target="_blank">
-							<button class="itembtn">原始碼</button>
+							<button class="itembtn"><i class="fa fa-github-alt" aria-hidden="true"></i> 原始碼</button>
 						</a>
 					</div>
 				</div>
 
 				<div class="item">
-					<div class="title">計時器</div>
+					<div class="title">
+						<span class="fa-stack fa-1g">
+							<i class="fa fa-square fa-stack-2x"></i><i class="fa fa-terminal fa-stack-1x fa-inverse"></i>
+						</span> 計時器</div>
 					<hr class="hr-one">
 					<div class="image-box">
-						<img src="assets/img/web-react.png" onmouseenter="showMobilePage()" onmouseout="showWebPage()">
+						<img src="assets/img/web-react.png">
+						<div class="img-ex"><i class="fa fa-exchange" aria-hidden="true"></i></div>
 					</div>
 					<hr class="hr-one">
 					<div class="itemContainer">
@@ -70,10 +80,10 @@
 					</div>
 					<div class="linkbtn">
 						<a href="https://wildmio.github.io/web-react/" target="_blank">
-							<button class="itembtn">網站</button>
+							<button class="itembtn"><i class="fa fa-html5" aria-hidden="true"></i> 網站</button>
 						</a>
 						<a href="https://github.com/wildMio/web-react" target="_blank">
-							<button class="itembtn">原始碼</button>
+							<button class="itembtn"><i class="fa fa-github-alt" aria-hidden="true"></i> 原始碼</button>
 						</a>
 					</div>
 				</div>
@@ -82,10 +92,14 @@
 
 			<div class="repoCol">
 				<div class="item">
-					<div class="title">👊形象網站</div>
+					<div class="title">
+						<span class="fa-stack fa-1g">
+							<i class="fa fa-square fa-stack-2x"></i><i class="fa fa-terminal fa-stack-1x fa-inverse"></i>
+						</span> 形象網站</div>
 					<hr class="hr-one">
 					<div class="image-box">
-						<img src="assets/img/bootstrap4-web.png" onmouseenter="showMobilePage()" onmouseout="showWebPage()">
+						<img src="assets/img/bootstrap4-web.png">
+						<div class="img-ex"><i class="fa fa-exchange" aria-hidden="true"></i></div>
 					</div>
 					<hr class="hr-one">
 					<div class="itemContainer">
@@ -94,10 +108,10 @@
 					</div>
 					<div class="linkbtn">
 						<a href="https://wildmio.github.io/bootstrap4-web/" target="_blank">
-							<button class="itembtn">網站</button>
+							<button class="itembtn"><i class="fa fa-html5" aria-hidden="true"></i> 網站</button>
 						</a>
 						<a href="https://github.com/wildMio/bootstrap4-web" target="_blank">
-							<button class="itembtn">原始碼</button>
+							<button class="itembtn"><i class="fa fa-github-alt" aria-hidden="true"></i> 原始碼</button>
 						</a>
 					</div>
 				</div>
@@ -106,10 +120,14 @@
 
 			<div class="repoCol">
 				<div class="item">
-					<div class="title">🐧會員系統</div>
+					<div class="title">
+						<span class="fa-stack fa-1g">
+							<i class="fa fa-square fa-stack-2x"></i><i class="fa fa-terminal fa-stack-1x fa-inverse"></i>
+						</span> 會員系統</div>
 					<hr class="hr-one">
 					<div class="image-box">
-						<img src="assets/img/php-login-system.png" onmouseenter="showMobilePage()" onmouseout="showWebPage()">
+						<img src="assets/img/php-login-system.png">
+						<div class="img-ex"><i class="fa fa-exchange" aria-hidden="true"></i></div>
 					</div>
 					<hr class="hr-one">
 					<div class="itemContainer">
@@ -118,10 +136,10 @@
 					</div>
 					<div class="linkbtn">
 						<a href="https://zll12545.000webhostapp.com/index.php" target="_blank">
-							<button class="itembtn">網站</button>
+							<button class="itembtn"><i class="fa fa-html5" aria-hidden="true"></i> 網站</button>
 						</a>
 						<a href="https://github.com/wildMio/bootstrap4-web" target="_blank">
-							<button class="itembtn">原始碼</button>
+							<button class="itembtn"><i class="fa fa-github-alt" aria-hidden="true"></i> 原始碼</button>
 						</a>
 					</div>
 				</div>
@@ -144,7 +162,7 @@
 					/>
 				</div>
 				<div className="profile-info">
-					<div class="profile-name"><strong>wildMio</strong></div>
+					<div class="profile-name"><strong>wildMio <i class="fa fa-meetup" aria-hidden="true"></i></strong></div>
 					<div class="profile-intro">
 						個人簡介: Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
 						tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
@@ -170,11 +188,11 @@
 		<!-- signInModal -->
 		<section id="section-signInModal">
 			<div class="signInTab">
-				<button class="tabbtn" onclick="showIn()" id="tabin">&rsaquo;登入</button>
+				<button class="tabbtn" onclick="showIn()" id="tabin"><i class="fa fa-superpowers" aria-hidden="true"></i>登入</button>
 				<button class="tabbtn" onclick="showUp()" id="tabup">註冊</button>
 				<div class="form">
-					<input type="email" name="email" placeholder="email@com">
-					<input type="password" name="password" placeholder="password">
+					<input type="email" name="email" placeholder="Email address">
+					<input type="password" name="password" placeholder="Password">
 					<div id="errtxt">error</div>
 					<button class="confirmbtn" id="signIn" onclick="signIn()">登入</button>
 					<button class="confirmbtn" id="signUp" onclick="signUp()">註冊</button>
@@ -185,7 +203,7 @@
 
 	</div>
 
-	
+	<script src="https://cdn.firebase.com/libs/firebaseui/2.4.1/firebaseui.js"></script>
 	<script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
 	<script src="assets/js/firebase.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
