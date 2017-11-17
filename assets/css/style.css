@@ -52,6 +52,10 @@ body {
   font-family: Verdana,sans-serif,"Microsoft YaHei","Heiti TC";
 }
 
+strong {
+  font-weight: bold;
+}
+
 /*nav*/
 
 .topnav {
@@ -69,8 +73,14 @@ body {
     text-align: center;
     padding: 12px 8px;
     text-decoration: none;
-    font-size: 21px;
+    font-size: 16px;
+    height: 21px;
     width: 100px;
+    border-radius: 20px;
+}
+.topnav .navheader {
+  cursor: default;
+  font-size: 21px;
 }
 
 .navLight {
@@ -129,15 +139,22 @@ body {
   width: 33.3%;
 }
 
-.repoCol hr {
-  border: 0.5px solid #C4B4F5;
+.hr-one {
+  height: 5px;
+  border: 1;
+  box-shadow: inset 0 6px 6px -3px rgba(11, 99, 184, 0.6);
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px;
 }
 
 .item {
   margin:5px 1% 5px 1%;
   padding: 5px;
   border: 2px solid #888BC4;
-  border-radius: 5px 5px 0 0;
+  border-radius: 5px 5px 2px 2px;
   box-shadow: 2px 4px 6px 2px rgba(0, 0, 0, 0.2);
 }
 
@@ -149,14 +166,25 @@ body {
   letter-spacing: 1px;
 }
 
-.item img {
+.image-box {
   width: 100%;
+  text-align: center;
+}
+
+.image-box img {
+  width: 100%;
+  border-radius: 0 5px 5px 5px;
+  object-fit: contain;
+  max-width: 440px;
+  max-height: 220px;
+  margin: auto;
 }
 
 .itemContainer {
   background: #BFE4F8;
   padding: 5px;
   margin-bottom: 5px;
+  border-radius: 0 5px 5px 5px;
 }
 
 .itemContainer p {
@@ -185,6 +213,7 @@ body {
     transition-duration: 0.4s;
     cursor: pointer;
     width: 40%;
+  border-radius: 3px;
 }
 
 .itembtn:hover {
@@ -218,6 +247,10 @@ body {
 }
 
 .profile-img {
+  display: inline-flex;
+}
+
+.profile-img img{
   width: 150px;
   height: 150px;
   border: 3px solid #fff;
@@ -239,6 +272,13 @@ body {
   display: flex;
 }
 
+.profile-connect p {
+  padding-top: 10px;
+}
+.profile-connect span {
+  padding-top: 18px;
+}
+
 .sprite {
   margin-left: 10px;
 }
@@ -251,71 +291,149 @@ body {
   margin-right: 10px;
 }
 
-.sprite-face {
-  background: url('../img/sprites_social.png');
-  background-position: -11px -74px;
+.sprite-init {
   width: 50px;
   height: 50px;
   float:left;
   display: inline-block;
   transform: perspective(1000);
   transform-style: preserve-3d;
-  transition: all 800ms ease;
+  transition: all 400ms ease;
+  transform: rotate(-90deg);
   object-fit: cover;
   border: 1px dashed white;
-  border-radius: 5px;
+  border-radius: 0 10px;
+}
+.sprite-init:hover {
+  transform: rotate(0deg);
+  border: 0;
+}
+
+.sprite-face {
+  background: url('../img/sprites_social.png');
+  background-position: -11px -74px;
 }
 .sprite-face:hover {
   background: url('../img/sprites_social.png');
   background-position: -10px -10px;
-  width: 50px;
-  height: 50px;
-  transform: rotate(-360deg);
-  border: 0;
 }
 .sprite-youtube {
   background: url('../img/sprites_social.png');
   background-position: -292px -74px;
-  width: 50px;
-  height: 50px;
-  float:left;
-  display: inline-block;
-  transform: perspective(1000);
-  transform-style: preserve-3d;
-  transition: all 800ms ease;
-  object-fit: cover;
-  border: 1px dashed white;
-  border-radius: 5px;
 }
 .sprite-youtube:hover {
   background: url('../img/sprites_social.png');
   background-position: -292px -11px;
-  width: 50px;
-  height: 50px;
-  transform: rotate(-360deg);
-  border: 0;
 }
 .sprite-github {
   background: url('../img/sprites_social.png');
   background-position: -80px -144px;
-  width: 50px;
-  height: 50px;
-  float:left;
-  display: inline-block;
-  transform: perspective(1000);
-  transform-style: preserve-3d;
-  transition: all 800ms ease;
-  object-fit: fill;
-  border: 1px dashed white;
-  border-radius: 5px;
 }
 .sprite-github:hover {
   background: url('../img/sprites_social.png');
   background-position: -10px -144px;
-  width: 50px;
-  height: 50px;
-  transform: rotate(-360deg);
-  border: 0;
+}
+
+/*signInModal*/
+
+#section-signInModal {
+  display: none;
+  position: fixed;
+  right: 0;
+  top: 45px;
+  width: 30%;
+  background-color: #fff;
+  border: 3px solid #1A1D58;
+  border-top: 0;
+  border-right: 0;
+  border-bottom-left-radius: 20px;
+}
+
+.signInTab {
+  width: 100%;
+}
+
+.tabbtn {
+  cursor: pointer;
+  border: none;
+  outline: none;
+  width: 50%;
+  float: left;
+  display: inline-block;
+  text-align: center;
+  font-weight: bold;
+  padding: 10px 0;
+  font-size: 20px;
+  border-bottom: 1px solid #5A5FBB;
+  background-color: #484AEC;
+  color: #F6F6F6;
+  letter-spacing: 5px;
+}
+.tabbtn:first-child {
+  border-right-width: 1px;
+  border-right-style: dashed;
+  border-right-color: white;
+}
+
+.tabbtn:hover {
+  background-color: #bbb;
+  color: #5A5FBB;
+}
+
+.form {
+  position: relative;
+  display: block;
+  clear: both;
+  margin: 10px;
+  text-align: center;
+}
+
+.form input {
+  width: 90%;
+  margin: 10px auto;
+  font-size: 20px;
+  padding: 5px;
+  border-radius: 0 5px 5px 5px;
+}
+
+.form input:focus {
+  border: 3px solid #51C6ED;
+}
+
+.confirmbtn {
+  width: 80%;
+  outline: none;
+  border: none;
+  background-color: #4CAF50;
+  cursor: pointer;
+  color: white;
+  margin-top: 10px;
+  padding: 10px;
+  font-size: 22px;
+  border-bottom-left-radius: 3px;
+}
+
+.confirmbtn:focus {
+  background-color: #2E8B57;
+}
+
+#signUp {
+  display: none;
+}
+
+#errtxt {
+  display: none;
+  width: 100%;
+  margin: 10px 0;
+  background-color: #FF6347;
+  color: white;
+  font-size: 16px;
+  padding: 5px 0;
+  border-bottom-left-radius: 3px;
+}
+
+#errtxt:hover {
+  background-color: red;
 }
 
 /*media setting*/
@@ -329,8 +447,16 @@ body {
   }
 }
 
+@media screen and (max-width: 700px) {
+  .topnav a:last-child {
+    display: none;
+  }
+}
+
 @media screen and (max-width: 600px) {
-  .topnav {}
+  .topnav a:last-child {
+    display: block;
+  }
   .navheader { border-right-width: 0px; border-bottom: 1px dashed #fff; }
   .navcontent { display: none; margin-top: 10px;}
   .topnav .navcontent a, .topnav .navheader{
@@ -354,6 +480,25 @@ body {
     display: block;
     width: 100%;
     margin-top: 10px;
+  }
+
+  .profile {
+    display: block;
+  }
+
+  .profile-img, .profile-name {
+    display: block;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+
+  .profile-img img {
+    margin: 0;
+  }
+
+  #section-signInModal {
+    width: 100%;
+    border-bottom-right-radius: 20px;
   }
 
 }

@@ -9,15 +9,16 @@
 	<link rel="stylesheet" href="assets/css/style.css">
 </head>
 
-
 <body>
 	<nav class="topnav" id="myTopnav">
 		<div class="navheader">wildMio</div>
 		<div class="navcontent">
-			<a href="javascript:void(0);" onclick="loadContent('home')">首頁</a>
-			<a href="javascript:void(0);" onclick="loadContent('repoTable')" class="navLight">作品集</a>
-			<a href="javascript:void(0);" onclick="loadContent('recommend')">推薦</a>
-			<a href="javascript:void(0);" onclick="loadContent('about')">關於我</a>
+			<a href="#section-home" onclick="loadContent('home')">首頁</a>
+			<a href="#section-repoTable" onclick="loadContent('repoTable')" class="navLight">作品集</a>
+			<a href="#section-recommend" onclick="loadContent('recommend')">推薦</a>
+			<a href="#section-about" onclick="loadContent('about')">關於我</a>
+			<a href="javascript:void(0);" onclick="signInModal()" style="float: right; display: none;" id="navSignIn">登入</a>
+			<a href="javascript:void(0)" onclick="signOut()" style="float: right; display: none;" id="signOut">登出</a>
 		</div>
 			<a href="javascript:void(0);" class="navicon" >&#9776;</a>
 	</nav>
@@ -25,20 +26,44 @@
 	<div class="main">
 
 		<!-- home -->
-		<div class="home">
+		<section id="section-home" class="home">
 			home
-		</div>
+		</section>
+		<!-- home end -->
 
 		<!-- repoTable -->
-		<div class="repoTable">
+		<section id="section-repoTable" class="repoTable">
 
 			<div class="repoCol">
 
 				<div class="item">
+					<div class="title">😄取得Newsapp資料</div>
+					<hr class="hr-one">
+					<div class="image-box">
+						<img src="assets/img/udemy-react-newsapp.png" onmouseenter="showMobilePage()" onmouseout="showWebPage()">
+					</div>
+					<hr class="hr-one">
+					<div class="itemContainer">
+						<p>使用<span class="en">react</span>所建立的網站。</p>
+						<p>從<span class="en">Newsapp</span>獲取文章物件並顯示在此網站上，可排序、獲取更多資料。</p>
+					</div>
+					<div class="linkbtn">
+						<a href="https://wildmio.github.io/udemy-react-newsapp/" target="_blank">
+							<button class="itembtn">網站</button>
+						</a>
+						<a href="https://github.com/wildMio/udemy-react-newsapp" target="_blank">
+							<button class="itembtn">原始碼</button>
+						</a>
+					</div>
+				</div>
+
+				<div class="item">
 					<div class="title">計時器</div>
-					<hr>
-					<img src="assets/img/web-react.png">
-					<hr>
+					<hr class="hr-one">
+					<div class="image-box">
+						<img src="assets/img/web-react.png" onmouseenter="showMobilePage()" onmouseout="showWebPage()">
+					</div>
+					<hr class="hr-one">
 					<div class="itemContainer">
 						<p>使用<span class="en">react/react-bootstrap</span>所建立的網站。</p>
 						<p>功能:計時器。</p>
@@ -53,33 +78,16 @@
 					</div>
 				</div>
 
-
-				<div class="item">
-					<div class="title">😄取得Newsapp資料</div>
-					<hr>
-					<img src="assets/img/udemy-react-newsapp.png">
-					<hr>
-					<div class="itemContainer">
-						<p>使用<span class="en">react</span>所建立的網站。</p>
-						<p>從<span class="en">Newsapp</span>獲取文章物件並顯示在此網站上，可排序、獲取更多資料。</p>
-					</div>
-					<div class="linkbtn">
-						<a href="https://wildmio.github.io/udemy-react-newsapp/" target="_blank">
-							<button class="itembtn">網站</button>
-						</a>
-						<a href="https://github.com/wildMio/udemy-react-newsapp" target="_blank">
-							<button class="itembtn">原始碼</button>
-						</a>
-					</div>
-				</div>
 			</div>
 
 			<div class="repoCol">
 				<div class="item">
 					<div class="title">👊形象網站</div>
-					<hr>
-					<img src="assets/img/bootstrap4-web.png">
-					<hr>
+					<hr class="hr-one">
+					<div class="image-box">
+						<img src="assets/img/bootstrap4-web.png" onmouseenter="showMobilePage()" onmouseout="showWebPage()">
+					</div>
+					<hr class="hr-one">
 					<div class="itemContainer">
 						<p>使用<span class="en">bootstrap4</span>所建立的網站。</p>
 						<p>一頁滑動式網站。</p>
@@ -99,9 +107,11 @@
 			<div class="repoCol">
 				<div class="item">
 					<div class="title">🐧會員系統</div>
-					<hr>
-					<img src="assets/img/php-login-system.png">
-					<hr>
+					<hr class="hr-one">
+					<div class="image-box">
+						<img src="assets/img/php-login-system.png" onmouseenter="showMobilePage()" onmouseout="showWebPage()">
+					</div>
+					<hr class="hr-one">
 					<div class="itemContainer">
 						<p>使用<span class="en">php/ajax</span>所建立的網站。</p>
 						<p>有會員系統的網站。</p>
@@ -116,23 +126,25 @@
 					</div>
 				</div>
 			</div>
-		</div>
+		</section>
+		<!-- repoTable end -->
 
 		<!-- recommend -->
-		<div class="recommend">
+		<section id="section-recommend" class="recommend">
 			推薦
-		</div>
+		</section>
 
 		<!-- about -->
-		<div class="about">
+		<section id="section-about" class="about">
 			<div class="profile">
-				<img 
-					src='assets/img/Universe.jpg'
-					alt="Profile"
-					class="profile-img"
-				/>
+				<div class="profile-img">
+					<img 
+						src='assets/img/Universe.jpg'
+						alt="Profile"
+					/>
+				</div>
 				<div className="profile-info">
-					<div class="profile-name">wildMio</div>
+					<div class="profile-name"><strong>wildMio</strong></div>
 					<div class="profile-intro">
 						個人簡介: Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
 						tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
@@ -142,21 +154,40 @@
 						proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 					</div>
 					<div class="profile-connect">
-						社群連結: 
+						<p>社群<br>連結</p><span>:</span>
 						<div class="sprite">
-							<a href="https://www.facebook.com/profile.php?id=100000481811054" title="Facebook"><div class="sprite-face"></div></a>
-							<a href="https://www.youtube.com/channel/UCKF1HC-_1yxhLJI-brRFE_A?view_as=subscriber" title="YouTube"><div class="sprite-youtube"></div></a>
-							<a href="#" title="GitHub"><div class="sprite-github"></div></a>
+							<a href="https://www.facebook.com/profile.php?id=100000481811054" title="Facebook"><div class="sprite-init sprite-face"></div></a>
+							<a href="https://www.youtube.com/channel/UCKF1HC-_1yxhLJI-brRFE_A?view_as=subscriber" title="YouTube"><div class="sprite-init sprite-youtube"></div></a>
+							<a href="#" title="GitHub"><div class="sprite-init sprite-github"></div></a>
 							
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>
+		</section>
+		<!-- about end -->
+
+		<!-- signInModal -->
+		<section id="section-signInModal">
+			<div class="signInTab">
+				<button class="tabbtn" onclick="showIn()" id="tabin">&rsaquo;登入</button>
+				<button class="tabbtn" onclick="showUp()" id="tabup">註冊</button>
+				<div class="form">
+					<input type="email" name="email" placeholder="email@com">
+					<input type="password" name="password" placeholder="password">
+					<div id="errtxt">error</div>
+					<button class="confirmbtn" id="signIn" onclick="signIn()">登入</button>
+					<button class="confirmbtn" id="signUp" onclick="signUp()">註冊</button>
+				</div>
+			</div>
+		</section>
+		<!-- signInModal end -->
 
 	</div>
 
 	
+	<script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
+	<script src="assets/js/firebase.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script type="text/javascript" src="assets/js/javascript.js"></script>
 </body>
