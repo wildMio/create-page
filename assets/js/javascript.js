@@ -1,19 +1,25 @@
-const user = {
+const userStatus = {
 	email: '',
 	password: '',
 	error: {
 		message: ''
-	}
+	},
+	content: '',
+	date: ''
 }
+
 
 firebaseApp.auth().onAuthStateChanged(user => {
 	if(user) {
-		// console.log('user has signed in or up', user);
+		console.log(user);
+		const { email } = user;
+		userStatus.email = email;
 		$('#navSignIn').hide();
 		$('#section-signInModal').hide();
 		$('#signOut').show();
+
+console.log(userStatus);
 	} else {
-		// console.log('user has signed out or still needs to signin.');
 		$('#signOut').hide();
 		$('#navSignIn').show();
 	}
@@ -89,12 +95,16 @@ function signInModal() {
 	if($(document).width() <= 600) {
 		navToggle();
 	}
+	closeSignInModal();
+}
+
+function closeSignInModal() {
 	$('#section-signInModal').slideToggle(500, changeSignTxt());
 }
 
 const navSignIn = document.querySelector('#navSignIn');
 const signInIcon = '<i class="fa fa-user-o" aria-hidden="true"></i> 登入';
-const closeIcon = '<i class="fa fa-window-close-o" aria-hidden="true"></i>';
+const closeIcon = '<i class="fa fa-times" aria-hidden="true"></i>';
 const chooseIcon = '<i class="fa fa-superpowers" aria-hidden="true"></i>';
 
 function changeSignTxt() {
@@ -126,48 +136,52 @@ function showUp() {
 }
 
 function getUser() {
-	user.email = $('input[name="email"]').val();
-	user.password = $('input[name="password"]').val();
+	userStatus.email = $('input[name="email"]').val();
+	userStatus.password = $('input[name="password"]').val();
 }
 
 function signIn() {
 	getUser();
-	const { email, password } = user;
+	const { email, password } = userStatus;
 	if(!checkUser()){
 		return;
 	}
-	user.error.message = '';
+	userStatus.error.message = '';
 	firebaseApp.auth().signInWithEmailAndPassword(email, password)
 		.catch(error => {
-			user.error = error;
+			userStatus.error = error;
 			haveErr();
 		})
-	if(user.error.message)
+	if(userStatus.error.message)
 		return;
 	signInModal();
 }
 
 function signUp() {
 	getUser();
-	const { email, password } = user;
+	const { email, password } = userStatus;
+	if(!checkUser()){
+		return;
+	}
+	userStatus.error.message = '';
 	firebaseApp.auth().createUserWithEmailAndPassword(email, password)
 		.catch(error => {
-			user.error = error;
+			userStatus.error = error;
 			haveErr();
 		})
-	if(user.error.message)
+	if(userStatus.error.message)
 		return;
 	signInModal();
 }
 
 function checkUser() {
-	if(!user.email) {
-		user.error.message = "尚未輸入信箱.";
+	if(!userStatus.email) {
+		userStatus.error.message = "尚未輸入信箱.";
 		haveErr();
 		return false;
 	}
-	if(!user.password) {
-		user.error.message = "尚未輸入密碼.";
+	if(!userStatus.password) {
+		userStatus.error.message = "尚未輸入密碼.";
 		haveErr();
 		return false;
 	}
@@ -175,9 +189,31 @@ function checkUser() {
 }
 
 function haveErr(error) {
-	$('#errtxt').html(user.error.message).fadeIn(300);
+	$('#errtxt').html(userStatus.error.message).fadeIn(300);
 }
 
 function signOut() {
 	firebaseApp.auth().signOut();
+}
+
+const circleIconClass = 'fa-circle-o';
+const checkIconClass = 'fa-check-square-o txt-blue';
+
+function askConfirm() {
+	let s = event.target.className;
+	s.includes(checkIconClass)? notConfirm() : checkComfirm();
+	function notConfirm() {
+		$('#confirm-icon').animate({ opacity:"0" }, 200).queue(function () {$(this).removeClass(checkIconClass).addClass(circleIconClass).dequeue()}).animate({ opacity: "1" },200);
+		$('#confirm-word').html('請');
+	}
+	function checkComfirm() {
+		$('#confirm-icon').animate({ opacity:"0" }, 200).queue(function () {$(this).removeClass(circleIconClass).addClass(checkIconClass).dequeue()}).animate({ opacity: "1" },200)
+		$('#confirm-word').html('已');
+	}
+}
+
+function askSubmit() {
+	userStatus.content = $('.ask-text textarea').val();
+	const { email, content } = userStatus;
+	advisedRef.push({email, content});
 }
