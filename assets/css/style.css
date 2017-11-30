@@ -2,7 +2,7 @@
    v2.0 | 20110126
    License: none (public domain)
 */
-
+title
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -48,7 +48,8 @@ table {
 }
 
 body {
-  font-family: Verdana,sans-serif,"Microsoft YaHei","Heiti TC";
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande",Verdana,sans-serif,"Microsoft YaHei","Heiti TC";
+  position: relative;
 }
 
 strong {
@@ -57,9 +58,17 @@ strong {
 
 /*nav*/
 
+.disable {
+  text-decoration-line: line-through;
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
 .topnav {
-    position: fixed;
-    background-color: #25285C;
+    position: sticky;
+    top: 0;
+    background-color: #276CBA;
     overflow: hidden;
     width: 100%;
     z-index: 5;
@@ -83,7 +92,7 @@ strong {
 }
 
 .navLight {
-  background: #8184BC;
+  background: #1978E5;
 }
 
 .navheader {
@@ -94,10 +103,11 @@ strong {
 .topnav a:hover {
     background-color: #ddd;
     color: black;
+    text-decoration: underline;
     /*animation: navcolor 0.5s infinite;*/
     animation-name: navcolor;
     animation-duration: 0.5s;
-    animation-timing-function: ease-in-out;
+    animation-timing-function: ease-in;
     animation-iteration-count: 3;
     animation-direction: alternate;
 }
@@ -117,19 +127,35 @@ strong {
 
 /*main*/
 
-.main {
-  padding: 45px 10% 0 10%;
-}
-
 .about, .home, .recommend {
   position: relative;
   display: none;
+}
+
+/*home*/
+
+.home-flex {
+  display: flex;
+  justify-content: space-around;
+  flex-flow: row wrap;
+}
+
+.home-cell {
+  position: relative;
+  display: inline-flex;
+  flex-basis: 400px;
+  height: 400px;
 }
 
 /*repository*/
 
 .repoTable {
   position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  width: 90%;
+  margin: 0 5%;
 }
 
 .repoCol {
@@ -163,6 +189,9 @@ strong {
   font-size: 20px;
   font-weight: bold;
   letter-spacing: 1px;
+  border-radius: 5px 5px 0 5px;
+  background: linear-gradient(180deg, rgba(255,255,255,0) 60%, #fff),linear-gradient(70deg, #dbedff 32%, #ebfff0);
+  padding: 2px 2px 4px 2px;
 }
 
 .title-i {
@@ -177,7 +206,6 @@ strong {
 
 .image-box img {
   width: 100%;
-  border-radius: 0 5px 5px 5px;
   object-fit: contain;
   max-width: 440px;
   max-height: 220px;
@@ -263,7 +291,8 @@ strong {
 /*about*/
 
 .about {
-  width: 100%;
+  margin: 0 5%;
+  width: 90%;
 }
 
 .profile {
@@ -335,9 +364,8 @@ strong {
   height: 50px;
   float:left;
   display: inline-block;
-  transform: perspective(1000);
   transform-style: preserve-3d;
-  transition: all 400ms ease;
+  transition: all 400ms ease-in;
   transform: rotate(-90deg);
   object-fit: cover;
   border: 1px dashed white;
@@ -373,9 +401,310 @@ strong {
   background-position: -10px -144px;
 }
 
+.message-board {
+  background-color: #f6f7f9;
+  border-radius: 3px 3px 0 0;
+  border: 1px solid DodgerBlue;
+  flex-flow: row wrap;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.message-setting {
+  margin-bottom: 10px;
+  background-color: #f6f7f9;
+  border-radius: 0 0 3px 3px;
+  border: 1px solid DodgerBlue;
+  border-top: none;
+  display: flex;
+  justify-content: flex-start;
+  flex-flow: row wrap;
+  align-items: center;
+}
+
+.setting-cell {
+  margin: 10px 5px 10px 5px;
+}
+
+.setting-cell button {
+  font-size: 16px;
+  box-shadow: 0 0 0 4px #1D1D1D, 2px 1px 6px 4px rgba(10, 10, 0, 0.5);
+  text-shadow: -1px -1px #0E0E0E;
+  text-align: center;
+  padding: 5px;
+  background-color: #1D1D1D;
+  border: 1px dashed #fff;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: normal;
+}
+
+.setting-cell button:hover {
+  background-color: #5ECDF2;
+  color: #000;
+  text-shadow: none;
+}
+
+#message-error {
+  display: none;
+  box-shadow: 0 0 0 4px DarkRed , 2px 1px 6px 4px rgba(10, 10, 0, 0.5);
+  background-color: DarkRed;
+  border: 1px dashed #fff;
+  margin-left: 5px;
+}
+
+#message-error:hover {
+  background-color: FireBrick;
+  color: #fff;
+  text-shadow: none;
+}
+
+.message-cell {
+  flex-basis: 33.3%;
+  align-self: stretch;
+}
+
+.message-box {
+  margin: 10px;
+  border: 1px solid #AEAEAE;
+  border-radius: 5px 5px 5px 5px;
+  background-color: #fff;
+}
+
+.message-info {
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;;
+  align-items: baseline;
+}
+
+.message-user {
+  max-width: 50%;
+  color: #2C58E4;
+  font-weight: bold;
+  font-size: 18px;
+  word-break: break-all;
+  word-wrap: break-word;
+}
+
+.message-time {
+  max-width: 50%;
+  background-color: #F2F3F4;
+  border-radius: 3px;
+  border: 1px solid #F2F3F4;
+  padding: 1px;
+  word-break: break-all;
+  word-wrap: break-word;
+  padding: 3px;
+  text-align: right;
+}
+
+.message-content {
+  font-family: serif;
+  padding: 0 10px;
+  font-size: 18px;
+  height: 100px;
+  overflow: auto;
+  word-break: break-all;
+  word-wrap: break-word;
+  white-space:pre-wrap;
+  line-height: 130%;
+}
+
+.blur {
+  -webkit-filter: blur(0.5px);
+  filter: blur(0.5px);
+}
+
+.blur:hover {
+  -webkit-filter: blur(0px);
+  filter: blur(0px);
+}
+
+.ct {
+  text-align:center;
+  opacity:0.6;
+  color: DodgerBlue;
+}
+
+.message-content::-webkit-scrollbar
+{
+  width: 10px;
+  background-color: #F5F5F5;
+}
+
+.message-content::-webkit-scrollbar-track
+{
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  border-radius: 5px;
+  background-color: #F5F5F5;
+}
+
+.message-content::-webkit-scrollbar-thumb
+{
+  border-radius: 5px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+  background-color: #969696;
+}
+
+.message-room {
+  border-top: 1px solid #AEAEAE;
+  margin-top: 5px;
+  text-align: right;
+  overflow: hidden;
+}
+
+.orange-btn {
+  border: none;
+  overflow: hidden;
+  font-size: 16px;
+  background-color: #E5E5E5;
+  color: OrangeRed;
+  padding: 5px;
+  z-index: -1;
+  border-bottom-right-radius: 5px;
+  outline: none;
+  box-shadow: 2px 1px 6px 4px rgba(10, 10, 0, 0.5);
+}
+
+.orange-btn:hover {
+  background-color: OrangeRed;
+  color: #fff;
+}
+
+.chat-box {
+  display: none;
+  height: 215.18px;
+}
+
+.chat-room {
+  position: relative;
+  width: 100%;
+  height: 184.18px;
+  overflow: auto;
+}
+
+.chat-room::-webkit-scrollbar
+{
+  width: 10px;
+  background-color: #F5F5F5;
+}
+
+.chat-room::-webkit-scrollbar-track
+{
+  /*-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);*/
+  border-radius: 5px;
+  background-color: #fff;
+}
+
+.chat-room::-webkit-scrollbar-thumb
+{
+  border-radius: 5px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+  background-color: #969696;
+}
+
+.chat-setting {
+  position: sticky;
+  top: 0px;
+  text-align: right;
+  padding-right: 10px;
+}
+
+.chat-icon {
+  display: inline-block;
+  color: #9A9A9A;
+}
+
+.chat-icon:hover {
+  color: #3986ac;
+}
+
+.chat-icon:not(:last-child) {
+  margin-right: 5px;
+}
+
+.chat-message {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.chat-name {
+  color: #90949c;
+  margin-bottom: 2px;
+  padding-left: 16px;
+  word-break: break-all;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+}
+
+.chat-content {
+  display: inline-block;
+  max-width: 100%;
+  margin-left: 8px;
+  margin-right: 8px;
+  padding: 5px 8px;
+  color: #4b4f56;
+  background-color: #f1f0f0;
+  word-break: break-all;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+  margin-bottom: 1px;
+  border-top-right-radius: 13px;
+  border-bottom-right-radius: 13px;
+}
+
+.chat-main div:first-child .chat-content {
+  border-top-left-radius: 13px;
+}
+
+.chat-main div:last-child .chat-content {
+  border-bottom-left-radius: 13px;
+}
+
+.chat-bar {
+  width: 100%;
+  border-top: 2px solid #AEAEAE;
+  text-align: left;
+  overflow: hidden;
+  display: flex;
+  direction: ltr;
+  justify-content: space-around;
+  height: 29px;
+}
+
+.chat-text {
+  width: 100%;
+  padding-left: 5px;
+  font-size: 20px;
+  border: 1px solid #fff;
+  box-sizing: border-box;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+  outline: none;
+}
+
+.chat-text:focus {
+  border: 1px solid #fff;
+}
+
+.chat-text::placeholder {
+  color: #E1E1E1;
+}
+
+.chat-subbtn {
+  width: 100%;
+}
+
+.rotate90 {
+  transform: rotate(90deg);
+}
+
 .ask-area {
   display: flex;
   justify-content: center;
+  margin-bottom: 10px;
 }
 
 .ask-icon, .ask-text, .ask-submit {
@@ -413,6 +742,10 @@ strong {
   padding: 10px;
 }
 
+.ask-text textarea::placeholder {
+  color: #E1E1E1;
+}
+
 .txt-blue {
   color: #5ECDF2;
 }
@@ -424,7 +757,6 @@ strong {
 }
 
 .ask-submit button {
-  border: none;
   text-align: center;
   padding: 5px;
   font-size: 20px;
@@ -441,13 +773,22 @@ strong {
   color: #1D1D1D;
 }
 
+.askErrTxt {
+  padding: 12px 12px 4px 12px;
+  background-color: red;
+  color: white;
+  font-size: 20px;
+  border-radius: 15px 15px 0 0;
+  cursor: default;
+}
+
 /*signInModal*/
 
 #section-signInModal {
   display: none;
   position: fixed;
   right: 0;
-  top: 45px;
+  top: 44px;
   width: 30%;
   background: linear-gradient(to right, #F0F8FF, #F0FFF0);
   border: 3px solid #1A1D58;
@@ -516,16 +857,18 @@ strong {
 }
 
 .confirmbtn {
-  width: 80%;
+  width: 40%;
   outline: none;
   border: none;
   background-color: #4CAF50;
   cursor: pointer;
   color: white;
-  margin-top: 10px;
+  margin: 10px;
   padding: 10px;
   font-size: 22px;
-  border-bottom-left-radius: 3px;
+  border: 1px solid white;
+  border-radius: 30px;
+  float: right;
 }
 
 .confirmbtn:focus {
@@ -553,22 +896,19 @@ strong {
 
 /*media setting*/
 
-@media screen and (max-width: 1200px) {
+@media screen and (max-width: 1201px) {
   .repoCol {
     width: 50%;
   }
   .title {
     padding-left: 5px;
   }
-}
-
-@media screen and (max-width: 700px) {
-  .topnav a:last-child {
-    display: none;
+  .message-cell {
+    flex-basis: 50%;
   }
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 721px) {
   .topnav a:last-child {
     display: block;
   }
@@ -586,10 +926,6 @@ strong {
     right: 0;
     top: 0;
     display: block;
-  }
-
-  .main {
-    padding: 46px 0 0 0;
   }
 
   .repoCol {
@@ -628,4 +964,27 @@ strong {
     display: inline-block;
   }
 
+  .about, .repoTable {
+    margin: 0;
+    width: 100%;
+  }
+
+  .message-board {
+    width: 96%;
+    margin: 10px 2% 0px 2%;
+  }
+
+  .message-setting {
+    width: 96%;
+    margin: 0px 2% 10px 2%;
+  }
+
+  .message-cell {
+    flex-basis: 100%;
+  }
+  
+  .message-content {
+    height: auto;
+    overflow: initial;
+  }
 }

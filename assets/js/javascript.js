@@ -1,25 +1,28 @@
 const userStatus = {
+	uid: '',
 	email: '',
 	password: '',
 	error: {
 		message: ''
 	},
-	content: '',
-	date: ''
+	message: '',
+	chattext: ''
 }
 
 
 firebaseApp.auth().onAuthStateChanged(user => {
 	if(user) {
-		console.log(user);
-		const { email } = user;
-		userStatus.email = email;
+		console.log('user in uid: ', user.uid);
+		userStatus.email = user.email;
+		userStatus.uid = user.uid;
 		$('#navSignIn').hide();
 		$('#section-signInModal').hide();
 		$('#signOut').show();
 
-console.log(userStatus);
 	} else {
+		console.log('user out');
+		userStatus.email = '';
+		userStatus.uid = '';
 		$('#signOut').hide();
 		$('#navSignIn').show();
 	}
@@ -29,18 +32,15 @@ $(document).ready(function(){
 	$('.navicon').click(function() {
 		navToggle();
 	});
-	$('body').height($(document).height());
 
-	$('.img-ex').click(function() {
+	$('.img-ex').click(function(event) {
+		let src = event.currentTarget.parentElement.children[0].src;
 		if($(this).hasClass('img-ex-rot')){
-			let src = event.path[2].children[0].src;
 			src = src.slice(0, src.length-11) + ".png";
-			event.path[2].children[0].src = src;
 		} else {
-			let src = event.path[2].children[0].src;
 			src = src.slice(0, src.length-4) + "-mobile.png";
-			event.path[2].children[0].src = src;
 		}
+		event.currentTarget.parentElement.children[0].src = src;
 		$(this).toggleClass('img-ex-rot');
 	});
 
@@ -54,9 +54,11 @@ const page = {
 	now:'repoTable'
 };
 
+let adviseds = [];
+let advisedshas = [];
 
 function loadContent(next, first=false) {
-	if($(document).width() <= 600 && !first) {
+	if($(document).width() <= 720 && !first) {
 		navToggle();
 	}
 	if(page.now !== next){
@@ -80,6 +82,10 @@ function loadContent(next, first=false) {
 		nownav.className = '';
 		nextnav.className = 'navLight';
 	}
+
+	// if(next === "about" && !adviseds.length) {
+	// 	loadData();
+	// }
 };
 
 function firstload() {
@@ -92,14 +98,14 @@ function firstload() {
 firstload();
 
 function signInModal() {
-	if($(document).width() <= 600) {
+	if($(document).width() <= 720) {
 		navToggle();
 	}
 	closeSignInModal();
 }
 
 function closeSignInModal() {
-	$('#section-signInModal').slideToggle(500, changeSignTxt());
+	$('#section-signInModal').slideToggle(500, function() {changeSignTxt()});
 }
 
 const navSignIn = document.querySelector('#navSignIn');
@@ -140,38 +146,48 @@ function getUser() {
 	userStatus.password = $('input[name="password"]').val();
 }
 
+const loadIcon = '<i class="fa fa-spinner fa-pulse fa-fw"></i><span class="sr-only">Loading...</span>';
+
 function signIn() {
 	getUser();
 	const { email, password } = userStatus;
 	if(!checkUser()){
-		return;
+		return false;
 	}
 	userStatus.error.message = '';
+	$('#signIn').html(loadIcon);
 	firebaseApp.auth().signInWithEmailAndPassword(email, password)
 		.catch(error => {
 			userStatus.error = error;
 			haveErr();
-		})
-	if(userStatus.error.message)
-		return;
-	signInModal();
+			return error;
+		}).then(function(value) {
+			if(userStatus.error.message)
+				return false;
+			signInModal();
+			$('#signIn').html('登入');
+		});
 }
 
 function signUp() {
 	getUser();
 	const { email, password } = userStatus;
 	if(!checkUser()){
-		return;
+		return false;
 	}
 	userStatus.error.message = '';
+	$('#signUp').html(loadIcon);
 	firebaseApp.auth().createUserWithEmailAndPassword(email, password)
 		.catch(error => {
 			userStatus.error = error;
 			haveErr();
-		})
-	if(userStatus.error.message)
-		return;
-	signInModal();
+			return error;
+		}).then(function(value) {
+			if(userStatus.error.message)
+				return false;
+			signInModal();
+			$('#signUp').html('註冊');
+		});
 }
 
 function checkUser() {
@@ -200,20 +216,265 @@ const circleIconClass = 'fa-circle-o';
 const checkIconClass = 'fa-check-square-o txt-blue';
 
 function askConfirm() {
-	let s = event.target.className;
-	s.includes(checkIconClass)? notConfirm() : checkComfirm();
+	let s = $('#confirm-icon');
+	s.hasClass(checkIconClass)? notConfirm() : checkComfirm();
 	function notConfirm() {
-		$('#confirm-icon').animate({ opacity:"0" }, 200).queue(function () {$(this).removeClass(checkIconClass).addClass(circleIconClass).dequeue()}).animate({ opacity: "1" },200);
+		s.animate({ opacity:"0" }, 200).queue(function () {$(this).removeClass(checkIconClass).addClass(circleIconClass).dequeue()}).animate({ opacity: "1" },200);
 		$('#confirm-word').html('請');
 	}
 	function checkComfirm() {
-		$('#confirm-icon').animate({ opacity:"0" }, 200).queue(function () {$(this).removeClass(circleIconClass).addClass(checkIconClass).dequeue()}).animate({ opacity: "1" },200)
+		s.animate({ opacity:"0" }, 200).queue(function () {$(this).removeClass(circleIconClass).addClass(checkIconClass).dequeue()}).animate({ opacity: "1" },200)
 		$('#confirm-word').html('已');
 	}
 }
 
 function askSubmit() {
-	userStatus.content = $('.ask-text textarea').val();
-	const { email, content } = userStatus;
-	advisedRef.push({email, content});
+	const exclamation = '<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>';
+	if(!userStatus.email){
+		showAskError(' 請登入會員 ');
+		return;
+	}
+	if(!$('#confirm-icon').hasClass(checkIconClass)){
+		showAskError(' 請點擊確認鈕 ');
+		return;
+	}
+
+	function showAskError(message) {
+		$('.askErrTxt').html(exclamation+message+exclamation);
+		$('#askErr').show(600);
+	}
+	$('#askErr').hide();
+	let submitbtn = $('.confirm-btn button');
+	submitbtn.attr('onclick', 'return;');
+	submitbtn.html(loadIcon);
+	userStatus.message = $('.ask-text textarea').val();
+	let { email, message } = userStatus;
+	const fromid = userStatus.uid;
+	const timestamp = firebase.firestore.FieldValue.serverTimestamp();
+	messagesRef.add({fromid, email, message, timestamp}).then(function(ref) {
+		submitbtn.html('送出');
+		askConfirm();
+		submitbtn.attr('onclick', 'askSubmit()');
+		$('.ask-text textarea').val('');
+		$('.ask-text textarea').attr('placeholder', '感謝你的留言!');
+		ref.get().then(function(doc) {
+			let onemessage = {};
+			let { email, message } = doc.data();
+			const id = doc.id;
+			const date = doc.data().timestamp.toLocaleDateString();
+			onemessage = {id, email, message, date};
+			console.log(onemessage);
+			appendMessage(onemessage, 'before')
+		}).catch(function(error) {
+			console.log(error);
+		});
+	}).catch(function(error) {
+		console.log(error);
+	});
+}
+
+var firstRef;
+var nextRef;
+var order = "timestamp";
+var orderdir = "desc";
+var limitcount = 1;
+
+function loadData () {
+	firstRef = messagesRef.orderBy(order, orderdir).limit(limitcount);
+	return firstRef.get().then(function(querySnapshot) {
+		let messages = [];
+		querySnapshot.forEach(function(doc) {
+			const { email, message, timestamp } = doc.data();
+			const id = doc.id;
+			const date = timestamp.toLocaleDateString();
+			messages.push({id, email, message, date});
+		});
+		console.log(messages);
+		// Get the last visible document
+		let lastVisible = querySnapshot.docs[querySnapshot.docs.length-1];
+		console.log("last", lastVisible);
+		// Construct a new query starting at this document,
+		nextRef = messagesRef.orderBy(order, orderdir).startAfter(lastVisible).limit(limitcount);
+		$('.message-board').html('');
+		messages.forEach(item => {
+			appendMessage(item);
+		});
+	});
+}
+loadData();
+function loadMore() {
+	firstRef = nextRef;
+	$('.message-board').append('<div style="margin:20px 10px;" id="message-loadicon"><i class="fa fa-refresh fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span></div>');
+	firstRef.get().then(function(querySnapshot) {
+		let messages = [];
+		querySnapshot.forEach(function(doc) {
+			const { email, message, timestamp } = doc.data();
+			const id = doc.id;
+			const date = timestamp.toLocaleDateString();
+			messages.push({id, email, message, date});
+		});
+		// console.log("loadmore", messages);
+		// Get the last visible document
+		let lastVisible = querySnapshot.docs[querySnapshot.docs.length-1];
+		// console.log("last", lastVisible);
+		// Construct a new query starting at this document,
+		nextRef = messagesRef.orderBy(order, orderdir).startAfter(lastVisible).limit(limitcount);
+		$('#message-loadicon').remove();
+		messages.forEach(item => {
+			appendMessage(item);
+		});
+		if(messages.length < limitcount) {
+			nomorebtn();
+		}
+	}).catch(function(error) {
+		console.log(error);
+		nomorebtn();
+	});
+	function nomorebtn() {
+		$('#showmorebtn').html('無更多留言 <i class="fa fa-minus-circle" aria-hidden="true"></i>');
+		$('#showmorebtn').attr('onclick', 'return;');$('#showmorebtn').attr('style', 'cursor:not-allowed;');
+	}
+}
+
+function appendMessage(item, action = 'after') {
+	const { email, message, date, id} = item;
+	const emailname = email.split('@')[0];
+	const txt = `<div class="message-cell" key=${id}>
+					<div class="message-box" id="message-box">
+						<div class="message-info">
+							<div class="message-user"><i class="fa fa-id-badge" aria-hidden="true"></i> ${emailname}</div>
+							<div class="message-time">${date}</div>
+						</div>
+						<div class="blur ct"><i class="fa fa-quote-left fa-border" style="font-size:12px;" aria-hidden="true"></i></div>
+						<div class="message-content">${message}</div>
+						<div class="blur ct"><i class="fa fa-quote-right fa-border" style="font-size:12px" aria-hidden="true"></i></div>
+						<div class="message-room">
+							<button class="orange-btn" onclick="enterchatroom('${id}')"><i class="fa fa-users" aria-hidden="true"></i> 聊天室</button>
+						</div>
+					</div>
+					<div class="chat-box message-box" id="chat-box">
+						<div class="chat-room">
+							<div class="chat-setting">
+								<div class="chat-icon hint--bottom-left hint--info hint--rounded hint--bounce" data-hint="至最新" onclick="toNewestChat('${id}', event)">
+									<i class="fa fa-truck" aria-hidden="true"></i>
+								</div>
+								<div class="chat-icon hint--bottom-left hint--info hint--rounded hint--bounce" data-hint="離開" onclick="exitchatroom('${id}')">
+									<i class="fa fa-window-close-o" aria-hidden="true"></i>
+								</div>
+							</div>
+						</div>
+						<div class="chat-bar">
+							<div style="width: 75%;"><input type="text" name="chat-text" class="chat-text" placeholder="輸入訊息..." id="chat-subbmit"></div>
+							<div style="width: 24%;" class="chat-subbtn"><button style="width: 100%;" class="orange-btn" onclick="addchat('${id}')">送出 <i class="fa fa-reply rotate90" aria-hidden="true"></i></button></div>
+						</div>
+					</div>
+				</div>`;
+	if(action === 'after') {
+		$('.message-board').append(txt);
+	} else {
+		$('.message-board').prepend(txt);
+	}
+}
+
+const eyeIcon = '<i class="fa fa-eye-slash" aria-hidden="true"></i>';
+const chatroomRefs = {};
+
+function enterchatroom(key) {
+	if(!userStatus.uid) {
+		$('#message-error').html('請先登入會員 '+eyeIcon);
+		$('#message-error').fadeIn(500);
+		return;
+	}
+	$('.message-cell[key="'+key+'"] #message-box').hide();
+	$('.message-cell[key="'+key+'"] #chat-box').show();
+	chatroomRefs[key] = db.collection("messages").doc(key).collection("chatroom").orderBy(order)
+		.onSnapshot(function(snapshot) {
+		let chattexts = [];
+		snapshot.docChanges.forEach(function(change) {
+			// let source = change.doc.metadata.hasPendingWrites ? "Local" : "Server";
+			// console.log(source, " data: ", change && change.doc.data());
+			// console.log(change.doc.data().timestamp);
+			if(change.type === 'added') {
+				chattexts.push(change.doc.data());
+			}
+		});
+		chattexts.forEach(item => {
+			appendChat(item, key);
+		});
+	}, function(error) {
+		console.log(error);
+	});
+
+}
+
+let chatname = '';
+function appendChat(item, key) {
+	const { fromid, email, chattext, timestamp } = item;
+	const time = (timestamp) ? timestamp.toLocaleTimeString() : new Date().toLocaleTimeString();
+	const date = (timestamp) ? timestamp.toLocaleDateString() : new Date().toLocaleDateString();
+	const emailname = email.split('@')[0];
+	if(fromid === chatname) {
+		const txt = `<div><div class="chat-content hint--top-right hint--success hint--rounded" data-hint="${time} ${date}">${chattext}</div></div>`;
+		$('.message-cell[key="'+key+'"] #chat-box .chat-room .chat-message:last-child .chat-main').append(txt);
+	} else {
+		chatname = fromid;
+		const txt = `<div class="chat-message">
+						<div class="chat-name">${emailname}</div>
+						<div class="chat-main">
+							<div><div class="chat-content hint--bottom-right hint--success hint--rounded" data-hint="${time} ${date}">${chattext}</div></div>
+						</div>
+					</div>`;
+		$('.message-cell[key="'+key+'"] #chat-box .chat-room').append(txt);
+	}
+}
+
+function exitchatroom(key) {
+	$('.message-cell[key="'+key+'"] #chat-box').hide();
+	$('.message-cell[key="'+key+'"] #message-box').show();
+	// Stop listening to changes
+	chatroomRefs[key]();
+	$('.message-cell[key="'+key+'"] #chat-box .chat-room .chat-message').remove();
+}
+
+function addchat(key) {
+	const chatsubmit = $('.message-cell[key="'+key+'"] #chat-box .chat-bar .chat-text');
+	userStatus.chattext = chatsubmit.val();
+	if(!userStatus.uid) {
+		$('#message-error').html('請先登入會員 '+eyeIcon);
+		$('#message-error').fadeIn(500);
+		return;
+	}
+	if(!userStatus.chattext){
+		console.log("請輸入訊息");
+		return;
+	}
+	const chatbtn = $('.message-cell[key="'+key+'"] #chat-box .chat-bar .chat-subbtn button');
+	chatbtn.attr('onclick', 'return;');
+	chatbtn.html(loadIcon);
+
+	let { email, chattext } = userStatus;
+	const fromid = userStatus.uid;
+	const timestamp = firebase.firestore.FieldValue.serverTimestamp();
+	const chatroomRef = db.collection("messages").doc(key).collection("chatroom");
+
+	chatroomRef.add({fromid, email, chattext, timestamp}).then(function() {
+		chatbtn.attr('onclick', `addchat('${key}')`);
+		chatbtn.html('送出 <i class="fa fa-reply rotate90" aria-hidden="true"></i>');
+		chatsubmit.val('');
+	}).catch(function(error) {
+		console.log(error);
+	}).then(function () {
+		toNewestChat(key);
+	});
+}
+
+function toNewestChat(key, e) {
+	const room = $('.message-cell[key="'+key+'"] #chat-box .chat-room');
+	room.animate({ scrollTop: document.querySelector('.message-cell[key="'+key+'"] #chat-box .chat-room').scrollHeight}, 'fast');
+}
+
+function errorClick() {
+	if($('#section-signInModal').css('display') === 'none')
+		signInModal();
+	$('#message-error').fadeOut(500);
 }

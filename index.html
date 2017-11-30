@@ -9,38 +9,120 @@
 	<link rel="stylesheet" href="assets/css/style.css">
 	<link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/2.4.1/firebaseui.css" />
 	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hint.css/2.5.0/hint.min.css">
+	<link rel="stylesheet" href="assets/css/day100.css">
 </head>
 
 <body>
+
+	<!-- nav -->
 	<nav class="topnav" id="myTopnav">
 		<div class="navheader">wildMio</div>
 		<div class="navcontent">
-			<a href="#section-home" onclick="loadContent('home')">首頁</a>
+			<a href="#section-home" onclick="loadContent('home')">日記</a>
 			<a href="#section-repoTable" onclick="loadContent('repoTable')" class="navLight">作品集</a>
-			<a href="#section-recommend" onclick="loadContent('recommend')">推薦</a>
+			<a href="javascript:void(0);" class="disable">推薦</a>
 			<a href="#section-about" onclick="loadContent('about')">關於我</a>
 			<a href="javascript:void(0);" onclick="signInModal()" style="float: right; display: none;" id="navSignIn"><i class="fa fa-user-o" aria-hidden="true"></i> 登入</a>
 			<a href="javascript:void(0)" onclick="signOut()" style="float: right; display: none;" id="signOut">登出 <i class="fa fa-sign-out" aria-hidden="true"></i></a>
 		</div>
 			<a href="javascript:void(0);" class="navicon" ><i class="fa fa-bars" aria-hidden="true"></i></a>
 	</nav>
+	<!-- nav end -->
 
 	<div class="main">
 
 		<!-- home -->
 		<section id="section-home" class="home">
-			home
+			<div class="home-flex">
+				<div class="home-cell">
+					<div class="frame100">
+						<div class="word">
+							<div class="mm">
+								<div class="light left"></div>
+								<div class="light middle-left"></div>
+								<div class="light middle-right"></div>
+								<div class="light right"></div>
+							</div>
+							<div class="ii">
+								<div class="light top"></div>
+								<div class="light middle"></div>
+								<div class="light bottom"></div>
+							</div>
+							<div class="oo">
+								<div class="right">
+									<div class="circleBox">
+										<div class="circle"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="home-cell">
+					<div class="frame99">
+					  <input id="cb" type="checkbox" /><label class="label" for="cb"></label>
+					  <div class="bg"></div>
+					  <div class="icon"></div>
+					  <div class="ring"></div>
+					  <div class="stripes">
+					    <div class="stripe stripe-1"></div>
+					    <div class="stripe stripe-2"></div>
+					    <div class="stripe stripe-3"></div>
+					    <div class="stripe stripe-4"></div>
+					    <div class="stripe stripe-5"></div>
+					    <div class="stripe stripe-6"></div>
+					    <div class="stripe stripe-7"></div>
+					    <div class="stripe stripe-8"></div>
+					    <div class="stripe stripe-9"></div>
+					    <div class="stripe stripe-10"></div>
+					    <div class="stripe stripe-11"></div>
+					    <div class="stripe stripe-12"></div>
+					    <div class="stripe stripe-13"></div>
+					    <div class="stripe stripe-14"></div>
+					    <div class="stripe stripe-15"></div>
+					    <div class="stripe stripe-16"></div>
+					    <div class="stripe stripe-17"></div>
+					    <div class="stripe stripe-18"></div>
+					  </div>
+					</div>
+				</div>
+				<div class="home-cell">
+					<div class="frame59">
+					  <div class="slices" onclick="void(0);">
+					    <div class="slice slice-1"></div>
+					    <div class="slice slice-2"></div>
+					    <div class="slice slice-3"></div>
+					    <div class="slice slice-4"></div>
+					    <div class="slice slice-5"></div>
+					    <div class="slice slice-6"></div>
+					    <div class="slice slice-7"></div>
+					    <div class="slice slice-8"></div>
+					    <div class="text">
+					      <h1>
+					        wildMio
+					      </h1>
+					      <h2>
+					        哪裡都不一樣<br/>哪裡都一樣
+					      </h2>
+					    </div>
+					  </div>
+					</div>
+				</div>
+			</div>
+
 		</section>
 		<!-- home end -->
 
 		<!-- repoTable -->
 		<section id="section-repoTable" class="repoTable">
 
+			<!-- repoCol 1 -->
 			<div class="repoCol">
 
 				<div class="item">
 					<div class="title">
-						<span class="fa-stack title-i">
+						<span class="fa-stack title-i" style="vertical-align: text-bottom;">
 							<i class="fa fa-square fa-stack-2x"></i><i class="fa fa-terminal fa-stack-1x fa-inverse"></i>
 						</span> 取得Newsapp資料</div>
 					<hr class="hr-one">
@@ -65,7 +147,7 @@
 
 				<div class="item">
 					<div class="title">
-						<span class="fa-stack title-i">
+						<span class="fa-stack title-i" style="vertical-align: text-bottom;">
 							<i class="fa fa-square fa-stack-2x"></i><i class="fa fa-terminal fa-stack-1x fa-inverse"></i>
 						</span> 計時器</div>
 					<hr class="hr-one">
@@ -89,11 +171,13 @@
 				</div>
 
 			</div>
+			<!-- repoCol 1 end -->
 
+			<!-- repoCol 2 -->
 			<div class="repoCol">
 				<div class="item">
 					<div class="title">
-						<span class="fa-stack title-i">
+						<span class="fa-stack title-i" style="vertical-align: text-bottom;">
 							<i class="fa fa-square fa-stack-2x"></i><i class="fa fa-terminal fa-stack-1x fa-inverse"></i>
 						</span> 形象網站</div>
 					<hr class="hr-one">
@@ -115,15 +199,42 @@
 						</a>
 					</div>
 				</div>
+
+				<div class="item">
+					<div class="title">
+						<span class="fa-stack title-i" style="vertical-align: text-bottom;">
+							<i class="fa fa-square fa-stack-2x"></i><i class="fa fa-terminal fa-stack-1x fa-inverse"></i>
+						</span> wildMio個人網站</div>
+					<hr class="hr-one">
+					<div class="image-box">
+						<img src="assets/img/create-page.png">
+						<div class="img-ex"><i class="fa fa-exchange" aria-hidden="true"></i></div>
+					</div>
+					<hr class="hr-one">
+					<div class="itemContainer">
+						<p>此網站。</p>
+						<p>架設中。</p>
+					</div>
+					<div class="linkbtn">
+						<a href="https://wildmio.github.io/create-page/" target="_blank">
+							<button class="itembtn"><i class="fa fa-link" aria-hidden="true"></i> 網站</button>
+						</a>
+						<a href="https://github.com/wildMio/create-page" target="_blank">
+							<button class="itembtn"><i class="fa fa-github-alt" aria-hidden="true"></i> 原始碼</button>
+						</a>
+					</div>
+				</div>
 			</div>
+			<!-- repoCol 2 end-->
 			
 
+			<!-- repoCol 3 -->
 			<div class="repoCol">
 				<div class="item">
 					<div class="title">
-						<span class="fa-stack title-i">
+						<span class="fa-stack title-i" style="vertical-align: text-bottom;">
 							<i class="fa fa-square fa-stack-2x"></i><i class="fa fa-terminal fa-stack-1x fa-inverse"></i>
-						</span> 會員系統</div>
+						</span> 商品清單網頁</div>
 					<hr class="hr-one">
 					<div class="image-box">
 						<img src="assets/img/php-login-system.png">
@@ -144,6 +255,8 @@
 					</div>
 				</div>
 			</div>
+			<!-- repoCol 3 end -->
+
 		</section>
 		<!-- repoTable end -->
 
@@ -154,10 +267,11 @@
 
 		<!-- about -->
 		<section id="section-about" class="about">
+			<!-- profile -->
 			<div class="profile">
 				<div class="profile-img">
 					<img 
-						src='assets/img/Universe.jpg'
+						src='https://aomiwang.com/sites/default/files/styles/zdy/public/field/image/Universe-storm-600x400.jpg?itok=aTVh5G8u'
 						alt="Profile"
 					/>
 				</div>
@@ -174,12 +288,66 @@
 					<div class="profile-connect">
 						<p>社群<br>連結</p><span>:</span>
 						<div class="sprite">
-							<a href="https://www.facebook.com/profile.php?id=100000481811054" title="Facebook"><div class="sprite-init sprite-face"></div></a>
+							<a href="https://www.facebook.com/profile.php?id=100000481811054" title="Facebook"><div style="perspective: 1px;"><div class="sprite-init sprite-face"></div></div></a>
 							<a href="https://www.youtube.com/channel/UCKF1HC-_1yxhLJI-brRFE_A?view_as=subscriber" title="YouTube"><div class="sprite-init sprite-youtube"></div></a>
 							<a href="#" title="GitHub"><div class="sprite-init sprite-github"></div></a>
 							
 						</div>
 					</div>
+				</div>
+			</div>
+			<!-- profile end -->
+
+			<!-- message board -->
+			<div class="message-board">
+				<div style="width: 100%;text-align: center;margin: 20px 0;">
+					<i class="fa fa-refresh fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span>
+				</div>
+				<!-- <div class="message-cell" key=${id}>
+					<div class="message-box" id="message-box">
+						<div class="message-info">
+							<div class="message-user"><i class="fa fa-id-badge" aria-hidden="true"></i> ${emailname}</div>
+							<div class="message-time">${date}</div>
+						</div>
+						<div class="blur ct"><i class="fa fa-quote-left fa-border" style="font-size:12px;" aria-hidden="true"></i></div>
+						<div class="message-content">${message}</div>
+						<div class="blur ct"><i class="fa fa-quote-right fa-border" style="font-size:12px" aria-hidden="true"></i></div>
+						<div class="message-room">
+							<button class="orange-btn" onclick="enterchatroom('${id}')"><i class="fa fa-users" aria-hidden="true"></i> 聊天室</button>
+						</div>
+					</div>
+					<div class="chat-box message-box" id="chat-box">
+						<div class="chat-room">
+							<div style="width: 100%;text-align: center;">
+								<i class="fa fa-refresh fa-spin fa-2x fa-fw" style="margin:10px;"></i><span class="sr-only">Loading...</span>
+							</div>
+							<div class="chat-message">
+								<div class="chat-name">123</div>
+								<div class="chat-main">
+									<div><div class="chat-content">456</div></div>
+									<div><div class="chat-content">456789</div></div>
+								</div>
+							</div>
+						</div>
+						<div class="chat-bar">
+							<div style="width: 75%;"><input type="text" name="chat-text" class="chat-text" placeholder="輸入訊息..." id="chat-subbmit"></div>
+							<div style="width: 24%;" class="chat-subbtn"><button style="width: 100%;" class="orange-btn" onclick="addchat('${id}')">送出 <i class="fa fa-reply rotate90" aria-hidden="true"></i></button></div>
+						</div>
+					</div>
+				</div> -->
+			</div>
+			<div class="message-setting">
+				<div class="setting-cell"><i class="fa fa-cog" aria-hidden="true"></i></div>
+				<div class="setting-cell"><button onclick="loadMore()" id="showmorebtn">顯示更多 <i class="fa fa-plus-square" aria-hidden="true"></i></button></div>
+				<div class="setting-cell"><button onclick="errorClick()" id="message-error"></button></div>
+			</div>
+			<!-- message board end -->
+
+			
+			<!-- ask-area -->
+			<div id="askErr" style="display: none;">
+				<div style="display:flex;margin:15px 0 0 0;justify-content: center;">
+					<p class="askErrTxt">test</p>
 				</div>
 			</div>
 
@@ -197,6 +365,7 @@
 					</div>
 				</div>
 			</div>
+			<!-- ask-area end-->
 
 
 		</section>
@@ -221,8 +390,8 @@
 
 	</div>
 
-	<script src="https://cdn.firebase.com/libs/firebaseui/2.4.1/firebaseui.js"></script>
 	<script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/4.6.2/firebase-firestore.js"></script>
 	<script src="assets/js/firebase.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script type="text/javascript" src="assets/js/javascript.js"></script>
