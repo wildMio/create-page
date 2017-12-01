@@ -9,6 +9,17 @@ const userStatus = {
 	chattext: ''
 }
 
+function preventstr(preventstr) {
+  var map = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#039;'
+  };
+	return preventstr.replace(/[&<>"']/g, function(m) { return map[m]; });
+}
+
 
 firebaseApp.auth().onAuthStateChanged(user => {
 	if(user) {
@@ -26,7 +37,7 @@ firebaseApp.auth().onAuthStateChanged(user => {
 		$('#signOut').hide();
 		$('#navSignIn').show();
 	}
-})
+});
 
 $(document).ready(function(){
 	$('.navicon').click(function() {
@@ -162,10 +173,14 @@ function signIn() {
 			haveErr();
 			return error;
 		}).then(function(value) {
-			if(userStatus.error.message)
-				return false;
-			signInModal();
+			// signInModal();
 			$('#signIn').html('登入');
+			if(userStatus.error.message){
+				return false;
+			} else {
+				$('#errtxt').html(userStatus.error.message).hide();
+				closeSignInModal();
+			}
 		});
 }
 
@@ -183,10 +198,14 @@ function signUp() {
 			haveErr();
 			return error;
 		}).then(function(value) {
-			if(userStatus.error.message)
-				return false;
-			signInModal();
+			// signInModal();
 			$('#signUp').html('註冊');
+			if(userStatus.error.message){
+				return false;
+			} else {
+				$('#errtxt').html(userStatus.error.message).hide();
+				closeSignInModal();
+			}
 		});
 }
 
@@ -251,7 +270,7 @@ function askSubmit() {
 	let { email, message } = userStatus;
 	const fromid = userStatus.uid;
 	const timestamp = firebase.firestore.FieldValue.serverTimestamp();
-	messagesRef.add({fromid, email, message, timestamp}).then(function(ref) {
+	messagesRef.add({fromid, email: preventstr(email), message: preventstr(message), timestamp}).then(function(ref) {
 		submitbtn.html('送出');
 		askConfirm();
 		submitbtn.attr('onclick', 'askSubmit()');
@@ -270,6 +289,10 @@ function askSubmit() {
 		});
 	}).catch(function(error) {
 		console.log(error);
+		submitbtn.html('送出');
+		submitbtn.attr('onclick', 'askSubmit()');
+		$('.ask-text textarea').val('');
+		$('.ask-text textarea').attr('placeholder', '傳送失敗，請等待一段時間再次嘗試');
 	});
 }
 
@@ -457,7 +480,7 @@ function addchat(key) {
 	const timestamp = firebase.firestore.FieldValue.serverTimestamp();
 	const chatroomRef = db.collection("messages").doc(key).collection("chatroom");
 
-	chatroomRef.add({fromid, email, chattext, timestamp}).then(function() {
+	chatroomRef.add({fromid, email: preventstr(email), chattext: preventstr(chattext), timestamp}).then(function() {
 		chatbtn.attr('onclick', `addchat('${key}')`);
 		chatbtn.html('送出 <i class="fa fa-reply rotate90" aria-hidden="true"></i>');
 		chatsubmit.val('');
