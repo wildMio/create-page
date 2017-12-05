@@ -10,7 +10,6 @@
 	<link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/2.4.1/firebaseui.css" />
 	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hint.css/2.5.0/hint.min.css">
-	<link rel="stylesheet" href="assets/css/day100.css">
 </head>
 
 <body>
@@ -19,10 +18,10 @@
 	<nav class="topnav" id="myTopnav">
 		<div class="navheader">wildMio</div>
 		<div class="navcontent">
-			<a href="#section-home" onclick="loadContent('home')">日記</a>
-			<a href="#section-repoTable" onclick="loadContent('repoTable')" class="navLight">作品集</a>
+			<a href="#section-home" onclick="loadContent('home')">日誌</a>
+			<a href="#section-repoTable" onclick="loadContent('repoTable')">作品集</a>
 			<a href="javascript:void(0);" class="disable">推薦</a>
-			<a href="#section-about" onclick="loadContent('about')">關於我</a>
+			<a href="#section-about" onclick="loadContent('about')" class="navLight">關於我</a>
 			<a href="javascript:void(0);" onclick="signInModal()" style="float: right; display: none;" id="navSignIn"><i class="fa fa-user-o" aria-hidden="true"></i> 登入</a>
 			<a href="javascript:void(0)" onclick="signOut()" style="float: right; display: none;" id="signOut">登出 <i class="fa fa-sign-out" aria-hidden="true"></i></a>
 		</div>
@@ -35,79 +34,12 @@
 		<!-- home -->
 		<section id="section-home" class="home">
 			<div class="home-flex">
-				<div class="home-cell">
-					<div class="frame100">
-						<div class="word">
-							<div class="mm">
-								<div class="light left"></div>
-								<div class="light middle-left"></div>
-								<div class="light middle-right"></div>
-								<div class="light right"></div>
-							</div>
-							<div class="ii">
-								<div class="light top"></div>
-								<div class="light middle"></div>
-								<div class="light bottom"></div>
-							</div>
-							<div class="oo">
-								<div class="right">
-									<div class="circleBox">
-										<div class="circle"></div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
+				<div class="log-menu">menu</div>
+				<div class="home-cell" id="log-html">
+					<h1>HTML</h1>
 				</div>
-				<div class="home-cell">
-					<div class="frame99">
-					  <input id="cb" type="checkbox" /><label class="label" for="cb"></label>
-					  <div class="bg"></div>
-					  <div class="icon"></div>
-					  <div class="ring"></div>
-					  <div class="stripes">
-					    <div class="stripe stripe-1"></div>
-					    <div class="stripe stripe-2"></div>
-					    <div class="stripe stripe-3"></div>
-					    <div class="stripe stripe-4"></div>
-					    <div class="stripe stripe-5"></div>
-					    <div class="stripe stripe-6"></div>
-					    <div class="stripe stripe-7"></div>
-					    <div class="stripe stripe-8"></div>
-					    <div class="stripe stripe-9"></div>
-					    <div class="stripe stripe-10"></div>
-					    <div class="stripe stripe-11"></div>
-					    <div class="stripe stripe-12"></div>
-					    <div class="stripe stripe-13"></div>
-					    <div class="stripe stripe-14"></div>
-					    <div class="stripe stripe-15"></div>
-					    <div class="stripe stripe-16"></div>
-					    <div class="stripe stripe-17"></div>
-					    <div class="stripe stripe-18"></div>
-					  </div>
-					</div>
-				</div>
-				<div class="home-cell">
-					<div class="frame59">
-					  <div class="slices" onclick="void(0);">
-					    <div class="slice slice-1"></div>
-					    <div class="slice slice-2"></div>
-					    <div class="slice slice-3"></div>
-					    <div class="slice slice-4"></div>
-					    <div class="slice slice-5"></div>
-					    <div class="slice slice-6"></div>
-					    <div class="slice slice-7"></div>
-					    <div class="slice slice-8"></div>
-					    <div class="text">
-					      <h1>
-					        wildMio
-					      </h1>
-					      <h2>
-					        哪裡都不一樣<br/>哪裡都一樣
-					      </h2>
-					    </div>
-					  </div>
-					</div>
+				<div class="home-cell" id="log-css">
+					<h1>CSS</h1>
 				</div>
 			</div>
 
@@ -298,15 +230,15 @@
 						<div class="frame-mio">
 							<div class="word-mio">
 								<div class="mm">
-									<div class="light left"></div>
-									<div class="light middle-left"></div>
-									<div class="light middle-right"></div>
-									<div class="light right"></div>
+									<div class="bdr50 light left"></div>
+									<div class="bdr50 light middle-left"></div>
+									<div class="bdr50 light middle-right"></div>
+									<div class="bdr50 light right"></div>
 								</div>
 								<div class="ii">
-									<div class="light top"></div>
-									<div class="light middle"></div>
-									<div class="light bottom"></div>
+									<div class="bdr50 light top"></div>
+									<div class="bdr50 light middle"></div>
+									<div class="bdr50 light bottom"></div>
 								</div>
 								<div class="oo">
 									<div class="right">
@@ -363,6 +295,18 @@
 			<div class="message-setting">
 				<div class="setting-cell"><i class="fa fa-cog" aria-hidden="true"></i></div>
 				<div class="setting-cell"><button onclick="loadMore()" id="showmorebtn">顯示更多 <i class="fa fa-plus-square" aria-hidden="true"></i></button></div>
+				<div class="counter">
+					<div class="minus" onclick="changeloadnum(-1)">
+						<div class="line"></div>
+					</div>
+					<div class="number hint--top hint--success hint--rounded" data-hint="讀取數量(1~9)">
+						<span id="loadnum">1</span>
+					</div>
+					<div class="plus" onclick="changeloadnum(1)">
+						<div class="line-h"></div>
+						<div class="line-v"></div>
+					</div>
+				</div>
 				<div class="setting-cell"><button onclick="errorClick()" id="message-error"></button></div>
 			</div>
 			<!-- message board end -->

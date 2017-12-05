@@ -1,3 +1,13 @@
+// const data = [
+// 	fetch('/a.html'),
+// 	fetch('/b.html'),
+// 	fetch('/c.html'),
+// ];
+
+// for await (const item of data) {
+// 	console.log(item);
+// }
+
 const userStatus = {
 	uid: '',
 	email: '',
@@ -57,12 +67,16 @@ $(document).ready(function(){
 
 });
 
-function navToggle() {
-	$('.navcontent').slideToggle("slow");
+function navToggle(type = 'open') {
+	if(type === 'open'){
+		$('.navcontent').slideToggle("fast");
+	} else {
+		$('.navcontent').slideUp("fast");
+	}
 };
 
 const page = {
-	now:'repoTable'
+	now:'about'
 };
 
 let adviseds = [];
@@ -94,9 +108,6 @@ function loadContent(next, first=false) {
 		nextnav.className = 'navLight';
 	}
 
-	// if(next === "about" && !adviseds.length) {
-	// 	loadData();
-	// }
 };
 
 function firstload() {
@@ -110,7 +121,7 @@ firstload();
 
 function signInModal() {
 	if($(document).width() <= 720) {
-		navToggle();
+		navToggle('close');
 	}
 	closeSignInModal();
 }
@@ -298,6 +309,7 @@ function askSubmit() {
 
 var firstRef;
 var nextRef;
+var lastVisible;
 var order = "timestamp";
 var orderdir = "desc";
 var limitcount = 1;
@@ -314,10 +326,8 @@ function loadData () {
 		});
 		console.log(messages);
 		// Get the last visible document
-		let lastVisible = querySnapshot.docs[querySnapshot.docs.length-1];
+		lastVisible = querySnapshot.docs[querySnapshot.docs.length-1];
 		console.log("last", lastVisible);
-		// Construct a new query starting at this document,
-		nextRef = messagesRef.orderBy(order, orderdir).startAfter(lastVisible).limit(limitcount);
 		$('.message-board').html('');
 		messages.forEach(item => {
 			appendMessage(item);
@@ -326,6 +336,8 @@ function loadData () {
 }
 loadData();
 function loadMore() {
+	// Construct a new query starting at this document,
+	nextRef = messagesRef.orderBy(order, orderdir).startAfter(lastVisible).limit(limitcount);
 	firstRef = nextRef;
 	$('.message-board').append('<div style="margin:20px 10px;" id="message-loadicon"><i class="fa fa-refresh fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span></div>');
 	firstRef.get().then(function(querySnapshot) {
@@ -494,6 +506,36 @@ function addchat(key) {
 function toNewestChat(key, e) {
 	const room = $('.message-cell[key="'+key+'"] #chat-box .chat-room');
 	room.animate({ scrollTop: document.querySelector('.message-cell[key="'+key+'"] #chat-box .chat-room').scrollHeight}, 'fast');
+}
+
+function loadcountChange() {
+	console.log('countchange');
+	let num = Number($('#loadcount').val());
+	if(num < 1) {
+		num = 1;
+	} else if(num > 10) {
+		num = 10;
+	}
+	limitcount = num;
+	console.log(limitcount, typeof(limitcount));
+}
+
+var loadnum = $('#loadnum');
+
+function changeloadnum(n) {
+	let num = Number(loadnum.html())+n;
+	let leftpx;
+	if(n===-1)
+		leftpx = "-20px";
+	else
+		leftpx = "26.5px";
+	if(num < 1) {
+		num = 1;
+	} else if(num > 9) {
+		num = 9;
+	}
+	limitcount = num;
+	loadnum.animate({opacity:0.3,left:leftpx},100).queue(function(){$(this).html(num).dequeue()}).animate({opacity:1,left:"6.5px"},100);
 }
 
 function errorClick() {
