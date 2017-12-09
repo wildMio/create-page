@@ -8,6 +8,12 @@
 // 	console.log(item);
 // }
 
+// input[name=value]	Exact match
+// input[name~=vlaue]	Contains word
+// input[name*=vlaue]	Contains string
+// input[name^=value]	Starts with
+// input[name$=value]	Ends with
+
 const userStatus = {
 	uid: '',
 	email: '',
@@ -64,7 +70,16 @@ $(document).ready(function(){
 		event.currentTarget.parentElement.children[0].src = src;
 		$(this).toggleClass('img-ex-rot');
 	});
+	// CLICK IT
+	$('.menu-icon').bind('click', function() {
+		$('.menu-icon').removeClass('paused').addClass('active');
+		$('.menu').removeClass('paused').addClass('active');
+	});
 
+	$('.menu').bind('click', function() {
+		$('.menu-icon').removeClass('active');
+		$('.menu').removeClass('active');
+	});
 });
 
 function navToggle(type = 'open') {
@@ -316,7 +331,7 @@ var limitcount = 1;
 
 function loadData () {
 	firstRef = messagesRef.orderBy(order, orderdir).limit(limitcount);
-	return firstRef.get().then(function(querySnapshot) {
+	firstRef.get().then(function(querySnapshot) {
 		let messages = [];
 		querySnapshot.forEach(function(doc) {
 			const { email, message, timestamp } = doc.data();
@@ -324,14 +339,16 @@ function loadData () {
 			const date = timestamp.toLocaleDateString();
 			messages.push({id, email, message, date});
 		});
-		console.log(messages);
+		// console.log(messages);
 		// Get the last visible document
 		lastVisible = querySnapshot.docs[querySnapshot.docs.length-1];
-		console.log("last", lastVisible);
+		// console.log("last", lastVisible);
 		$('.message-board').html('');
 		messages.forEach(item => {
 			appendMessage(item);
 		});
+	}).catch(function(error) {
+		console.log(error);
 	});
 }
 loadData();
@@ -350,11 +367,12 @@ function loadMore() {
 		});
 		// console.log("loadmore", messages);
 		// Get the last visible document
-		let lastVisible = querySnapshot.docs[querySnapshot.docs.length-1];
+		lastVisible = querySnapshot.docs[querySnapshot.docs.length-1];
 		// console.log("last", lastVisible);
 		// Construct a new query starting at this document,
-		nextRef = messagesRef.orderBy(order, orderdir).startAfter(lastVisible).limit(limitcount);
+		// nextRef = messagesRef.orderBy(order, orderdir).startAfter(lastVisible).limit(limitcount);
 		$('#message-loadicon').remove();
+		mbbsnum = (mbbsnum+1)%mbbslen;
 		messages.forEach(item => {
 			appendMessage(item);
 		});
@@ -371,11 +389,17 @@ function loadMore() {
 	}
 }
 
+// mbbs === message-box box-shadow
+const mbbs = ['mbbs1', 'mbbs2'];
+const mbbslen = mbbs.length;
+let mbbsnum = 0;
+
 function appendMessage(item, action = 'after') {
 	const { email, message, date, id} = item;
+	console.log('key', id);
 	const emailname = email.split('@')[0];
 	const txt = `<div class="message-cell" key=${id}>
-					<div class="message-box" id="message-box">
+					<div class="message-box ${mbbs[mbbsnum]}" id="message-box">
 						<div class="message-info">
 							<div class="message-user"><i class="fa fa-id-badge" aria-hidden="true"></i> ${emailname}</div>
 							<div class="message-time">${date}</div>
@@ -437,22 +461,22 @@ function enterchatroom(key) {
 			appendChat(item, key);
 		});
 	}, function(error) {
-		console.log(error);
+		console.log('error', error);
 	});
-
+	$('.message-cell[key="'+key+'"] #message-box').removeClass('mbbs2');
 }
 
-let chatname = '';
+const chatnames = {};
 function appendChat(item, key) {
 	const { fromid, email, chattext, timestamp } = item;
 	const time = (timestamp) ? timestamp.toLocaleTimeString() : new Date().toLocaleTimeString();
 	const date = (timestamp) ? timestamp.toLocaleDateString() : new Date().toLocaleDateString();
 	const emailname = email.split('@')[0];
-	if(fromid === chatname) {
+	if(fromid === chatnames[key]) {
 		const txt = `<div><div class="chat-content hint--top-right hint--success hint--rounded" data-hint="${time} ${date}">${chattext}</div></div>`;
 		$('.message-cell[key="'+key+'"] #chat-box .chat-room .chat-message:last-child .chat-main').append(txt);
 	} else {
-		chatname = fromid;
+		chatnames[key] = fromid;
 		const txt = `<div class="chat-message">
 						<div class="chat-name">${emailname}</div>
 						<div class="chat-main">
@@ -468,6 +492,7 @@ function exitchatroom(key) {
 	$('.message-cell[key="'+key+'"] #message-box').show();
 	// Stop listening to changes
 	chatroomRefs[key]();
+	chatnames[key] = '';
 	$('.message-cell[key="'+key+'"] #chat-box .chat-room .chat-message').remove();
 }
 
@@ -522,7 +547,7 @@ function loadcountChange() {
 
 var loadnum = $('#loadnum');
 
-function changeloadnum(n) {
+async function changeloadnum(n) {
 	let num = Number(loadnum.html())+n;
 	let leftpx;
 	if(n===-1)
@@ -542,4 +567,9 @@ function errorClick() {
 	if($('#section-signInModal').css('display') === 'none')
 		signInModal();
 	$('#message-error').fadeOut(500);
+}
+
+function logScroll(element) {
+	const position = document.querySelector('#'+element).offsetTop;
+	$("html, body").animate({ scrollTop: position}, 'slow');
 }
