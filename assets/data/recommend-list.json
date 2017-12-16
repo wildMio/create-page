@@ -1,0 +1,173 @@
+{
+	"category-html": {
+		"left": "<i class='fa fa-html5 fa-3x' aria-hidden='true'></i>",
+		"lefthint": "HTML",
+		"middle": [
+			{
+				"title": "Web Developer Roadmap",
+				"url": "https://github.com/kamranahmedse/developer-roadmap",
+				"hint": "提供你學習的路徑"
+			},
+			{
+				"title": "Google Developer",
+				"url": "https://developers.google.com/web/",
+				"hint": "Google為網頁開發者提供的基礎知識網站"
+			},
+			{
+				"title": "W3Schools",
+				"url": "https://www.w3schools.com/",
+				"hint": "適合初學者踏入網頁開發的網站，介面與索引有條理且易懂，方便查詢"
+			},
+			{
+				"title": "MDN Web Docs",
+				"url": "https://developer.mozilla.org",
+				"hint": "Mozilla提供給開發者使用的技術文件網站"
+			},
+			{
+				"title": "Supercharged with Surma",
+				"url": "https://www.youtube.com/playlist?list=PLNYkxOF6rcIBz9ACEQRmO9Lw8PW7vn0lr",
+				"hint": "在YouTube，由Surma這位YouTuber所建立的影片集，內容為告訴你網頁開發時可以使用的技巧、和瀏覽器將會開發的技術"
+			},
+			{
+				"title": "Bootstrap",
+				"url": "https://getbootstrap.com/",
+				"hint": "提供建立網頁的樣板"
+			},
+			{
+				"title": "React",
+				"url": "https://reactjs.org/",
+				"hint": "用來建立網站的工具"
+			},
+			{
+				"title": "cdnjs.com",
+				"url": "https://cdnjs.com/",
+				"hint": "用來查詢libraries(cdn)"
+			}
+		]
+	},
+	"category-javascript": {
+		"left": "<span style='font-size: 2em'>JS</span>",
+		"lefthint": "JavaScript",
+		"middle": [
+			{
+				"title": "JQuery",
+				"url": "https://jquery.com/",
+				"hint": "好用得javascriptLibrary"
+			},
+			{
+				"title": "Node.js",
+				"url": "https://nodejs.org/en/",
+				"hint": "用來管理網站所用的packages"
+			}
+		]
+	},
+	"category-css": {
+		"left": "<i class='fa fa-css3 fa-2x' aria-hidden='true'></i>",
+		"lefthint": "CSS",
+		"middle": [
+			{
+				"title": "CSS-Tricks",
+				"url": "https://css-tricks.com/",
+				"hint": "有教學與討論CSS的網站"
+			},
+			{
+				"title": "Font Awesome",
+				"url": "http://fontawesome.io/",
+				"hint": "提供icon的網站"
+			},
+			{
+				"title": "CSS Sprites Generator",
+				"url": "https://www.toptal.com/developers/css/sprite-generator",
+				"hint": "將多張圖片和為一張圖片的網站"
+			},
+			{
+				"title": "Favicon製作",
+				"url": "http://tw.faviconico.org/",
+				"hint": "將圖片轉換為favicon的網站"
+			},
+			{
+				"title": "Can I Use _ ?",
+				"url": "https://caniuse.com/",
+				"hint": "查詢瀏覽器版本是否支援你所想要使用的功能"
+			},
+			{
+				"title": "100 Days css",
+				"url": "https://100dayscss.com/",
+				"hint": "100種css動畫，練習寫CSS"
+			}
+		]
+	},
+	"category-editor": {
+		"left": "<i class='fa fa-pencil-square-o fa-2x' aria-hidden='true'></i>",
+		"lefthint": "編輯器",
+		"middle": [
+			{
+				"title": "Sublime Text",
+				"url": "https://www.sublimetext.com/",
+				"hint": "檔案文字編輯器"
+			},
+			{
+				"title": "Package Control",
+				"url": "https://packagecontrol.io/",
+				"hint": "Sublime Text使用的package，幫助你編輯Code更方便"
+			},
+			{
+				"title": "Atom",
+				"url": "https://atom.io/",
+				"hint": "檔案文字編輯器"
+			},
+			{
+				"title": "Visual Studio Code",
+				"url": "https://code.visualstudio.com/",
+				"hint": "檔案文字編輯器"
+			}
+		]
+	},
+	"category-learn": {
+		"left": "<i class='fa fa-university fa-2x' aria-hidden='true'></i>",
+		"lefthint": "線上學習課程網站",
+		"middle": [
+			{
+				"title": "Udemy",
+				"url": "https://www.udemy.com/",
+				"hint": "有各式各樣的課程，想接觸一門新事物可以用免費課程體驗"
+			},
+			{
+				"title": "Arkmont",
+				"url": "https://arkmont.com/",
+				"hint": "由KalobTaulien所建立的課程網站，有關於電腦工程的課程"
+			},
+			{
+				"title": "edX",
+				"url": "https://www.edx.org/",
+				"hint": "線上課程"
+			},
+			{
+				"title": "coursera",
+				"url": "https://www.coursera.org/",
+				"hint": "線上課程"
+			}
+		]
+	},
+	"category-host": {
+		"left": "<i class='fa fa-building fa-2x' aria-hidden='true'></i>",
+		"lefthint": "Host",
+		"middle": [
+			{
+				"title": "Firebase",
+				"url": "https://firebase.google.com/",
+				"hint": "Google所提供的host.database...etc,有很多完善的API可以使用"
+			},
+			{
+				"title": "000webhost",
+				"url": "https://www.000webhost.com/",
+				"hint": "有免費的host使用，免費的會員一天會有3個小時是關機狀態，可以自行設定時間"
+			},
+			{
+				"title": "GitHub Page",
+				"url": "https://pages.github.com/",
+				"hint": "可將靜態網站架設在Github上"
+			}
+		]
+	}
+}

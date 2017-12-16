@@ -102,6 +102,9 @@ function loadContent(next, first=false) {
 		navToggle();
 	}
 	if(page.now !== next){
+		if(next === 'recommend'){
+			loadRecommendPage();
+		}
 		if(first) {
 			navLight();
 			$('.'+page.now).toggle(0);
@@ -142,7 +145,7 @@ function signInModal() {
 }
 
 function closeSignInModal() {
-	$('#section-signInModal').slideToggle(500, function() {changeSignTxt()});
+	$('#section-signInModal').slideToggle(200, function() {changeSignTxt()});
 }
 
 const navSignIn = document.querySelector('#navSignIn');
@@ -166,7 +169,7 @@ function showIn() {
 		nowTab.now = "in";
 		tabin.innerHTML = chooseIcon + " 登入";
 		tabup.innerHTML = "註冊";
-		$('#signUp').fadeOut(300, function() {$('#signIn').fadeIn(500)});
+		$('#signUp').fadeOut(200, function() {$('#signIn').fadeIn(200)});
 	}
 }
 function showUp() {
@@ -174,7 +177,7 @@ function showUp() {
 		nowTab.now = "up";
 		tabin.innerHTML = "登入";
 		tabup.innerHTML = chooseIcon + " 註冊";
-		$('#signIn').fadeOut(300, function() {$('#signUp').fadeIn(500)});
+		$('#signIn').fadeOut(200, function() {$('#signUp').fadeIn(200)});
 	}
 }
 
@@ -288,11 +291,16 @@ function askSubmit() {
 		$('.askErrTxt').html(exclamation+message+exclamation);
 		$('#askErr').show(600);
 	}
+	userStatus.message = $('.ask-text textarea').val();
+
+	if(!userStatus.message){
+		showAskError(' 請輸入內容 ');
+		return;
+	}
 	$('#askErr').hide();
 	let submitbtn = $('.confirm-btn button');
 	submitbtn.attr('onclick', 'return;');
 	submitbtn.html(loadIcon);
-	userStatus.message = $('.ask-text textarea').val();
 	let { email, message } = userStatus;
 	const fromid = userStatus.uid;
 	const timestamp = firebase.firestore.FieldValue.serverTimestamp();
@@ -408,19 +416,24 @@ function appendMessage(item, action = 'after') {
 						<div class="message-content">${message}</div>
 						<div class="blur ct"><i class="fa fa-quote-right fa-border" style="font-size:12px" aria-hidden="true"></i></div>
 						<div class="message-room">
+							<button class="orange-btn" onclick="copyTxt('${id}')"><i class="fa fa-files-o" aria-hidden="true"></i> 複製</button>
 							<button class="orange-btn" onclick="enterchatroom('${id}')"><i class="fa fa-users" aria-hidden="true"></i> 聊天室</button>
 						</div>
 					</div>
 					<div class="chat-box message-box" id="chat-box">
 						<div class="chat-room">
 							<div class="chat-setting">
-								<div class="chat-icon hint--bottom-left hint--info hint--rounded hint--bounce" data-hint="至最新" onclick="toNewestChat('${id}', event)">
+								<div class="chat-icon hint--bottom-left hint--info hint--rounded hint--bounce" aria-label="至最新" onclick="toNewestChat('${id}', event)">
 									<i class="fa fa-truck" aria-hidden="true"></i>
 								</div>
-								<div class="chat-icon hint--bottom-left hint--info hint--rounded hint--bounce" data-hint="離開" onclick="exitchatroom('${id}')">
+								<div class="chat-icon hint--bottom-left hint--info hint--rounded hint--bounce" aria-label="離開" onclick="exitchatroom('${id}')">
 									<i class="fa fa-window-close-o" aria-hidden="true"></i>
 								</div>
 							</div>
+							<div class="chat-loadpast">
+								<div class="hint--bottom-right hint--info hint--rounded hint--bounce" aria-label="顯示先前留言" onclick="chatloadpast('${id}')">&nbsp;<i class="fa fa-angle-double-up" aria-hidden="true"></i></div>
+							</div>
+							<div class="chat-messages"></div>
 						</div>
 						<div class="chat-bar">
 							<div style="width: 75%;"><input type="text" name="chat-text" class="chat-text" placeholder="輸入訊息..." id="chat-subbmit"></div>
@@ -446,7 +459,13 @@ function enterchatroom(key) {
 	}
 	$('.message-cell[key="'+key+'"] #message-box').hide();
 	$('.message-cell[key="'+key+'"] #chat-box').show();
-	chatroomRefs[key] = db.collection("messages").doc(key).collection("chatroom").orderBy(order)
+	if(!chatroomRefs[key]){
+		chatroomRefs[key] = {};
+		chatroomRefs[key].firstentertime = new Date();
+		chatroomRefs[key].lastentertime = new Date();
+	}
+	chatroomRefs[key].connect = db.collection("messages").doc(key).collection("chatroom")
+		.where('timestamp', '>=', chatroomRefs[key].lastentertime).orderBy(order)
 		.onSnapshot(function(snapshot) {
 		let chattexts = [];
 		snapshot.docChanges.forEach(function(change) {
@@ -460,40 +479,92 @@ function enterchatroom(key) {
 		chattexts.forEach(item => {
 			appendChat(item, key);
 		});
+		// console.log('enter', chatroomRefs);
 	}, function(error) {
 		console.log('error', error);
 	});
 	$('.message-cell[key="'+key+'"] #message-box').removeClass('mbbs2');
 }
 
-const chatnames = {};
+const chatnames = {
+	bottomname: {},
+	topname: {}
+};
 function appendChat(item, key) {
 	const { fromid, email, chattext, timestamp } = item;
 	const time = (timestamp) ? timestamp.toLocaleTimeString() : new Date().toLocaleTimeString();
 	const date = (timestamp) ? timestamp.toLocaleDateString() : new Date().toLocaleDateString();
 	const emailname = email.split('@')[0];
-	if(fromid === chatnames[key]) {
-		const txt = `<div><div class="chat-content hint--top-right hint--success hint--rounded" data-hint="${time} ${date}">${chattext}</div></div>`;
+	if(fromid === chatnames.bottomname[key]) {
+		const txt = `<div><div class="chat-content hint--top-right hint--success hint--rounded" aria-label="${time} ${date}">${chattext}</div></div>`;
 		$('.message-cell[key="'+key+'"] #chat-box .chat-room .chat-message:last-child .chat-main').append(txt);
 	} else {
-		chatnames[key] = fromid;
+		chatnames.bottomname[key] = fromid;
 		const txt = `<div class="chat-message">
 						<div class="chat-name">${emailname}</div>
 						<div class="chat-main">
-							<div><div class="chat-content hint--bottom-right hint--success hint--rounded" data-hint="${time} ${date}">${chattext}</div></div>
+							<div><div class="chat-content hint--bottom-right hint--success hint--rounded" aria-label="${time} ${date}">${chattext}</div></div>
 						</div>
 					</div>`;
 		$('.message-cell[key="'+key+'"] #chat-box .chat-room').append(txt);
 	}
+}
+const loadpastcount = 4;
+function chatloadpast(key) {
+	if(!chatroomRefs[key].nextRef) {
+		chatroomRefs[key].nextRef = messagesRef.doc(key).collection('chatroom')
+			.where('timestamp', '<', chatroomRefs[key].firstentertime).orderBy(order, orderdir).limit(loadpastcount);
+	} else {
+		chatroomRefs[key].nextRef = messagesRef.doc(key).collection('chatroom')
+			.where('timestamp', '<', chatroomRefs[key].firstentertime).orderBy(order, orderdir)
+			.startAfter(chatroomRefs[key].lastVisible).limit(loadpastcount);
+	}
+	chatroomRefs[key].nextRef.get().then(function(querySnapshot) {
+		let messages = [];
+		querySnapshot.forEach(function(doc) {
+			const { fromid, email, chattext, timestamp } = doc.data();
+			// console.log('loadpast', doc.data());
+			messages.push({fromid, email, chattext, timestamp});
+		});
+		chatroomRefs[key].lastVisible = querySnapshot.docs[querySnapshot.docs.length-1];
+		return messages;
+	}).then(function(m) {
+		m.forEach(item => {
+			const { fromid, email, chattext, timestamp } = item;
+			const time = (timestamp) ? timestamp.toLocaleTimeString() : new Date().toLocaleTimeString();
+			const date = (timestamp) ? timestamp.toLocaleDateString() : new Date().toLocaleDateString();
+			const emailname = email.split('@')[0];
+			if(fromid === chatnames.topname[key]) {
+				const txt = `<div><div class="chat-content hint--top-right hint--success hint--rounded" aria-label="${time} ${date}">${chattext}</div></div>`;
+				$('.message-cell[key="'+key+'"] #chat-box .chat-room .chat-messages .chat-message:first-child .chat-main').prepend(txt);
+			} else {
+				chatnames.topname[key] = fromid;
+				const txt = `<div class="chat-message">
+								<div class="chat-name">${emailname}</div>
+								<div class="chat-main">
+									<div><div class="chat-content hint--bottom-right hint--success hint--rounded" aria-label="${time} ${date}">${chattext}</div></div>
+								</div>
+							</div>`;
+				$('.message-cell[key="'+key+'"] #chat-box .chat-room .chat-messages').prepend(txt);
+			}
+		});
+		if(m.length < loadpastcount || !chatroomRefs[key].lastVisible){
+			$('.message-cell[key="'+key+'"] #chat-box .chat-room .chat-loadpast').hide();
+		}
+		console.log(chatroomRefs[key].lastVisible);
+	}).catch((err) => {
+		console.log(err);
+	});
 }
 
 function exitchatroom(key) {
 	$('.message-cell[key="'+key+'"] #chat-box').hide();
 	$('.message-cell[key="'+key+'"] #message-box').show();
 	// Stop listening to changes
-	chatroomRefs[key]();
-	chatnames[key] = '';
-	$('.message-cell[key="'+key+'"] #chat-box .chat-room .chat-message').remove();
+	chatroomRefs[key].connect();
+	chatroomRefs[key].lastentertime = new Date();
+	// console.log('exit', chatroomRefs[key]);
+	// $('.message-cell[key="'+key+'"] #chat-box .chat-room .chat-message').remove();
 }
 
 function addchat(key) {
@@ -566,10 +637,99 @@ async function changeloadnum(n) {
 function errorClick() {
 	if($('#section-signInModal').css('display') === 'none')
 		signInModal();
-	$('#message-error').fadeOut(500);
+	$('#message-error').fadeOut(200);
+}
+
+function copyTxt(key) {
+	let txt = document.querySelector('.message-cell[key="'+key+'"] #message-box .message-content').innerText;
+	let clip_area = document.createElement('textarea');
+	clip_area.textContent = txt;
+
+	document.body.appendChild(clip_area);
+	clip_area.select();
+
+	document.execCommand('copy');
+	clip_area.remove();
 }
 
 function logScroll(element) {
 	const position = document.querySelector('#'+element).offsetTop;
 	$("html, body").animate({ scrollTop: position}, 'slow');
+}
+
+
+// recommend
+
+// 取得json檔案
+function get(url) {
+  // Return a new promise.
+  return new Promise(function(resolve, reject) {
+    // Do the usual XHR stuff
+    var req = new XMLHttpRequest();
+    req.open('GET', url);
+
+    req.onload = function() {
+      // This is called even on 404 etc
+      // so check the status
+      if (req.status == 200) {
+        // Resolve the promise with the response text
+        resolve(req.response);
+      }
+      else {
+        // Otherwise reject with the status text
+        // which will hopefully be a meaningful error
+        reject(Error(req.statusText));
+      }
+    };
+
+    // Handle network errors
+    req.onerror = function() {
+      reject(Error("Network Error"));
+    };
+
+    // console.log('req in get function', req);
+
+    // Make the request
+    req.send();
+  });
+}
+// 將解析JSON檔寫為一個函式
+function getJSON(url) {
+  return get(url).then(JSON.parse).catch(function(err) {
+    console.log("getJSON failed for", url, err);
+    throw err;
+  });
+}
+
+var recommendList;
+function loadRecommendPage() {
+	if(!recommendList) {
+		let recommend = document.querySelector('.flex-page');
+		let recommendColor = [
+			"rgb(33, 33, 33)",
+			"rgb(77, 25, 25)",
+			"rgb(77, 51, 25)",
+			"rgb(0, 77, 0)",
+			"rgb(0, 51, 102)",
+			"rgb(38, 0, 77)",
+			"rgb(77, 0, 77)"
+		];
+		let colorcount = 0;
+		getJSON('./assets/data/recommend-list.json').then(function(data) {
+			recommendList = data;
+			for(let list in recommendList) {
+				let txt = `<div class="flex-category" id="${list}">
+							<div class="category-left" style="background: ${recommendColor[colorcount]}"><div class="hint--right" aria-label=${recommendList[list].lefthint}>${recommendList[list].left}</div></div>
+							<div class="category-middle">`;
+				recommendList[list].middle.forEach(item => {
+					txt += `<a href="${item.url}" target="_blank"><button class="recommend-tag hint--bottom hint--medium" aria-label=${item.hint} style="background: ${recommendColor[colorcount]}">${item.title}</button></a>`;
+				});
+				txt += `</div>
+							<div class="category-right">setting</div>
+						</div>`;
+				recommend.innerHTML += txt;
+				colorcount++;
+			}
+		});
+	}
 }

@@ -47,8 +47,11 @@ table {
 	border-spacing: 0;
 }
 
+html {
+  overscroll-behavior: contain;
+}
+
 body {
-  overscroll-behavior-y: contain;
   font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande",Verdana,sans-serif,"Microsoft YaHei","Heiti TC";
   position: relative;
 }
@@ -110,9 +113,9 @@ button:focus {
     color: black;
     /*animation: navcolor 0.5s infinite;*/
     animation-name: navcolor;
-    animation-duration: 0.5s;
+    animation-duration: 0.2s;
     animation-timing-function: ease-in;
-    animation-iteration-count: 3;
+    animation-iteration-count: 1;
     animation-direction: alternate;
 }
 
@@ -382,7 +385,8 @@ button:focus {
 
 /*repository*/
 
-.repoTable {
+.repoFlex {
+  display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   width: 90%;
@@ -441,6 +445,7 @@ button:focus {
   max-width: 440px;
   max-height: 220px;
   margin: auto;
+  image-rendering: pixelated;
 }
 
 .img-ex {
@@ -519,6 +524,73 @@ button:focus {
     color: white;
 }
 
+/*recommend*/
+
+.recommend {
+  background-color: rgba(33, 33, 33, 0.2);
+  height: 95vh;
+}
+
+.flex-page {
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-category {
+  display: flex;
+  flex-direction: row;
+}
+
+.category-left {
+  width: 10%;
+  color: rgb(247, 247, 247);
+  text-align: center;
+  padding: 10px 0;
+  text-overflow: ellipsis;
+}
+
+.category-right {
+  width: 10%;
+  background-color: rgb(33, 33, 33);
+  color: rgb(247, 247, 247);
+  border-bottom: 1px solid rgb(247, 247, 247);
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.category-middle {
+  width: 80%;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-start;
+  align-content: flex-start;
+  background-color: rgba(33, 33, 33, 0.2);
+}
+
+.category-middle a {
+  margin: 5px 0 5px 5px;
+}
+
+.recommend-tag {
+  font-size: 1.5em;
+  padding: 5px;
+  color: rgb(247, 247, 247);
+  border: 0;
+  border-radius: 3px;
+  box-shadow: 1px 1px 2px 2px rgba(33,33,33,0.4);
+  cursor: pointer;
+}
+
+.recommend-tag:after, .category-left div:after {
+  font-size: 0.7em;
+  box-shadow: 0px 0px 3px 3px rgba(247, 247, 247, 0.7);
+}
+.category-left div:after {
+  font-size: 1em;
+}
+
+
 /*about*/
 
 .about {
@@ -556,6 +628,7 @@ button:focus {
   border-radius: 75px;
   object-fit: cover;
   margin-right: 10px;
+  image-rendering: pixelated;
 }
 
 .profile-name {
@@ -1106,30 +1179,29 @@ button:focus {
   color: DodgerBlue;
 }
 
-.message-content::-webkit-scrollbar
-{
+.message-content::-webkit-scrollbar {
   width: 10px;
   background-color: #F5F5F5;
 }
-
-.message-content::-webkit-scrollbar-track
-{
+.message-content::-webkit-scrollbar-track {
   -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
   border-radius: 5px;
   background-color: #F5F5F5;
 }
-
-.message-content::-webkit-scrollbar-thumb
-{
+.message-content::-webkit-scrollbar-thumb {
   border-radius: 5px;
   -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
   background-color: #969696;
 }
+.message-content::-webkit-scrollbar-thumb:hover {
+  background-color: #3986ac;
+}
 
 .message-room {
+  display: flex;
+  justify-content: space-between;
   border-top: 1px solid #AEAEAE;
   margin-top: 5px;
-  text-align: right;
   overflow: hidden;
 }
 
@@ -1140,10 +1212,10 @@ button:focus {
   background-color: #E5E5E5;
   color: OrangeRed;
   padding: 5px;
-  z-index: -1;
   border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
   outline: none;
-  box-shadow: 2px 1px 6px 4px rgba(10, 10, 0, 0.5);
+  box-shadow: 0px 0px 2px 2px rgba(33, 33, 0, 0.3);
 }
 
 .orange-btn:hover {
@@ -1161,6 +1233,7 @@ button:focus {
   width: 100%;
   height: 184.18px;
   overflow: auto;
+  overscroll-behavior: contain;
 }
 
 .chat-room::-webkit-scrollbar
@@ -1187,6 +1260,37 @@ button:focus {
   background-color: #3986ac;
 }
 
+.chat-loadpast {
+  position: absolute;
+  top: 0;
+  display: flex;
+  justify-content: flex-end;
+  z-index: 1;
+  width: 50%;
+}
+
+.chat-loadpast i {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.chat-loadpast i:hover {
+  -webkit-animation: loadpast 1s ease-in 0.3s infinite forwards;
+          animation: loadpast 1s ease-in 0.3s infinite forwards;
+}
+
+@keyframes loadpast {
+  0%, 100% {
+    top: 0;
+  }
+  25% {
+    top: 2px;
+  }
+  75% {
+    top: -3px;
+  }
+}
+
 .chat-setting {
   position: sticky;
   top: 0px;
@@ -1198,6 +1302,9 @@ button:focus {
 .chat-icon {
   display: inline-block;
   color: #9A9A9A;
+  background-color: #fff;
+  opacity: .85;
+  border-radius: 5px;
 }
 
 .chat-icon:hover {
@@ -1228,8 +1335,8 @@ button:focus {
   margin-left: 8px;
   margin-right: 8px;
   padding: 5px 8px;
-  color: #4b4f56;
-  background-color: #f1f0f0;
+  color: rgb(247, 247, 247);
+  background-color: rgb(33, 33, 33);
   word-break: break-all;
   word-wrap: break-word;
   white-space: pre-wrap;
@@ -1521,9 +1628,10 @@ button:focus {
   .topnav a.navicon {
     position: absolute;
     width: auto;
-    right: 0;
+    right: left;
     top: 0;
     display: block;
+    border-radius: 0;
   }
 
   .repoCol {
@@ -1586,7 +1694,6 @@ button:focus {
   }
   
   .message-content {
-    height: auto;
-    overflow: initial;
+    max-height: 200px;
   }
 }
