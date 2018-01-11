@@ -90,53 +90,6 @@ function navToggle(type = 'open') {
 	}
 };
 
-const page = {
-	now:'about'
-};
-
-let adviseds = [];
-let advisedshas = [];
-
-function loadContent(next, first=false) {
-	if($(document).width() <= 720 && !first) {
-		navToggle();
-	}
-	if(page.now !== next){
-		if(next === 'recommend'){
-			loadRecommendPage();
-		}
-		if(first) {
-			navLight();
-			$('.'+page.now).toggle(0);
-			$('.'+next).toggle(0);
-			page.now = next;
-		} else {
-			navLight();
-			$('.'+page.now).slideToggle(200, function() {
-				$('.'+next).slideToggle(400);
-			});
-			page.now = next;
-		}
-	}
-
-	function navLight() {
-		let nownav = document.querySelector('.navLight');
-		let nextnav = document.querySelector('a[href="#section-'+next+'"]');
-		nownav.className = '';
-		nextnav.className = 'navLight';
-	}
-
-};
-
-function firstload() {
-	if(location.hash){
-		let path = location.hash.slice(9);
-		loadContent(path, true);
-	}
-};
-
-firstload();
-
 function signInModal() {
 	if($(document).width() <= 720) {
 		navToggle('close');
@@ -337,7 +290,7 @@ var order = "timestamp";
 var orderdir = "desc";
 var limitcount = 1;
 
-function loadData () {
+function loadData() {
 	firstRef = messagesRef.orderBy(order, orderdir).limit(limitcount);
 	firstRef.get().then(function(querySnapshot) {
 		let messages = [];
@@ -359,7 +312,6 @@ function loadData () {
 		console.log(error);
 	});
 }
-loadData();
 function loadMore() {
 	// Construct a new query starting at this document,
 	nextRef = messagesRef.orderBy(order, orderdir).startAfter(lastVisible).limit(limitcount);
@@ -650,6 +602,12 @@ function copyTxt(key) {
 
 	document.execCommand('copy');
 	clip_area.remove();
+
+	$('#message-copy').fadeIn('fast');
+}
+
+function copyClick() {
+	$('#message-copy').fadeOut('fast');
 }
 
 function logScroll(element) {
@@ -725,11 +683,187 @@ function loadRecommendPage() {
 					txt += `<a href="${item.url}" target="_blank"><button class="recommend-tag hint--bottom hint--medium" aria-label=${item.hint} style="background: ${recommendColor[colorcount]}">${item.title}</button></a>`;
 				});
 				txt += `</div>
-							<div class="category-right">setting</div>
+							<div class="category-right"></div>
 						</div>`;
 				recommend.innerHTML += txt;
 				colorcount++;
 			}
+		}).then(() => {
+			$('.recommend-loading').fadeOut(2000);
 		});
 	}
 }
+
+
+// home start
+let homeMenu;
+let homeanchor;
+let homeBaseUrl = './assets/data/homedata/';
+function loadHomePage() {
+	fetch(`${homeBaseUrl}menu.json`, {method: "GET"})
+	.then(response => {
+		return response.json();
+	}).then(res => { 
+		homeMenu = Object.entries(res);
+		for(let entry of homeMenu) {
+			homeanchor = document.querySelector(`#log-${entry[0]} .home-left`);
+			let i = true;
+			for(let item of entry[1]){
+				let txt = `<div class="left-item" onclick="loadHomeContent('${entry[0]}','${item.title}','${item.url}')">${item.title}</div>`;
+				homeanchor.innerHTML += txt;
+				if(i) {
+					loadHomeContent(entry[0], item.title, item.url);
+					i = !i;
+				}
+			}
+		}
+	}).catch(error => {
+		console.log(error);
+	});
+}
+function loadHomeContent(area, title, url) {
+	fetch(`${homeBaseUrl}${area}/${url}`)
+	.then(response => {
+		return response.text();
+	}).then(res => {
+		let ht = document.querySelector(`#log-${area} .home-main .home-title`);
+		ht.innerHTML = title;
+		let hc = document.querySelector(`#log-${area} .home-main .home-content`);
+		hc.innerHTML = res;
+	}).catch(error => {
+		console.log(error);
+	});
+}
+// guitar tool
+let pertext;
+function permutationCg(e) {
+	pertext = e.target.value.split(/\s+/);
+	pertext = pertext;
+}
+function permutationGo(e) {
+	if(e.key === 'Enter') {
+		permutations();
+	}
+}
+async function permutations() {
+	if(!pertext) {
+		return;
+	}
+	let permutation = document.querySelector('#permutation');
+	let perload = document.querySelector('.per-load');
+	let loadi = document.querySelector('.per-loadi');
+	loadi.style.opacity = 1;
+	permutation.innerHTML = '';
+	let number = pertext;
+	let temp_arr = [];
+	let data_arr = [];
+	let numlen = number.length;
+	let all = 0;
+	let all_type = new Promise((resolve, reject) => {
+		let a = pullpush(0);
+		resolve(a);
+	}).then((a) => {
+		// console.log(data_arr);
+		let change_point = all/numlen;
+		let i = 0;
+		for(let arr of data_arr) {
+			if(i === 0) {
+				permutation.innerHTML += `<div class="permutation-row"></div>`;
+			}
+			i++;
+			i %= change_point;
+			permutation.querySelector('.permutation-row:last-child').innerHTML += `<div class="permutation-item">${arr.join(' ')}, </div>`;
+			
+		}
+		perload.innerHTML = `組數:${a}`;
+		loadi.style.opacity = 0;
+	}).catch((error) => {
+		console.log(error);
+	});
+	async function pullpush(basic_value) {
+		if(basic_value === numlen) {
+			data_arr.push([...temp_arr]);
+			all++;
+			return ;
+		}
+		for(let i = basic_value; i < numlen; i++){
+			if(basic_value === 0) {
+			}
+			temp_arr.push(number.shift());
+			pullpush(basic_value+1);
+			number.push(temp_arr.pop());
+		}
+		if(basic_value === 0) {
+			return all;
+		}
+	}
+}
+// home end
+
+const page = {
+	now:''
+};
+
+const contentHasLoad = {
+	recommend: false,
+	about: false,
+	home: false
+}
+
+function loadContent(next) {
+	if($(document).width() <= 720) {
+		navToggle();
+	}
+	if(page.now !== next){
+		navLight();
+		$('.'+page.now).slideToggle(200, function() {
+			$('.'+next).slideToggle(200);
+		});
+		if(next === 'recommend' && !contentHasLoad.recommend){
+			loadRecommendPage();
+			contentHasLoad.recommend = true;
+		} else if(next === 'home' && !contentHasLoad.home) {
+			loadHomePage();
+			contentHasLoad.home = true;
+		} else if(next === 'about' && !contentHasLoad.about) {
+			loadData();
+			contentHasLoad.about = true;
+		}
+		page.now = next;
+	}
+
+	function navLight() {
+		let nownav = document.querySelector('.navLight');
+		let nextnav = document.querySelector('a[href="#section-'+next+'"]');
+		nownav.className = '';
+		nextnav.className = 'navLight';
+	}
+
+};
+function firstload() {
+	function showWhatContent(show) {
+		let navlight = document.querySelector('a[href="#section-'+show+'"]');
+		navlight.className = 'navLight';
+		$('.'+show).slideToggle(200);
+		if(show === 'recommend'){
+			loadRecommendPage();
+			contentHasLoad.recommend = true;
+		} else if(show === 'home') {
+			loadHomePage();
+			contentHasLoad.home = true;
+		} else if(show === 'about') {
+			loadData();
+			contentHasLoad.about = true;
+		}
+		page.now = show;
+	}
+
+	if(location.hash){
+		let path = location.hash.slice(9);
+		showWhatContent(path);
+	} else {
+		showWhatContent('about');
+	}
+};
+
+window.onload = firstload();

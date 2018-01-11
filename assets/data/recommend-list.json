@@ -169,5 +169,16 @@
 				"hint": "可將靜態網站架設在Github上"
 			}
 		]
+	},
+	"category-music": {
+		"left": "<i class='fa fa-music fa-2x' aria-hidden='true'></i>",
+		"lefthint": "音樂",
+		"middle": [
+			{
+				"title": "喝咖啡 聊音樂",
+				"url": "http://rickmidi.blogspot.com/",
+				"hint": "由Rick_Hwang所撰寫的Blog，分享音樂上的各種知識。"
+			}
+		]
 	}
 }

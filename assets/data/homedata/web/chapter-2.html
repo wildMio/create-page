@@ -1,0 +1,81 @@
+<p>關於console Object，只要在Developer tools的Console輸入"console"就會發現console除了大家最常用到的"console.log"外，還有很多其他功能，接下來讓我們探討其中幾項用法。</p>
+<br>
+<p>style:<br>console所輸出的文字是可以有不同的style的，就像是html裡的物件一樣，在Facebook打開DevTools，就會看到Console的文字是有編輯過的，而用法如下(注意到"%c")：</p>
+<div class="code">
+	<i class="fa fa-code" aria-hidden="true"></i> Console <i class="fa fa-code" aria-hidden="true"></i><br>
+	&nbsp;&nbsp;console.log('%cwildMio', "color: blue; font-size: 50px;");<br>
+	&nbsp;&nbsp;//or <br>
+	&nbsp;&nbsp;console.log('%cwild%cMio', "color: red", "color: blue; font-size: large");<br>
+</div>
+<p>console.assert(Assertion, ErrorMessage):<br>如果Assertion結果為true，則甚麼都不會輸出，<br>如果Assertion結果為false,則會丟出錯誤訊息，例如：</p>
+<div class="code">
+	<i class="fa fa-code" aria-hidden="true"></i> javascript.js <i class="fa fa-code" aria-hidden="true"></i><br>
+	&nbsp;&nbsp;console.log('Assertion === true');<br>
+	&nbsp;&nbsp;console.assert(true, 'nothing happen');<br>
+	&nbsp;&nbsp;console.log('Assertion === false');<br>
+	&nbsp;&nbsp;console.assert(false, '[Error]: Something error, you can log error message here');<br>
+	}<br>
+</div>
+<p>console.clear():<br>清空Console內容。</p><br>
+<p>console.count(label):<br>此功能可以用來追蹤特定區域程式碼執行次數，例如以下：</p>
+<div class="code">
+	<i class="fa fa-code" aria-hidden="true"></i> javascript.js <i class="fa fa-code" aria-hidden="true"></i><br>
+	&nbsp;&nbsp;var label = 'Function is called';<br>
+	&nbsp;&nbsp;function mio() {<br>
+	&nbsp;&nbsp;&nbsp;&nbsp;console.count(label);<br>
+	&nbsp;&nbsp;}<br>
+	&nbsp;&nbsp;mio();<br>
+	&nbsp;&nbsp;mio();<br>
+	&nbsp;&nbsp;mio();<br>
+	&nbsp;&nbsp;}<br>
+</div>
+<p>console.dir(object) &amp; console.dirxml(object):<br>讓物件以不同的型式(javscript or html)表現出來，例如：</p>
+<div class="code">
+	<i class="fa fa-code" aria-hidden="true"></i> javascript.js <i class="fa fa-code" aria-hidden="true"></i><br>
+	&nbsp;&nbsp;console.dir(document.body);<br>
+	&nbsp;&nbsp;console.dirxml(document.body);<br>
+	&nbsp;&nbsp;console.log(document.body);<br>
+	&nbsp;&nbsp;//console.dirxml(document.body) === console.log(document.body)<br>
+</div>
+<p>console.error():<br>將輸出文字的風格轉變為error風(紅紅der)。</p><br>
+<p>console.group(), console.groupCollapsed() &amp; console.groupEnd():<br>將多行log在Console輸出成可收合的型式，例如：</p>
+<div class="code">
+	<i class="fa fa-code" aria-hidden="true"></i> javascript.js <i class="fa fa-code" aria-hidden="true"></i><br>
+	&nbsp;&nbsp;console.group('User');//'User' === tag<br>
+	&nbsp;&nbsp;console.log('mio');<br>
+	&nbsp;&nbsp;console.group('Age');//group() 可替換成 groupCollapsed()，差別在於一開始是否為展開狀態<br>
+	&nbsp;&nbsp;&nbsp;&nbsp;console.log(100);<br>
+	&nbsp;&nbsp;&nbsp;&nbsp;console.log(99);<br>
+	&nbsp;&nbsp;console.groupEnd();<br>
+	&nbsp;&nbsp;console.log('leo');<br>
+	&nbsp;&nbsp;console.log('you');<br>
+	&nbsp;&nbsp;console.groupEnd();<br>
+</div>
+<p>console.info():<br>輸出的文字最前端匯有一個"i"圖示。(chrome無，saferi有)</p><br>
+<p>console.log():<br>console.log的其他用法，使用"%s", "%d", "%3.3f"，例如：</p>
+<div class="code">
+	<i class="fa fa-code" aria-hidden="true"></i> javascript.js <i class="fa fa-code" aria-hidden="true"></i><br>
+	&nbsp;&nbsp;console.log("The string %s, The number %d, The float %4.2f. %s", "wildMio", 38, 3.14, 'New Year.');<br>
+</div>
+<p>console.table():<br>將array或object以table的型式表現，可以依照屬性排序，例如：</p>
+<div class="code">
+	<i class="fa fa-code" aria-hidden="true"></i> javascript.js <i class="fa fa-code" aria-hidden="true"></i><br>
+	&nbsp;&nbsp;let data = [{id: 0, name: 'mio', skill: 'coding'}, {id: 1, name: 'leo', skill: 'guitar'}, {id: 2, name: 'you', skill: 'all'}];<br>
+	&nbsp;&nbsp;console.table(data);<br>
+</div>
+<p>console.time(label) &amp; console.timeEnd(label):<br>用來追蹤跑完指定程式碼所花的時間，例如：</p>
+<div class="code">
+	<i class="fa fa-code" aria-hidden="true"></i> javascript.js <i class="fa fa-code" aria-hidden="true"></i><br>
+	&nbsp;&nbsp;console.time('for loop label');<br>
+	&nbsp;&nbsp;for(let i = 0; i < 100000000; i ++) { var temp = i * 2; }<br>
+	&nbsp;&nbsp;console.timeEnd('for loop label');<br>
+</div>
+<p>console.trace():<br>用來追蹤function的調用非常好用!例如：</p>
+<div class="code">
+	<i class="fa fa-code" aria-hidden="true"></i> javascript.js <i class="fa fa-code" aria-hidden="true"></i><br>
+	&nbsp;&nbsp;function firstFunc() { secondFunc(); }<br>
+	&nbsp;&nbsp;function secondFunc() { thirdFunc(); }<br>
+	&nbsp;&nbsp;function thirdFunc() { console.trace('trace stack') } //'trace stack' === tag<br>
+	&nbsp;&nbsp;firstFunc();<br>
+</div>
+<p>console.warn():<br>以警告形式顯示輸出。</p><br>

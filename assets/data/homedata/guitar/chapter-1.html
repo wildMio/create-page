@@ -1,0 +1,41 @@
+
+<style type="text/css">
+	#permutation {
+		display: flex;
+		flex-direction: column;
+		padding-top: 10px;
+	}
+	.permutation-row {
+		flex-basis: 100%;
+		display: flex;
+		flex-flow: row wrap;
+	}
+	.permutation-item {
+		padding: 5px;
+		font-size: 1.5em;
+	}
+	input[name='permutation-array'] {
+		box-sizing: border-box;
+		width: 100%;
+		background-color: rgb(22, 22, 22);
+		color: rgb(222, 222, 222);
+		border: 0;
+		border-bottom: 2px solid rgb(222, 222, 222); 
+		padding: 5px;
+		font-size: 1.7em;
+		outline: 0;
+	}
+	input[name='permutation-array']::placeholder {
+		color: rgb(88, 88, 88);
+	}
+</style>
+<div>
+	<div><label for="permutation-array">輸入想要排列的字元(以空格區分)</label></div>
+	<div><input type="text" name="permutation-array" placeholder="1 2 3 4" onchange="permutationCg(event)" onkeypress="permutationGo(event)"></div>
+	<div style="margin-top: 5px;">
+		<button onclick="permutations()"
+		style="background-color: rgb(22, 22, 22); color: rgb(222,222,222); border: 1px solid rgb(222,222,222); box-shadow: inset 0px 0px 1px 1px rgb(222,222,222);">送出</button>
+		<span class="per-load">組數:</span><span class="per-loadi"><i class="fa fa-spinner fa-pulse fa-1x fa-fw"></i></span>
+	</div>
+</div>
+<div id="permutation"></div>
