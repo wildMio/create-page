@@ -699,6 +699,11 @@ function loadRecommendPage() {
 let homeMenu;
 let homeanchor;
 let homeBaseUrl = './assets/data/homedata/';
+let nowChoose = {
+	"web": '',
+	"guitar": '',
+	"life": ''
+}
 function loadHomePage() {
 	fetch(`${homeBaseUrl}menu.json`, {method: "GET"})
 	.then(response => {
@@ -709,9 +714,10 @@ function loadHomePage() {
 			homeanchor = document.querySelector(`#log-${entry[0]} .home-left`);
 			let i = true;
 			for(let item of entry[1]){
-				let txt = `<div class="left-item" onclick="loadHomeContent('${entry[0]}','${item.title}','${item.url}')">${item.title}</div>`;
+				let txt = `<div class="left-item" onclick="loadHomeContent('${entry[0]}','${item.title}','${item.url}',event)">${item.title}</div>`;
 				homeanchor.innerHTML += txt;
 				if(i) {
+					homeanchor.querySelector('.left-item').className += ' ischoose';
 					loadHomeContent(entry[0], item.title, item.url);
 					i = !i;
 				}
@@ -721,21 +727,33 @@ function loadHomePage() {
 		console.log(error);
 	});
 }
-function loadHomeContent(area, title, url) {
+function loadHomeContent(area, title, url, e) {
+	if(nowChoose[area] === url) {
+		return;
+	}
+	let ht = document.querySelector(`#log-${area} .home-main .home-title`);
+	let hc = document.querySelector(`#log-${area} .home-main .home-content`);
+	ht.innerHTML = loadIcon;
 	fetch(`${homeBaseUrl}${area}/${url}`)
 	.then(response => {
 		return response.text();
 	}).then(res => {
-		let ht = document.querySelector(`#log-${area} .home-main .home-title`);
 		ht.innerHTML = title;
-		let hc = document.querySelector(`#log-${area} .home-main .home-content`);
 		hc.innerHTML = res;
+		if(nowChoose[area]) {
+			document.querySelector(`#log-${area} .home-left .ischoose`).className = 'left-item';
+		}
+		if(e) {
+			e.target.className += ' ischoose';
+		}
+		nowChoose[area] = url;
 	}).catch(error => {
 		console.log(error);
 	});
 }
 // guitar tool
 let pertext;
+const worker = new Worker('./assets/js/guitar-worker.js')
 function permutationCg(e) {
 	pertext = e.target.value.split(/\s+/);
 	pertext = pertext;
@@ -745,7 +763,7 @@ function permutationGo(e) {
 		permutations();
 	}
 }
-async function permutations() {
+function permutations() {
 	if(!pertext) {
 		return;
 	}
@@ -753,50 +771,26 @@ async function permutations() {
 	let perload = document.querySelector('.per-load');
 	let loadi = document.querySelector('.per-loadi');
 	loadi.style.opacity = 1;
-	permutation.innerHTML = '';
-	let number = pertext;
-	let temp_arr = [];
-	let data_arr = [];
-	let numlen = number.length;
-	let all = 0;
-	let all_type = new Promise((resolve, reject) => {
-		let a = pullpush(0);
-		resolve(a);
-	}).then((a) => {
-		// console.log(data_arr);
-		let change_point = all/numlen;
+	let numlen = pertext.length;
+	
+	worker.postMessage(pertext);
+
+	worker.addEventListener('message', (d) => {
+		let change_point = d.data.length/numlen;
 		let i = 0;
-		for(let arr of data_arr) {
+		permutation.innerHTML = '';
+		for(let arr of d.data) {
 			if(i === 0) {
 				permutation.innerHTML += `<div class="permutation-row"></div>`;
 			}
 			i++;
 			i %= change_point;
 			permutation.querySelector('.permutation-row:last-child').innerHTML += `<div class="permutation-item">${arr.join(' ')}, </div>`;
-			
 		}
-		perload.innerHTML = `組數:${a}`;
+		perload.innerHTML = `組數:${d.data.length}`;
 		loadi.style.opacity = 0;
-	}).catch((error) => {
-		console.log(error);
 	});
-	async function pullpush(basic_value) {
-		if(basic_value === numlen) {
-			data_arr.push([...temp_arr]);
-			all++;
-			return ;
-		}
-		for(let i = basic_value; i < numlen; i++){
-			if(basic_value === 0) {
-			}
-			temp_arr.push(number.shift());
-			pullpush(basic_value+1);
-			number.push(temp_arr.pop());
-		}
-		if(basic_value === 0) {
-			return all;
-		}
-	}
+
 }
 // home end
 

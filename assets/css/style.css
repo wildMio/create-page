@@ -92,7 +92,6 @@ button:focus {
     font-size: 16px;
     height: 21px;
     width: 100px;
-    border-radius: 20px;
 }
 .topnav .navheader {
   cursor: default;
@@ -101,6 +100,7 @@ button:focus {
 
 .navLight {
   background: #1978E5;
+  box-shadow: inset 0 0 10px 1px white;
 }
 
 .navheader {
@@ -185,6 +185,7 @@ button:focus {
   border-color: rgb(222, 222, 222);
   border-radius: 0 5px 5px 0;
   overflow-y: auto;
+  line-height: 1.65em;
 }
 
 .home-main::-webkit-scrollbar {
@@ -207,11 +208,14 @@ button:focus {
 
 .left-item {
   cursor: pointer;
+  padding: 5px;
 }
 
 .ischoose {
   font-weight: 900;
-  padding: 5px 0;
+  background-color: #0B3C4C;
+  border-bottom: 2px solid #22B2E1;
+  border-radius: 5px 5px 0 0;
 }
 
 .home-title {
@@ -232,6 +236,11 @@ button:focus {
   outline: 2px solid white;
   background-color: #000;
   margin: 10px 0 20px 0;
+}
+
+.a-w-b {
+  color: white;
+  font-weight: bold;
 }
 
 .log-menu {

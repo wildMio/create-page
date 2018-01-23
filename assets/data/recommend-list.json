@@ -94,6 +94,11 @@
 				"title": "100 Days css",
 				"url": "https://100dayscss.com/",
 				"hint": "100種css動畫，練習寫CSS"
+			},
+			{
+				"title": "Adobe Color CC",
+				"url": "https://color.adobe.com/zh/explore/?filter=most-popular&time=month",
+				"hint": "Adobe所提供的色彩選擇器"
 			}
 		]
 	},

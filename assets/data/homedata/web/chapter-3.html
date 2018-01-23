@@ -1,0 +1,612 @@
+<p>此篇為課程"<a class="a-w-b" href="https://www.udemy.com/javascript-interview-prep/learn/v4/overview">JavaScript Interview Prep: Practice Problems</a>"的內容，列出來方便查詢。</p><br>
+<p>Triple Add:</p>
+<div class="code"><pre>
+// Question:
+tripleAdd(10)(20)(30);
+// returns total of all 3 numbers added together 
+
+// Answer:
+// tab 1
+function tripleAdd(num1) {
+  return function (num2) {
+    return function (num3) {
+      return num1 + num2 + num3;
+    }
+  }
+}
+tripleAdd(10)(20)(30); // return 60
+
+// tab 2
+function tripleAdd(num1, num2, num3) {
+  return num1 + num2 + num3;
+}
+tripleAdd(10, 20, 30);
+</pre></div>
+<p>IIFE(Immediately-invoked function expression):</p>
+<div class="code"><pre>
+(function doubleNumber(num) {
+  return num * 2;
+})(10);
+
+(function() {
+  function getTotal(a, b) {
+    return a + b;
+  }
+  var $ = 'currency';
+  if (true) console.log('hello world');
+})();
+</pre></div>
+<p>Closures:</p>
+<div class="code"><pre>
+const globalVariable = 'global var';
+
+function outterFunc(param1) {
+  const variable1 = 'var one'; 
+  function innerFunc(param2) {
+    const variable2 = 'var two';   
+    console.log('globalVariable: ', globalVariable);
+    console.log('variable1: ', variable1);
+    console.log('variable2: ', variable2);
+    console.log('param1: ', param1);
+    console.log('param2: ', param2);
+  }
+  innerFunc('param one');
+}
+
+outterFunc('param two');
+</pre></div>
+<pre>"this" Keyword:</pre>
+<div class="code"><pre>
+var house = {
+  price: 100000,
+  squareFeet: 2000,
+  owner: 'Mio',
+  getPricePerSquareFoot: function() {
+    return this.price / this.squareFeet;
+  }
+};
+
+console.log(house.price);
+console.log(house.getPricePerSquareFoot());
+</pre></div>
+<p>Hoisting:</p>
+<div class="code"><pre>
+// tab 1
+console.log(color);
+var color = "blue";
+console.log(color);
+
+//tab 2
+var color;
+console.log(color);
+color = "blue";
+console.log(color);
+
+// tab 3
+console.log(getProduct(2, 3));
+var getProduct = function(num1, num2) {
+  return num1 * num2;
+};
+console.log(getProduct(2, 3));
+
+// tab 4
+console.log(getProduct(2, 3));
+function getProduct(num1, num2) {
+  return num1 * num2;
+}
+
+// tab 5
+var globalVar = 'global';
+(function() { 
+  var name = 'Mio';  
+  var getAge = function() {
+    return '30';
+  }; 
+  function getState() {
+    return 'Delaware'; 
+  }
+})();
+</pre></div>
+<p>Hoisting 2:</p>
+<div class="code"><pre>
+// tab 1
+function getTotal() {
+  console.log(multiplier);
+  console.log(total);
+  
+  let total = 0;
+  
+  for(var i = 0; i < 10; i++) {
+    
+    let valueToAdd = i;
+    var multiplier = 2;
+    total += valueToAdd * multiplier;
+  }
+  
+  return total;
+}
+
+getTotal();
+
+
+// tab 2
+function getTotal() {
+  let total;
+  var multiplier;
+  
+  total = 0;
+  
+  for(var i = 0; i < 10; i++) {
+    let valueToAdd;
+    
+    valueToAdd = i;
+    multiplier = 2;
+    total += valueToAdd * multiplier;
+  }
+  
+  return total;
+}
+
+getTotal();
+</pre></div>
+<p>Scope and "self":</p>
+<div class="code"><pre>
+// Question
+var myCar = {
+    color: "Blue",
+    logColor: function() {
+        var self = this;
+        console.log("In logColor - this.color: " + this.color);
+        console.log("In logColor - self.color: " + self.color);
+        (function() {
+            console.log("In IIFE - this.color: " + this.color);
+            console.log("In IIFE - self.color: " + self.color);
+        })();
+    }
+};
+
+myCar.logColor();
+</pre></div>
+<p>Equals vs Strict Equals:</p>
+<div class="code"><pre>
+console.log(7 == '7');  // true
+
+console.log(7 === '7');  // false
+</pre></div>
+<p>Log Number Function:</p>
+<div class="code"><pre>
+var num = 50;
+
+function logNumber() {
+    console.log(num);
+    var num = 100;
+}
+
+logNumber();
+</pre></div>
+<p>Use Strict:</p>
+<div class="code"><pre>
+// example 1
+'use strict';
+
+city = 'Taipai';
+
+console.log(city);
+
+
+// example 2
+'use strict';
+
+function myFunc(a, a, b) {
+    console.log(a, a, b);
+}
+
+myFunc(1, 2, 3);
+
+
+// example 3
+'use strict';
+
+delete Object.prototype;
+</pre></div>
+<p>Curry Function:</p>
+<div class="code"><pre>
+// tab 1
+// function getProduct(num1, num2) {
+//   return num1 * num2;
+// }
+
+function getProduct(num1) {
+  return function(num2) {
+    return num1 * num2;
+  };
+}
+
+getProduct(10)(20);
+
+
+// tab 2
+// function getTravelTime(distance, speed) {
+//   return distance / speed;
+// }
+
+function getTravelTime(distance) {
+  return function(speed) {
+    return distance / speed;
+  };
+}
+
+const travelTimeTaiTao = getTravelTime(200);
+const travelTimeTaoPin = getTravelTime(400);
+console.log(travelTimeTaiTao(100));
+</pre></div>
+<p>Counter Function:</p>
+<div class="code"><pre>
+function myFunc() {
+  let count = 0;
+  
+  return function() {
+    count++;
+    return count;
+  };
+}
+
+console.log(myFunc());
+
+const instanceOne = myFunc();
+const instanceTwo = myFunc();
+
+console.log('instanceOne: ', instanceOne());
+console.log('instanceOne: ', instanceOne());
+console.log('instanceOne: ', instanceOne());
+console.log('instanceTwo: ', instanceTwo());
+console.log('instanceTwo: ', instanceTwo());
+console.log('instanceOne: ', instanceOne());
+</pre></div>
+<p>Logging X and Y:</p>
+<div class="code"><pre>
+// Question
+(function() {
+  var x = y = 200;
+})();
+
+console.log('y: ', y);
+console.log('x: ', x);
+
+
+// Solution
+'use strict';
+
+(function() {
+  var x = y = 200;
+})();
+
+console.log('y: ', y);
+console.log('x: ', x);
+</pre></div>
+<p>"call" and "apply" Methods:</p>
+<div class="code"><pre>
+const car1 = {
+  brand: 'Porsche',
+  getCarDescription: function(cost, year, color) {
+    console.log(`This car is a ${this.brand}. The price is $${cost}. The year is ${year}. The color is ${color}.\n`);
+  }
+};
+
+const car2 = {
+  brand: 'Lamborghini'
+};
+
+const car3 = {
+  brand: 'Ford'
+};
+
+car1.getCarDescription(2500000, 2010, 'blue');
+car1.getCarDescription.call(car2, 6000000, 2013, 'yellow');
+car1.getCarDescription.apply(car3, [9000000, 2012, 'black']);
+</pre></div>
+<p>list:</p>
+<div class="code"><pre>
+const list1 = [1, 2, 3, 4, 5];
+const list2 = list1;
+
+list1.push(6, 7, 8);
+
+console.log(list2);
+
+// how to clone list
+const list1 = [1, 2, 3, 4, 5];
+const list2 = list1.slice();
+// const list2 = list1.concat([]);
+
+list1.push(6, 7, 8);
+
+console.log('List 1: ', list1);
+console.log('List 2: ', list2);
+
+// key point: 
+// a property = primitive data (property get a value)
+// a property = Array || Object (property get a reference)
+</pre></div>
+<p>Singly or Doubly Invoked Function:</p>
+<div class="code"><pre>
+// Question
+function getTotal() {
+    // build out code...
+}
+
+getTotal(10, 20);
+getTotal(10)(20);
+
+
+// Solution
+function getTotal() {
+  var args = Array.prototype.slice.call(arguments);
+  
+  if (args.length === 2) {
+    return args[0] + args[1];
+  }
+  else if (args.length === 1) {
+    return function(num2) {
+      return args[0] + num2;
+    };
+  }
+}
+
+console.log(getTotal(10, 20));
+console.log(getTotal(5, 40));
+console.log(getTotal(3)(30));
+console.log(getTotal(8)(12));
+</pre></div>
+<p>JSON(Javascript Object Notation) Data:</p>
+<div class="code"><pre>
+// Question
+// TASK:
+// 1. Describe what JSON format is.
+// 2. Delete the data types not permitted in JSON.
+// 3. Replace placeholder-text with the corresponding data type,
+//    properly formatted as JSON.
+
+const myJsonObj = {
+  myString: [some string],
+  myNumber: [some number],
+  myNull: [null],
+  myBoolean: [false],
+  myUndefined: [undefined],
+  myArray: [some array],
+  myFunction: [some function],
+  myObject: [some object]
+};
+
+
+// Solution
+const myJsonObj = {
+  "myString": "hello world",
+  "myNumber": 12345.6789,
+  "myNull": null,
+  "myBoolean": true,
+  "myArray": [20, 30, "orange"],
+  "myObject": {
+    "name": "Sam",
+    "age": 30
+  }
+};
+</pre></div>
+<p>Order Logged Out:</p>
+<div class="code"><pre>
+function logNumbers() {
+  console.log(1); 
+  setTimeout(function(){console.log(2)}, 1000); 
+  setTimeout(function(){console.log(3)}, 0); 
+  console.log(4);
+}
+
+// event loop queue (key point)
+
+logNumbers(); // 1 4 3 2
+
+</pre></div>
+<p>Making An Object:</p>
+<div class="code"><pre>
+// object literal syntax
+const myBoat = {
+  length: 24,
+  maxSpeed: 45,
+  passengers: 14,
+  getLength: function() {
+    return this.length;
+  }
+}; 
+
+
+// new keyword &amp; Object constructor
+const student = new Object();
+
+student.grade = 12;
+student.gradePointAverage = 3.7;
+student.classes = ["English", "Algebra", "Chemistry"];
+student.getClasses = function() {
+  return this.classes;
+};
+
+
+// constructor function 
+function Car(color, brand, year) {
+  this.color = color;
+  this.brand = brand;
+  this.year = year;
+}
+
+Car.prototype.getColor = function() {
+  return this.color;
+};
+
+const carlysCar = new Car('blue', 'ferarri', 2015);
+const jimsCar = new Car('red', 'tesla', 2014);
+
+console.log(carlysCar.getColor());
+console.log(jimsCar.getColor());
+</pre></div>
+<p>Type of Data Types</p>
+<div class="code"><pre>
+console.log(typeof null);		// Object
+console.log(typeof undefined);	// undefined
+console.log(typeof {});			// Object
+console.log(typeof []);			// Object
+console.log(Array.isArray([]));
+console.log([] instanceof Array);
+</pre></div>
+<p>Bind Method:</p>
+<div class="code"><pre>
+this.distance = 10000;
+const roadTrip1 = {
+  distance: 3000,
+  getDistance: function(unit, caption) {
+    return this.distance + unit + caption;
+  }
+};
+
+const roadTrip2 = {
+  distance: 5000
+};
+
+const getTripDistance = roadTrip1.getDistance.bind(roadTrip2, 'km');
+
+getTripDistance(' in total');
+</pre></div>
+<p>Two Object:</p>
+<div class="code"><pre>
+const user1 = {
+  name: 'Jordan',
+  age: 28,
+};
+
+const user2 = {
+  name: 'Jordan',
+  age: 28,
+};
+
+console.log(user1 == user2);	// false
+console.log(user1 === user2);	// false
+console.log(JSON.stringify(user1) === JSON.stringify(user2));	// true
+</pre></div>
+<p>Array Constructor:</p>
+<div class="code"><pre>
+var arr1 = [];
+var arr2 = new Array(50);
+var arr3 = new Array(1, 2, "three", 4, "five");
+var arr4 = new Array([1, 2, 3, 4, 5]);
+
+console.log('arr1: ', arr1); // empty array
+console.log('arr2: ', arr2); // 50 empty item array 
+console.log('arr3: ', arr3); // [1, 2, "three", 4, "five"]
+console.log('arr4: ', arr4); // [[1, 2, 3, 4, 5]]
+</pre></div>
+<p>Array IndexOf:</p>
+<div class="code"><pre>
+console.log([10, 20, 30, 40, 50].indexOf(30));
+console.log([{ name: 'Pam' }, { name: 'Kent' }].indexOf({ name: 'Kent' }));
+console.log('hello world'.indexOf('o'));
+console.log([[1], [2], [3], [4]].indexOf([2]));
+
+const myArray = [5];
+const anotherArray = myArray;
+console.log([[1], [2], [3], [4], myArray].indexOf(anotherArray));
+</pre></div>
+<p>Equivalent Numbers:</p>
+<div class="code"><pre>
+console.log(900.9 === 300.3 * 3); // false
+
+console.log(300.3 * 3);
+console.log(Number((300.3 * 3).toFixed(2)));
+console.log(Number((300.3 * 3).toPrecision(12)));
+console.log(((300.3 * 10) * 3) / 10);
+</pre></div>
+<p>Objects and Strings</p>
+<div class="code"><pre>
+var string1 = 'Tampa';
+var string2 = string1;
+string1 = 'Venice';
+
+console.log(string2);
+
+
+////////////////////////////////
+
+
+var person1 = {
+  name: 'Alex',
+  age: 30
+};
+
+var person2 = person1;
+
+person2.name = 'Kyle';
+
+console.log(person1);
+</pre></div>
+<p>Strings and Arrays:</p>
+<div class="code"><pre>
+const data1 = 'Jordan Smith';
+
+const data2 = [].filter.call(data1, function(elem, index) {
+  return index > 6;
+});
+
+// only use 'read-only' methods: filter, forEach, map, some, every, etc.
+// cannot use: push, pop, splice, shift, reverse, etc.
+
+console.log(data2);
+</pre></div>
+<p>Object Properties:</p>
+<div class="code"><pre>
+const a = {};
+const b = { name: 'b' };
+const c = { name: 'c' };
+
+a[b] = 200;
+// a['[object Object]'] = 200
+
+a[c] = 400;
+// a['[object Object]'] = 400
+
+console.log(a[b]);
+// console.log(a['[object Object]']);
+</pre></div>
+<p>X and Y:</p>
+<div class="code"><pre>
+var x = 10;
+
+function y() {
+    x = 100;
+    return;
+    function x() {} // hoisting
+}
+
+y();
+
+console.log(x); // 10
+</pre></div>
+<p>Withdraw From Account:</p>
+<div class="code"><pre>
+const account1 = {
+  name: 'Jen',
+  totalAmount: 5000,
+  deductAmount: function(amount) {
+    this.totalAmount -= amount;
+    return 'Amount in account: ' + this.totalAmount;
+  },
+};
+
+const account2 = {
+  name: 'James',
+  totalAmount: 8000,
+};
+
+const withdrawFromAccount = function(amount) {
+  return account1.deductAmount.bind(account2, amount);
+};
+
+console.log(withdrawFromAccount(500)()); // 7500
+console.log(withdrawFromAccount(200)()); // 7300
+</pre></div>
