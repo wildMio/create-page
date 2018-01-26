@@ -1,0 +1,158 @@
+<p>在此列出一些好用的ES6 method, 想看ES6程式碼轉成原生javascript可以使用Babel.</p><br>
+<p>Variable Scoping with Let: 使用大括號框出一塊區域.</p>
+<div class="code"><pre>
+function run() {
+
+    let b = 2;
+    console.log(b); // 2
+
+    {
+        let b = 3;
+        console.log(b); // 3
+    }
+
+    console.log(b) // 2
+
+}
+</pre></div>
+<p>const: 產生一個只能讀取(read)的變數, 如果是array可以使用方法存值進去.</p>
+<div class="code"><pre>
+const mio = "mio";
+console.log(mio); //mio
+// mio = "other"; Uncaught TypeError: Assignment to constant variable.
+
+const arr = ['wild'];
+console.log(arr); // ['wild']
+arr.push('mio');
+console.log(arr); // ['wild', 'mio'];
+</pre></div>
+<p>Template Literals &amp; Strings: 使用Template Literals我們就可以省略"+"號, 在字串中加入變數與運算(使用'${}').</p>
+<div class="code"><pre>
+function print() {
+  let name = 'Mio';
+  let location = 'everywhere';
+
+  let message = `This is ${name} TIME! U can find in ${location}`;
+
+  console.log(message);
+}
+</pre></div>
+<p>Spread Operator: 在array中使用三個'.'來使用這個語法(...), 轉換成原生JS就是array使用.concat去加入陣列值, 而這提供你更便捷的寫法.</p>
+<div class="code"><pre>
+function butter(...b) {
+  console.log(b); // [4, 5, 6]
+  let a = [1, 2, 3, ...b];
+  return a;
+}
+
+console.log( butter(4, 5, 6) ); // [1, 2, 3, 4, 5, 6]
+</pre></div>
+<p>Destructuring Assignment: 以往我們要將陣列(Array)或物件(Object)內的值分別儲存到個別的變數時, 往往需要多行程式碼, 有了解構賦值這個好用的方法, 我們只需一行程式碼.</p>
+<div class="code"><pre>
+// Array
+const lovefruit = ['watermelon', 'apple', 'guava', 'banana'];
+let [f1, f2, f3, f4] = lovefruit;
+console.log('1:', f1, ', 2:', f2);
+
+let [first, ...other] = lovefruit; // 1: watermelon , 2: apple
+console.log(other); // ['apple', 'guava', 'banana']
+
+
+// Object
+const wildMio = { size: 'large', color: 'rainbow'};
+const { size, color } = wildMio;
+console.log(size); //large
+</pre></div>
+<p>Arrow Functions: Arrow Function就像是普通的Function, 但有比較簡短的寫法. 而它有其他好處, 例如匿名(anonymous)的特性, 請注意到arrow function不像一般的function有自己的scope, 它沒有擁有(綁定bind)this.</p>
+<div class="code"><pre>
+let name = "Mio";
+
+const intro = (what) => {
+   return `wild${name}, say ${what}.`;
+}
+
+// Arrow Function更簡短的寫法, 當你function只有一行要return時可以使用.
+// const intro = what => `wild${name}, say ${what}.`;
+
+console.log(intro("你好")); // wildMio, say 你好.
+</pre></div>
+<p>Map Method: 使用map可以幫助我們選取某個陣列(Array)的元素(element)來建立另一個陣列, </p>
+<div class="code"><pre>
+let numbers = [1, 2, 3];
+
+const scale = (multiple) => {
+  return numbers.map(num => num * multiple);
+};
+
+console.log(scale(4)); // [4, 8, 12]
+</pre></div>
+<p>Filtering Method: 依照選定的陣列與自定的規則產生另一組過濾過的陣列.</p>
+<div class="code"><pre>
+const numbers = [6, 15.7, 9, 18, 22.1, 9.2, 4];
+
+const dividBy = (base) => {
+  return numbers.filter(num => (num % base === 0));
+};
+
+console.log(dividBy(3)); // [6, 9, 18]
+</pre></div>
+<p>More helper methods: find(), forEach(), reduce(), some(), keys(), values()...</p><br>
+<p>Modules(export &amp; import): Modules是指可以重複使用已經存在於不同檔案的程式碼片段, 利用export與import來調用程式碼片段. 可以溝通傳送的資料型態有function, object, primitive value. 另外還可以使用export default來表示此module的"主要"匯出值/功能, 同一行程式碼只能export default一個物件. </p>
+<div class="code"><pre>
+// 在 excute.js 檔案
+const add = (num1, num2) => num1 + num2;
+const multi = (num1, num2) => num1 * num2;
+
+const exponent = (num1, num2) => num1 ** num2;
+
+export { add, multi };
+export default exponent;
+
+// 在 main.js 檔案
+import { add, multi } from './excute.';
+import exponent from './excute';
+console.log(add(1,2));
+console.log(multi(2,2));
+console.log(exponent(10,3));
+</pre></div>
+<p>Classes: 在javascript中想以OOP(Object-Oriented Programming)風格撰寫程式, 就會用到它-class. </p>
+<div class="code"><pre>
+class Person {
+  constructor(name, race) {
+	this.name = name;
+	this.race = race;
+  }
+
+  greet() {
+	console.log(`Hi, ${this.name} wish you have a nice day.`);
+  }
+}
+let Mio = new Person('Mio', 'earth  man');
+Mio.greet(); // Hi, Mio wish you have a nice day.
+</pre></div>
+<p>Extends: 用來繼承已經存在的class, 假設我們已經有個"形狀"class, 後來我們想寫個"圓形"class, "圓形"就可以繼承"形狀". 注意在javascript使用繼承時, 繼承者的建構函示開頭一定要有super(...).</p>
+<div class="code"><pre>
+class Shape {
+  constructor(color) {
+	this.color = color;
+  }
+
+  show() {
+	console.log(`I have ${this.color} color`);
+  }
+}
+
+class Circle extends Shape{
+  constructor(color) {
+    super(color);
+  }
+
+  show() {
+	console.log('Circle: ');
+	super.show();
+  }
+}
+
+let blackCircle = new Circle('black');
+blackCircle.show();
+</pre></div>

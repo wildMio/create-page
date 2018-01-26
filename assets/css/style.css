@@ -239,8 +239,12 @@ button:focus {
 }
 
 .a-w-b {
-  color: white;
+  color: rgb(204, 71, 0);
   font-weight: bold;
+}
+
+.a-w-b:hover {
+  color: rgb(255, 89, 0);
 }
 
 .log-menu {
