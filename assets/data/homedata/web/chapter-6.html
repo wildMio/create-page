@@ -1,0 +1,643 @@
+<p>此篇為udemy上的課程"<a href="https://www.udemy.com/vue-base/learn/v4/content">Vue入門基礎(vue js)</a>"的課堂筆記.</p>
+<p>搭建vue開發環境有兩種方式, 直接引用vue library或者使用npm安裝, 首先我們先來介紹直接引用vue庫的方法. </p>
+<p>第一種方式: 直接引入vue庫</p>
+<div class="code"><pre>
+  &lt;!-- 1. 引入vue庫 --&gt;
+  &lt;!-- 2. 創建一個標籤 --&gt;
+  &lt;!-- 3. 創建一個vue對象 --&gt;
+
+&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+	&lt;meta charset="UTF-8"&gt;
+	&lt;title&gt;Vue&lt;/title&gt;
+	&lt;!-- 1. 引入vue庫 --&gt;
+	&lt;script src="https://cdn.jsdelivr.net/npm/vue"&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+	&lt;!-- 2. 創建一個標籤 --&gt;
+	&lt;div id="app"&gt;
+		{{`${message} ${mio}`}}
+	&lt;/div&gt;
+	&lt;script type="text/javascript"&gt;
+		// &lt;!-- 3. 創建一個vue對象 --&gt;
+		let app = new Vue({
+			el: '#app',		// vue對象的掛載點
+			data: {
+				message: "hello Vue",	// 自定義數據
+				wild: "野獸",
+				mio: "米歐"
+			}
+		});
+	&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</pre></div>
+<p>第二種方式: 使用npm, 這裡我們使用vue官方提供給我們CLI(命令行工具), 幫助我們搭建基本配置(目錄結構, 本地測試, 代碼部署, 熱加載, 單元測試), 開啟cmd全域安裝"vue-cli"</p>
+<div class="code"><pre>
+npm install -g vue-cli
+</pre></div>
+<p>使用指令來確認我們vue的版本.</p>
+<div class="code"><pre>
+vue -V
+</pre></div>
+<p>接下來我們可以選擇建立專案所用的模板, 可以使用指令來查看官方有提供哪些模板給我們使用.</p>
+<div class="code"><pre>
+vue list
+</pre></div>
+<p>這裡我們選擇webpack當我們的模板, 接下來安裝專案.</p>
+<div class="code"><pre>
+vue init webpack todolist
+</pre></div>
+<p>安裝時會有些選項需要選擇, 可因自己需求改變.</p>
+<div class="code"><pre>
+Project name ...   		直接Enter(默認)
+Project description		直接Enter(默認)
+Author					直接Enter(默認)
+Vue build				選擇Runtime + Compiler
+Install vue-router					n
+Use ESLint to lint your code 		n
+Set up unit tests					n
+Setup e2e tests with Nightwatch		n
+</pre></div>
+<p>建立完成後切換至專案目錄執行提示的指令.</p>
+<div class="code"><pre>
+cd todolist
+npm install
+npm run dev
+</pre></div>
+<p>執行npm run dev後, 用瀏覽器開啟localhost:8080, 就會看到vue頁面了!</p>
+<hr>
+<p>接下來我們來接觸模板指令.</p>
+<p>a.數據渲染: 有v-text, v-html, {{}}. 注意到{{}}就是v-text的簡寫方式. 而v-text與v-html的區別在於, v-text更新元素的textContent, v-html更新元素的innerHtml.</p>
+<div></div>
+<p>b.控制模塊顯示隱藏: 有v-if, v-show. 兩者的區別在於隱藏物件時, 使用v-if的話它就不會把物件數據渲染(繪製)到html, 反之v-show則是把物件數據渲染至html, 但會把style的display屬性設為none來隱藏物件.</p>
+<p>c.渲染循環列表: v-for. 用法就像fon in語法操作陣列元入一樣.</p>
+<div class="code"><pre>
+&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+	&lt;meta charset="UTF-8"&gt;
+	&lt;title&gt;指令學習&lt;/title&gt;
+	&lt;!-- 1. 引入vue庫 --&gt;
+	&lt;script src="https://cdn.jsdelivr.net/npm/vue"&gt;&lt;/script&gt;
+
+	&lt;style type="text/css"&gt;
+		.show {
+			width: 100px;
+			height: 100px;
+			background: orange;
+		}
+		.c-item {
+			display: inline-block;
+			margin: 5px;
+			padding: 5px;
+			border-radius: 5px;
+			font-weight: 900;
+			background: rgba(13, 64, 180, 0.3);
+		}
+	&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+	&lt;!-- 2. 元素(Element) --&gt;
+	&lt;div id="app"&gt;
+		&lt;!-- a. 數據渲染 v-text, v-html, {{}} --&gt;
+		&lt;p v-text="message"&gt;&lt;/p&gt;
+		&lt;p v-html="message"&gt;&lt;/p&gt;
+		&lt;p v-text="title"&gt;&lt;/p&gt;
+		&lt;p v-html="title"&gt;&lt;/p&gt;
+
+		&lt;!-- b. 控制模塊顯示隱藏 v-if, v-show --&gt;
+		&lt;p class="show" v-if="isShow"&gt;v-if&lt;/p&gt;
+		&lt;p class="show" v-show="isShow"&gt;v-show&lt;/p&gt;
+
+		&lt;!-- c. 渲染循環列表 v-for --&gt;
+		&lt;div class="c-item" v-for="item in arr"&gt;
+			{{item}}
+		&lt;/div&gt;
+	&lt;/div&gt;
+
+	&lt;script type="text/javascript"&gt;
+		// 3. 創建Vue對象
+		let app = new Vue({
+			el: "#app",		//el: 掛載點
+			data: {			//data: 數據
+				message: "Hello World!",
+				title: "&lt;h2&gt;指令學習&lt;/h2&gt;",
+				isShow: false,
+				arr: ['1. Html', '2. Css', '3. JavaScript']
+			}
+		});
+	&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</pre></div>
+<p>喘口氣 吃個點心 喝口咖啡 起來動動 接著再來更多的模板指令</p>
+<p>a.事件綁定: v-on. 可以使用"@"來簡寫v-on.</p>
+<p>b.屬性綁定: v-bind. 可以只使用":"來簡寫v-bind.</p>
+<p>c.樣式綁定: v-bind.</p>
+<div class="code"><pre>
+&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+	&lt;meta charset="UTF-8"&gt;
+	&lt;title&gt;模板指令&lt;/title&gt;
+	&lt;script src="https://cdn.jsdelivr.net/npm/vue"&gt;&lt;/script&gt;
+
+	&lt;style type="text/css"&gt;
+		.show {
+			width: 100px;
+			height: 100px;
+			background: rgba(13, 64, 180, 0.3);
+		}
+
+		img {
+			width: 150px;
+			height: 150px;
+		}
+		
+		.view {
+			width: 300px;
+			height: 30px;
+			border: 1px solid gray;
+			margin: 20px auto;
+			line-height: 30px;
+			text-align: center;
+		}
+
+		.active {
+			background: rgba(255, 0, 0, 0.5);
+		}
+	&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+	&lt;div id="app"&gt;
+		&lt;!-- a. 事件綁定 v-on --&gt;
+		&lt;p class="show" v-on:click="speak"&gt;&lt;/p&gt;
+		&lt;p class="show" @click="speak"&gt;&lt;/p&gt;
+
+		&lt;!-- b. 屬性綁定 v-bind --&gt;
+		&lt;img src="https://goo.gl/adYGkA"&gt;
+		&lt;img v-bind:src="imgName"&gt;
+		&lt;img :src="imgName"&gt;
+
+		&lt;!-- c. 樣式綁定 v-bind --&gt;
+		&lt;!-- 
+			isActive為真, 即給該div添加class名稱;
+			isActive為假, 即不給該div添加class名稱;
+		--&gt;
+		&lt;div class="view" v-bind:class="{active:isActive}"&gt;
+			{{message}}
+		&lt;/div&gt;
+	&lt;/div&gt;
+	
+	&lt;script type="text/javascript"&gt;
+		let app = new Vue({
+			el: "#app",
+			data: {
+				imgName: "https://goo.gl/adYGkA",	// 圖片路徑
+				message: "vue入門之模板指令學習",
+				isActive: true
+			},
+			methods: {	// 方法
+				speak: () =&gt; {
+					alert("hello");
+				}
+			}
+		});
+	&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</pre></div>
+<p>雙向數據綁定: v-modal.</p>
+<div class="code"><pre>
+&lt;body&gt;
+	&lt;div id="app"&gt;
+		&lt;input v-model="title"&gt;
+		&lt;p&gt;{{title}}&lt;/p&gt;
+	&lt;/div&gt;
+
+	&lt;script type="text/javascript"&gt;
+		let app = new Vue({
+			el: "#app",
+			data: {
+				title: "Vue入門"
+			}
+		});
+	&lt;/script&gt;
+&lt;/body&gt;
+</pre></div>
+<p>以上就是模板指令的介紹.</p>
+<hr>
+<p>Vue組件中重要選項.</p>
+<p>Vue的實例(new Vue({});): 是Vue框架的入口, 也就是前端的viewModel, 它包含了頁面中的業務邏輯處理, 數據模型等, 它有自己一系列生命週期的事件鉤子, 輔助我們進行對整個Vue實例的生成, 編譯, 掛載, 銷毀等過程進行js控制. </p>
+<p>data數據選項: 代表Vue對象的數據. 創件的Vue對象中的data屬性用來綁定數據到HTML, Vue框架會監測data里的數據變化, 自動更新數據到HTML標籤上去. 本質原理是Vue會自動將data里面的數據進行遞迴轉換成getter和setter, 然後就可以自動更新HTML標籤了.</p>
+<div class="code"><pre>
+&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+	&lt;meta charset="UTF-8"&gt;
+	&lt;title&gt;Vue組件重要選項&lt;/title&gt;
+	&lt;script src="https://cdn.jsdelivr.net/npm/vue"&gt;&lt;/script&gt;
+
+	&lt;style type="text/css"&gt;
+		.test {
+			width: 100px;
+			height: 100px;
+			margin: 5px;
+			padding: 5px;
+			background: rgba(0, 255, 0, 0.3);
+		}
+	&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+	&lt;div class="view"&gt;
+		
+		&lt;div class="test" @click="run"&gt;&lt;/div&gt;
+		&lt;div class="test" @click="speak"&gt;&lt;/div&gt;
+
+		&lt;!-- 
+			根據點擊次數i, 顯示不同的內容: 
+				1~5次: 用點力...
+				6~10次: 沒吃飯ㄇ...
+				11~15次: 沒感覺...
+				16次以上: 麻木了...
+		--&gt;
+		&lt;div class="test" @click="add"&gt;
+			{{strFn}}
+		&lt;/div&gt;
+	&lt;/div&gt;
+
+	&lt;script type="text/javascript"&gt;
+		let app = new Vue({
+			el: ".view",	// 掛載點
+			data: {			// 數據選項
+				message: "hello",
+				i: 0
+			},
+			methods: {		// 方法選項
+				run: function() {
+					alert("跑呀~");
+				},
+				speak: () =&gt; {
+					alert("說呀~");
+				},
+				add: function() {
+					// 訪問數據選項中的內容
+					this.i++;
+					console.log(this.i);
+				}
+			},
+			computed: {		// 計算屬性(方法)
+				strFn: function() {
+					if(this.i &lt;= 5) {
+						return "點我R@___@";
+					} else if(this.i &lt;= 10) {
+						return "沒吃飯ㄇ...";
+					} else if(this.i &lt;= 15) {
+						return "喔喔喔!!!";
+					} else {
+						return "NICE.";
+					}
+				}
+			},
+			watch: {		// 監聽屬性
+				i: function(newValue, oldValue) {
+					console.log(newValue, oldValue);
+				}
+			}
+		});
+	&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</pre></div>
+<hr>
+<p>Vue基礎模板框架代碼學習.</p>
+<p>接下來我們由之前使用CLI所建立的結構目路來探討vue的特性. </p>
+<p>進入根目錄下"src"資料夾->進入"components"資料夾->開啟HelloWorld.vue檔案(./src/components/HelloWorld.vue), 由此檔案我們可以觀察到, vue組件是由三個部分所組成的"template"(HTML), "script"(JavaScript), "style"(CSS), 其中的script區域的export default就像是我們之前所寫的new Vue(), 但處理data數據選項的方式不一樣, 這裡是以data() {return{}}的函數方法來存放數據.</p>
+<p>讓我們來建立一個自己的Vue組件吧! 在components資料夾下建立一個"List.vue"檔案.</p>
+<div class="code"><pre>
+&lt;!-- List.vue 檔案 --&gt;
+
+&lt;!-- HTML --&gt;
+&lt;template&gt;
+	&lt;div class="view"&gt;
+		&lt;h1&gt;{{title}}&lt;/h1&gt;
+	&lt;/div&gt;
+&lt;/template&gt;
+
+&lt;!-- JS --&gt;
+&lt;script&gt;
+// new Vue()
+export default {
+	name: "list",
+	data() {
+		return {
+			title: "TodoList"
+		}
+	}
+}
+&lt;/script&gt;
+
+&lt;!-- CSS --&gt;
+&lt;style&gt;
+	.view {
+		width: 400px;
+		border: 1px solid gray;
+		margin: 20px auto;
+	}
+&lt;/style&gt;
+</pre></div>
+<p>接下來我們要把組件渲染到頁面上, (1.)首先要把組件導入到src資料夾下的"App.vue"組件(import), (2.)在"App.vue"組件中script區域的components屬性註冊"List.vue"組件, (3.)最後在template區域使用組件, 就可以看到你的組件出現在頁面上.</p>
+<div class="code"><pre>
+&lt;!-- App.vue --&gt;
+&lt;template&gt;
+  &lt;div id="app"&gt;
+    &lt;img src="./assets/logo.png"&gt;
+
+    &lt;!-- 3. 組件使用 --&gt;
+    &lt;ListView /&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+// 1. 導入組件 (名稱可以自訂 ListView)
+import ListView from './components/List'
+
+export default {
+  name: 'App',
+  components: {   // 2. 註冊組件
+    ListView
+  }
+}
+&lt;/script&gt;
+
+&lt;style&gt;/* ... */&lt;/style&gt;
+</pre></div>
+<p>那麼又是誰去使用App.vue組件呢, 讓我們回到代碼的起始點, 就是在根目錄下的index.html檔案, 可以看到裡面有一行熟悉的程式碼"&lt;div id="app"&gt;&lt;/div&gt;", 接著進入src資料夾下開啟main.js檔案, 就會發現在此處掛載了組件到index.html上, 並且導入了App.vue組件. </p>
+<div class="code"><pre>
+// main.js檔案
+
+// The Vue build version to load with the `import` command
+// (runtime-only or standalone) has been set in webpack.base.conf with an alias.
+
+// 導入組件 (vue 在 node_modules 可以找到)
+import Vue from 'vue'
+// 導入組件時, 後綴可以忽略不寫 (./App 是當前目錄下的App.vue檔案)
+import App from './App'
+
+Vue.config.productionTip = false
+
+/* eslint-disable no-new */
+// 組件必須是先註冊後使用
+new Vue({
+  el: '#app',			// 在index.html的掛載點
+  components: { App },	// 註冊組件
+  template: '&lt;App/&gt;'	// 使用組件模板
+})
+</pre></div>
+<p>組件的基本架構就是如此, 以下為輕量化的TodoList頁面程式碼.</p>
+<div class="code"><pre>
+&lt;!-- List.vue檔案 --&gt;
+&lt;!-- HTML --&gt;
+&lt;template&gt;
+	&lt;div class="view"&gt;
+		&lt;h1 class="title"&gt;{{title}}&lt;/h1&gt;
+
+		&lt;input v-model="newStr" @keyup.enter="addData"&gt;
+
+		&lt;div v-for="item in items" class="item" v-bind:class="{finish:item.isFinished}" @click="toggleFinish(item)"&gt;
+			{{item.text}}
+		&lt;/div&gt;
+	&lt;/div&gt;
+&lt;/template&gt;
+
+&lt;!-- JS --&gt;
+&lt;script&gt;
+// new Vue()
+export default {
+	name: "list",
+	data() {
+		return {
+			title: "TodoList",	// 標題
+			items: [			// 待辦事項
+				// {
+				// 	text: "事項字串",
+				// 	isFinished: false
+				// }
+			],
+			newStr: ''	// 雙項數據綁定字串
+		}
+	},
+	methods: {
+		toggleFinish: function(item) {
+			// 改變狀態
+			item.isFinished = !item.isFinished;
+		},
+		addData: function() {
+			// 新增事項
+			this.items.push({
+				text: this.newStr,
+				isFinished: false
+			});
+
+			// 清空輸入框顯示
+			this.newStr = '';
+		}
+	}
+}
+&lt;/script&gt;
+
+&lt;!-- CSS --&gt;
+&lt;style&gt;
+	.view {
+		width: 400px;
+		border: 1px solid gray;
+		margin: 20px auto;
+	}
+
+	.view .title {
+		border-bottom: 1px solid gray;
+	}
+
+	.view input {
+		margin-bottom: 10px;
+	}
+
+	.view .item {
+		margin: 10px 0;
+		cursor: pointer;
+	}
+
+	.view .finish {
+		color: gray;
+		text-decoration: line-through;
+	}
+&lt;/style&gt;
+</pre></div>
+<hr>
+<p>Vue組件間通信.</p>
+<p>父組件傳遞數值到子組件: 在components資料夾下建立Header.vue檔案, 並在App.vue檔案導入此組件. 注意到Header.vue檔案script區域的data()函數中有個props屬性, 這就是用來與父組件溝通用的屬性, 如果在父組件使用子組件時, 並未賦值給子組件, 那麼子組件就會使用默認(default)值.</p>
+<div class="code"><pre>
+&lt;!-- Header.vue --&gt;
+&lt;template&gt;
+	&lt;div class="headerview"&gt;
+		&lt;h1&gt;{{msg}}&lt;/h1&gt;
+	&lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+	export default {
+		data() {
+			return {
+				title: "我是標題部分"
+			}
+		},
+		props: {
+			msg: {
+				type: String,
+				default: "我是誰?"
+			}
+		}
+	}
+&lt;/script&gt;
+
+&lt;style&gt;
+&lt;/style&gt;
+
+
+&lt;!-- App.vue --&gt;
+&lt;template&gt;
+  &lt;div id="app"&gt;
+    &lt;!-- 組件使用 --&gt;
+    &lt;!-- &lt;HeaderView msg="父組件傳地數值到子組件" /&gt; --&gt;
+
+    &lt;img src="./assets/logo.png"&gt;
+
+    &lt;!-- 組件使用 --&gt;
+    &lt;ListView /&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+// 導入組件 (名稱可以自訂 ListView)
+import ListView from './components/List';
+import HeaderView from './components/Header';
+
+export default {
+  name: 'App',
+  components: {   // 註冊組件
+    ListView, HeaderView
+  },
+  data() {
+    return {
+      title: "Vue學習父組件傳地數值到子組件"
+    }
+  }
+}
+&lt;/script&gt;
+
+&lt;style&gt;
+/* ... */
+&lt;/style&gt;
+</pre></div>
+<p>子組件向父組件傳遞參數: 首先在子組件設定一個自定義事件, 再在父組件設定處發此事件時的動作. 讓我們以先前的List.vue為例, 在其中的addData函數加入觸發自定義事件, 接下來在父組件(App.vue)綁定(v-on)此觸發事件. </p>
+<div class="code"><pre>
+&lt;!-- List.vue --&gt;
+&lt;!-- HTML --&gt;
+&lt;template&gt;
+&lt;!-- ... --&gt;
+&lt;/template&gt;
+
+&lt;!-- JS --&gt;
+&lt;script&gt;
+// new Vue()
+export default {
+	name: "list",
+	data() {
+		return {
+			title: "TodoList",	// 標題
+			items: [			// 待辦事項
+				// {
+				// 	text: "事項字串",
+				// 	isFinished: false
+				// }
+			],
+			newStr: ''	// 雙項數據綁定字串
+		}
+	},
+	methods: {
+		toggleFinish: function(item) {
+			// 改變狀態
+			item.isFinished = !item.isFinished;
+		},
+		addData: function() {
+			// 新增事項
+			this.items.push({
+				text: this.newStr,
+				isFinished: false
+			});
+
+			// 將輸入框中輸入 傳遞給 父組件
+			// 觸發myMsg事件(自定義事件), 並且傳地參數
+			this.$emit('myMsg', this.newStr);
+
+			// 清空輸入框顯示
+			this.newStr = '';
+		}
+	}
+}
+&lt;/script&gt;
+
+&lt;!-- CSS --&gt;
+/* ... */
+&lt;/style&gt;
+
+
+&lt;!-- App.vue --&gt;
+&lt;template&gt;
+  &lt;div id="app"&gt;
+    &lt;!-- 組件使用 --&gt;
+    &lt;!-- &lt;HeaderView msg="父組件傳地數值到子組件" /&gt; --&gt;
+    &lt;HeaderView :msg="title" /&gt;
+
+
+    &lt;img src="./assets/logo.png"&gt;
+
+    &lt;!-- 組件使用, 綁定子組件自定義事件 --&gt;
+    &lt;ListView @myMsg="getData"/&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+// 導入組件 (名稱可以自訂 ListView)
+import ListView from './components/List';
+import HeaderView from './components/Header';
+
+// App.vue事父組件, ListView事子組件, 組件間通信
+// 父組件 --&gt; 子組件    props選項
+// 子組件 --&gt; 父組件    自定義事件
+
+export default {
+  name: 'App',
+  components: {   // 註冊組件
+    ListView, HeaderView
+  },
+  data() {
+    return {
+      title: "Vue學習父組件傳地數值到子組件"
+    }
+  },
+  methods: {
+    getData(msg) {
+      this.title = msg;
+    }
+  }
+}
+&lt;/script&gt;
+
+&lt;style&gt;
+/* ... */
+&lt;/style&gt;
+</pre></div>
+<p>呼! 恭喜你和我一起上完這堂課啦! 讓我們一步一步向前進吧!</p>
