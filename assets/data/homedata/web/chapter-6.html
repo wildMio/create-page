@@ -1,4 +1,4 @@
-<p>此篇為udemy上的課程"<a href="https://www.udemy.com/vue-base/learn/v4/content">Vue入門基礎(vue js)</a>"的課堂筆記.</p>
+<p>此篇為udemy上的課程"<a class="a-w-b" href="https://www.udemy.com/vue-base/learn/v4/content">Vue入門基礎(vue js)</a>"的課堂筆記.</p>
 <p>搭建vue開發環境有兩種方式, 直接引用vue library或者使用npm安裝, 首先我們先來介紹直接引用vue庫的方法. </p>
 <p>第一種方式: 直接引入vue庫</p>
 <div class="code"><pre>
@@ -641,3 +641,155 @@ export default {
 &lt;/style&gt;
 </pre></div>
 <p>呼! 恭喜你和我一起上完這堂課啦! 讓我們一步一步向前進吧!</p>
+<hr>
+<p>YoYoYo, 了解了Vue組件的基本概念, 我們來看一下如果是直接引用Vue庫, 該如何使用Vue組件(component)的方法吧. (1.)建立組件, (2.)註冊組件, (3.)使用組件.</p>
+<div class="code"><pre>
+&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+	&lt;meta charset="UTF-8"&gt;
+	&lt;title&gt;組件使用&lt;/title&gt;
+	&lt;script src="https://cdn.jsdelivr.net/npm/vue"&gt;&lt;/script&gt;
+	&lt;style type="text/css"&gt;
+		* {
+			box-sizing: border-box;
+			margin: 0;
+			padding: 0;
+			text-align: center;
+		}
+		
+		.vue-text {
+			font-size: 1.5em;
+			margin: 10px auto;
+			color: rgba(12, 34, 56, 0.7);
+		}
+
+		.vue-btn {
+			border: none;
+			outline: none;
+			background: rgb(12, 34, 56);
+			color: white;
+			padding: 20px;
+			border-radius: 10px;
+			font-size: 1.3em;
+		}
+
+	&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+	&lt;div id="app"&gt;
+		&lt;!-- 3. 使用組件 --&gt;
+		&lt;counter v-bind:add-num="10" /&gt;
+	&lt;/div&gt;
+
+	&lt;script&gt;
+		// 1. 建立組件
+		let counter = Vue.component('counter',{
+			template: `
+				&lt;div&gt;
+					&lt;div class="vue-text"&gt;Count: {{this.count}}&lt;/div&gt;
+					&lt;button class="vue-btn" @click="increment"&gt;Increment by {{this.addNum}}&lt;/button&gt;
+				&lt;/div&gt;
+			`,
+			props: {
+				addNum: {
+					type: Number,
+					default: 1
+				}
+			},
+			data() {
+				return {
+					count: 0
+				}
+			},
+			methods: {
+				increment() {
+					this.count += this.addNum;
+				}
+			}
+		});
+
+		let app = new Vue({
+			el: '#app',
+			// 2. 註冊組件
+			components: {
+				counter
+			}
+		})
+	&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</pre></div>
+<p>Lifecycle Hooks: (a.)created: 在繪製元素前呼叫, (b.)mounted: 在會至元素之後呼叫, (c.)updated: 在更新元素後會呼叫.</p>
+<div class="code"><pre>
+&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+	&lt;meta charset="UTF-8"&gt;
+	&lt;title&gt;Lifecycle Hooks&lt;/title&gt;
+	&lt;script src="https://cdn.jsdelivr.net/npm/vue"&gt;&lt;/script&gt;
+	&lt;style type="text/css"&gt;
+		* {
+			box-sizing: border-box;
+			margin: 0;
+			padding: 0;
+			text-align: center;
+		}
+		
+		.vue-text {
+			font-size: 1.5em;
+			margin: 10px auto;
+			color: rgba(12, 34, 56, 0.7);
+		}
+
+		.vue-btn {
+			border: none;
+			outline: none;
+			background: rgb(12, 34, 56);
+			color: white;
+			padding: 20px;
+			border-radius: 10px;
+			font-size: 1.3em;
+		}
+
+	&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+	&lt;div id="app"&gt;
+		&lt;div class="vue-text"&gt;
+			Count: {{count}}
+		&lt;/div&gt;
+		&lt;button class="vue-btn" @click="increment"&gt;Increment&lt;/button&gt;
+	&lt;/div&gt;
+
+	&lt;script&gt;
+		let app = new Vue({
+			el: '#app',
+			data: {
+				count: 0
+			},
+			methods: {
+				alertTime(fromWhere) {
+					return `From ${fromWhere}: The time is ${Date.now().toLocaleString()}`;
+				},
+				increment() {
+					this.count++;
+				}
+			},
+			// a.
+			created() {
+				alert(this.alertTime('created'));
+			},
+			// b.
+			mounted() {
+				alert(this.alertTime('mounted'));
+			},
+			// c.
+			updated() {
+				console.log(`this.count: ${this.count}`);
+			}
+		})
+	&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</pre></div>

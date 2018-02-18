@@ -23,6 +23,10 @@
 		{
 			"title": "Vue開發環境搭建",
 			"url": "chapter-6.html"
+		},
+		{
+			"title": "常見的網站安全與漏洞(Web Security or Hacking)",
+			"url": "chapter-7.html"
 		}
 	],
 	"guitar": [

@@ -1,0 +1,83 @@
+<p>此篇文章為觀看udemy上的課程"<a class="a-w-b" href="https://www.udemy.com/hacking-websites-for-beginners/learn/v4/overview">Web Hacking for Beginners</a>"的課堂筆記, 方便日後使用.</p>
+<p>駭入網站有下列幾種常見的技術, 像是: <br><br>&nbsp;&nbsp;-&nbsp;SQL Injection. <br>&nbsp;&nbsp;-&nbsp;Cross-Site Scripting (XSS). <br>&nbsp;&nbsp;-&nbsp;Cross-site Request Forgery (CSRF). <br>&nbsp;&nbsp;-&nbsp;Browser Exploitation (BeEF). <br>&nbsp;&nbsp;-&nbsp;Phishing Attack. <br>&nbsp;&nbsp;-&nbsp;更多... <br><br></p><hr>
+<p style="text-align: center;"><strong style="font-size: 1.3em;">準備測試環境</strong></p>
+<p>這裡我們使用"<a href="https://sourceforge.net/projects/xampp/?source=directory" class="a-w-b">XAMPP</a>"與"<a href="https://sourceforge.net/projects/mutillidae/?source=directory" class="a-w-b">OWASP</a>"來當我們的測試工具. XAMPP是用來發布我們當地(localhost)網站應用程式的工具, 它整合了跨平台的環境, 提供Apache, MySQL, 和 PHP的各種支援. OWASP是一款開源的免費資源, 它提供給我們可以輕鬆上手的測試網頁漏洞環境架設.</p>
+<p>安裝完XAMPP後, 啟動程式在Apache和MySQL的Actions按下Start, 接著我們開啟資料夾XAMPP(C:\xampp)底下的htdocs, 這裡就是我們擺放網頁應用程式的目錄, 接下來我們把OWASP解壓縮後的檔案放在此目錄下, 用瀏覽器開啟"127.0.0.1/mutillidae/", 點擊反藍文字"setup/reset the DB", 順利開啟OWASP網頁!</p>
+<p>"<a href="https://subgraph.com/vega/download/index.en.html" class="a-w-b">Vega</a>": 是一款開源的工具, 提供我們測試網頁應用程式安全性與漏洞的掃描器, 可以幫助我們找到諸如以下的漏洞: <br>&nbsp;&nbsp;-&nbsp;SQL Injection. <br>&nbsp;&nbsp;-&nbsp;Cross-Site Scripting (XSS). <br>&nbsp;&nbsp;-&nbsp;Store cross-site scripting. <br>&nbsp;&nbsp;-&nbsp;Blind SQL injection. <br>&nbsp;&nbsp;-&nbsp;更多... <br></p>
+<p>啟動Vega後, 點擊Scan選擇Start New Scan, 輸入網址點擊Next, 選擇你要測試的漏洞後按下Finish, 如果網站有漏洞則會顯示在主畫面上, 可以點擊左側Sacn Alerts內的項目細看漏洞詳細說明.</p>
+<hr>
+<p style="text-align: center;"><strong style="font-size: 1.3em;">SQL Injection</strong></p>
+<p>SQL Injection: 是在使用者可以輸入的欄位, 插入SQL命令(SQL commands)並傳送給資料庫伺服器(database server), 使之來執行命令, 一般有以下幾種攻擊類型: <br>&nbsp;&nbsp;-&nbsp;Authentication Bypass. <br>&nbsp;&nbsp;-&nbsp;Insert, modify or delete data. <br>&nbsp;&nbsp;-&nbsp;Extracting data. <br></p>
+<p>SQL Injection Attack work: 在之前我們所開啟的OWASP網頁上, 選擇"OWASP 2017=>A1 - Injection (SQL)=>SQLi - Extract Data=>User Info (SQL)", 在Name欄為輸入單引號 ' 後按下Enter, 觀察下面的錯誤訊息, 在Message欄的最後一行"Query: SELECT..."可以看到我們已經成功地注入SQL命令, 接下來在Name欄為輸入指令 ' or 1=1 # 後按下Enter, 會發現我們不需要輸入password即可取得資料庫的資料, 我們來解析上面這行的意思, 單引號"'"用來截斷Query, "or 1=1"表示接下來都是true(只要表示式為true即可,例:2=2), "#"表示井號之後皆忽略. 你也可以在上面的導航欄選擇Login/Register後, 在Username輸入上面的指令(' or 3=3 #)後登入, 會看到以Admin的身分登入了. 也可以指定某個名字登入, 假設我們要以Username為john的帳號登入, 只需在Username輸入指令 john ' # 後登入. 接下來我們來看看SQL Query背後的運作原理: </p>
+<div class="code"><pre>
+	Query: SELECT * FROM table name WHERE username='' AND password=''
+	↓
+	Query: SELECT * FROM table name WHERE username='john' # AND password=''
+</pre></div>
+<p><a href="http://sqlmap.org/" class="a-w-b">sqlmap</a>: 這是個強大的SQL Injection工具, 可以幫你提取資料庫的各種資訊(資料庫名稱, 欄位名稱...), 此時我們需要一個方便攻擊的網站, 在此<a href="https://ma.ttias.be/sql-injection-test-targets-websites/" class="a-w-b">網站</a>的列表中選擇一個測試網站, 使用Vega檢測測試網站的SQL Injection安全性, 在Sacn Alerts欄選擇可以攻擊的項目, 看到項目詳細資料中的REQUEST即是我們攻擊的點, 這裡我們選擇"testasp.vulnweb.com"網站當範例, 打開控制台(Anaconda Prompt)輸入以下指令"sqlmap.py -u http://testasp.vulnweb.com/showforum.asp?id=1",(sqlmap的用法可以輸入指令sqlmap.py -h查詢) 它會詢問幾點事項, 選擇範例如下:<br>&nbsp;&nbsp;it looks like the back-end DBMS is 'Microsoft SQL Server'. Do you want to skip test payloads specific for other DBMSes? [Y/n] Y <br>&nbsp;&nbsp;for the remaining tests, do you want to include all tests for 'Microsoft SQL Server' extending provided level (1) and risk (1) values? [Y/n] n <br>&nbsp;&nbsp;GET parameter 'id' is vulnerable. Do you want to keep testing the others (if any)? [Y/n] n <br>等它跑完後, 可以看到一些資訊, 再來輸入指令"sqlmap.py -u http://testasp.vulnweb.com/showforum.asp?id=1 --dbs", 它會取得並顯示資料庫資訊, 接下來輸入指令"sqlmap.py -u http://testasp.vulnweb.com/showforum.asp?id=1 --tables -D acublog", 它會下載並顯示表格的column名稱, 接著輸入指令"sqlmap.py -u http://testasp.vulnweb.com/showforum.asp?id=1 --columns -D acublog -T users", 這可以讓你看到users的內容, 接著輸入"sqlmap.py -u http://testasp.vulnweb.com/showforum.asp?id=1 --dump -D acublog -T users", 它會詢問一些選項, 接使用默認即可, 接下來就會開始跑破解程序, 結束後會顯示破解的資訊. </p>
+<p>Preventing SQL Injection: 為了防止SQL注入, 我們可以預先處理使用者輸入的文字, 推薦client端與server端都做確認, 以下提供php可用的處理自串方法: </p>
+<p>&nbsp;php:</p>
+<div class="code"><pre>
+&lt;?php
+	...
+	// $id 為使用者所輸入的字串, 在$id丟給sql query前先對自串處理
+	$id = $_GET['id'];
+	$id = stringslashes($id);
+	$id = mysql_real_escape_string($id);
+	...
+	$getid = "SELECT first_name, last_name FROM users WHERE user_id = '$id'";
+	$result = mysql_query($getid) or die('&lt;pre&gt;' . mysql_error() . '&lt;/pre&gt;');
+	...
+&gt;
+</pre></div>
+<hr>
+<p style="text-align: center;"><strong style="font-size: 1.3em;">WordPress Exploitation</strong></p>
+<p>WPScan(windows無支援): 如果你是使用WordPress來建立網站, 可以使用這一款工具, 幫助你檢測已知的安全性弱點, 主要有以下幾項: <br>&nbsp;&nbsp;-&nbsp;Username enumeration (from the author). <br>&nbsp;&nbsp;-&nbsp;Multi-threaded, weak password cracking. <br>&nbsp;&nbsp;-&nbsp;Version enumeration, vulnerability enumeration, plugin enumeration. <br>現在我們來安裝WordPress到我們的本地端電腦上, 至<a href="https://wordpress.org/" class="a-w-b">WordPress</a>下載檔案, 並解壓縮至XAMPP擺放檔案的資料夾下(C:\xampp\htdocs), 接下來打開XAMPP運行Apache和MySQL, 使用瀏覽器打開WordPress頁面, 這裡是架設WordPress網站的流程, 在此暫時不多描述, 暫且跳過.</p>
+<p>Secure Your WordPress Website: 選擇WordPress頁面上的項目(Plugins->Add New), 在搜尋欄位搜尋"All in one WP security", 安裝(Install Now)首選"All In One WP Security &amp; Firewall", 安裝完後按下activate, 可以在狀態欄看到多出了"WP Security", 接著點擊WP Security下的Settings, 選擇WP Version Info, 勾選Remove WP Generator Meta Info後保存(Save Settings), 接著選擇狀態欄的User Accounts, 更改你的使用者名稱, (未完成).</p>
+<hr>
+<p style="text-align: center;"><strong style="font-size: 1.3em;">Cross-Site Scripting(XSS)</strong></p>
+<p>Cross Site Scripting: 是透過網頁漏洞注入惡毒的Javascript, 使其他使用者執行不可預期的指令, 主要有以下兩種型態: <br>&nbsp;&nbsp;-&nbsp;Stored XSS. <br>&nbsp;&nbsp;-&nbsp;Reflected XSS. <br>接下來我們示範兩個案例. <br>1.Reflected XSS: 開啟OWASP選擇項目"OWASP 2017=> A3 - Cross Site Scripting (XSS) => Reflected (First Order) => DNS Lookup", 在Hostname/IP欄輸入"&lt;script&gt;alert('You have been Hacked!')&lt;/script&gt;", 點擊Lookup DNS, 使用開發者工具可以觀察到code以被注入到頁面. <br>2. Stored XSS: 開啟OWASP選擇項目"OWASP 2017=> A3 - Cross Site Scripting (XSS) => Persistent (Second Order) => Add to your blog", 在輸入欄輸入"&lt;script&gt;alert('document.cookie')&lt;/script&gt;", 點擊Save Blog Entry, 重新整理頁面, 就會發現你的資訊已洩漏了, 加個iframe框架讓使用者自動把隱私傳遞出去.</p>
+<p>Preventing Cross-Site Scripting attacks: 對自串做預先處理, 這裡提供PHP與Javascript的處理方法.</p>
+<div class="code"><pre>
+&lt;?php
+	function prevent($string) {
+		return htmlspecialchars($string, ENT_QUOTES, 'UTF-8');
+	}
+&gt;
+</pre></div>
+<div class="code"><pre>
+//javascript
+function preventstr(preventstr) {
+  var map = {
+    '&amp;': '&amp;amp;',
+    '&lt;': '&amp;lt;',
+    '&gt;': '&amp;gt;',
+    '&quot;': '&amp;quot;',
+    "&#039;": '&amp;#039;'
+  };
+	return preventstr.replace(/[&amp;&lt;&gt;"']/g, function(m) { return map[m]; });
+}
+</pre></div>
+<hr>
+<p style="text-align: center;"><strong style="font-size: 1.3em;">BeEF</strong></p>
+<p>"<a href="http://beefproject.com/" class="a-w-b">BeEF官方網站</a>", 有興趣可以前往了解.</p>
+<p><a href="https://chrome.google.com/webstore/detail/vegan/longcaclchhmdpgcdjicmaghmpbdidlj/related?hl=zh-TW" class="a-w-b">Vegan</a>: chrome的擴充功能, 可以阻擋BeEF.</p>
+<hr>
+<p style="text-align: center;"><strong style="font-size: 1.3em;">其他攻擊方法</strong></p>
+<p>這邊提供幾個其它有可能的攻擊方法, 有興趣可以自行摸索: <br>&nbsp;&nbsp;-&nbsp;<a href="http://blog.csdn.net/yaofeino1/article/details/54409187" class="a-w-b">Weevely PHP Backdoor</a>. 使用工具: <a href="https://github.com/epinna/weevely3" class="a-w-b">weevely</a><br>&nbsp;&nbsp;-&nbsp;<a href="https://blog.techbridge.cc/2017/02/25/csrf-introduction/" class="a-w-b">CSRF Attack</a>. <br>&nbsp;&nbsp;-&nbsp;<a href="https://zh.wikipedia.org/wiki/%E9%92%93%E9%B1%BC%E5%BC%8F%E6%94%BB%E5%87%BB" class="a-w-b">Phishing Attack</a>. 使用工具: <a href="https://github.com/trustedsec/social-engineer-toolkit" class="a-w-b">setoolkit</a><br></p>
+<hr>
+<p style="text-align: center;"><strong style="font-size: 1.3em;">How to stay safe on the Web</strong></p>
+<p>
+	<ul>
+		<li>Vega Scanner (test the security and vulnerability of web applications).</li>
+		<li>Change Your Admin Username.(如果使用WordPress建立網站)</li>
+		<li>Security Plugins (all in one WP security, brute force login protection).</li>
+		<li>File Uploads (enable users or customers to upload documents and images).</li>
+		<li>SSL/TLS (secure sockets layer &amp; transport layer security).</li>
+		<li>HTTPs URLs begin with https:// (used for secure communication).</li>
+		<li>Wireless Connection (use WPA/WPA2 encryption).</li>
+		<li>Antivirus Software (Kaspersky, Avira, Bitdefender, etc).</li>
+		<li>Chrome &amp; Firefox.</li>
+		<li>Phishing (social engineering attack often used to steal user data).</li>
+	</ul>
+</p>
