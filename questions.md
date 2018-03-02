@@ -30,9 +30,9 @@ wildMio: 此文為在zushenyan提供的前端面試問題集(https://github.com/
 #### <a name='general-questions'>常見問題：</a>
 
 * 你昨天或這週學習了什麼？
-  * Server-side Rendering(SSR)
+>>  * Server-side Rendering(SSR)
 * 寫程式的哪部份最讓你感到很興奮或是有興趣？
-  * 每當解決一小塊程式碼, 或將網頁版面某區塊配置完成, 都可以讓我開心.
+>>  * 每當解決一小塊程式碼, 或將網頁版面某區塊配置完成, 都可以讓我開心.
 * 最近有無遇過不容易的技術性問題，又如何解決？
 * 當你開發Web應用程式或網站時，針對UI、安全性、效能、SEO、維護性，以及技術，你考量的點是什麼？
 * 說說你喜好的開發環境 (作業系統, 編輯器或 IDE, 瀏覽器, 開發工具 … 之類)。
@@ -42,10 +42,10 @@ wildMio: 此文為在zushenyan提供的前端面試問題集(https://github.com/
 * 你可以描述漸進增強 (progressive enhancement) 和優美退化 (graceful degradation) 間的差異嗎？
 * 你怎麼優化一個網站的靜態檔案 (assets) 和資源 (resources)？
 * 說出三種能加快網頁讀取速度的方法 (感覺上的速度或是真正的讀取時間)。
-  * 啟用文字壓縮 (Enable text compression)
-  * 減少樣式渲染停滯 (Reduce render-blocking stylesheets)
-  * 內容區塊在使用者屏幕上在讀取 (offscreen images)
-  * 服務器端渲染 (Server-side Rendering)
+>>  * 啟用文字壓縮 (Enable text compression)
+>>  * 減少樣式渲染停滯 (Reduce render-blocking stylesheets)
+>>  * 內容區塊在使用者屏幕上在讀取 (offscreen images)
+>>  * 服務器端渲染 (Server-side Rendering)
 * 如果你加入了一個專案，但是他們的程式碼用 tabs，但是你習慣用spaces (空白鍵)，你會怎麼做？
 * 寫一個簡易的投影片頁面。
 * 你用什麼工具來測試你的程式碼效能？
