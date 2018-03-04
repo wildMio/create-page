@@ -30,35 +30,58 @@ wildMio: 此文為在zushenyan提供的前端面試問題集(https://github.com/
 #### <a name='general-questions'>常見問題：</a>
 
 * 你昨天或這週學習了什麼？
->>  * Server-side Rendering(SSR)
+>> * Server-side Rendering(SSR)
 * 寫程式的哪部份最讓你感到很興奮或是有興趣？
->>  * 每當解決一小塊程式碼, 或將網頁版面某區塊配置完成, 都可以讓我開心.
+>> * 每當解決一小塊程式碼, 或將網頁版面某區塊配置完成, 都可以讓我開心.
 * 最近有無遇過不容易的技術性問題，又如何解決？
 * 當你開發Web應用程式或網站時，針對UI、安全性、效能、SEO、維護性，以及技術，你考量的點是什麼？
+>> * 技術 === UI === 安全性 > 效能 === 維護性 > SEO.
 * 說說你喜好的開發環境 (作業系統, 編輯器或 IDE, 瀏覽器, 開發工具 … 之類)。
+>> * window7, sublime, chrome.
 * 你最熟悉哪一套版本控制系統？
+>> * Git.
 * 你可以描述你在開發一個網站時的工作流程嗎？
+>> * 簡易畫出構想架構->使用html拉出基礎面板->加入事件處發處理(javascript)與美化(css).
 * 如果有 5 種不同的樣式表 (stylesheets)，該如何整併到網站？
+>> * 將樣式表合併到網站後, 使用chrome提供的dev tools查看要作取捨的樣式.
 * 你可以描述漸進增強 (progressive enhancement) 和優美退化 (graceful degradation) 間的差異嗎？
+>> * 優美退化: 一開始建構網站時使用最新的環境與技術, 接著針對較舊的平台撰寫可執行的程式. 
+>> * 漸進增強: 建構網站時, 首先確保基本功能在任何環境平台皆可執行, 在逐步加入新技術與功能.
 * 你怎麼優化一個網站的靜態檔案 (assets) 和資源 (resources)？
+>> * 合併, 壓縮CSS(刪去空白,縮排).
+>> * 對圖片進行處理(調整尺寸,壓縮圖片).
 * 說出三種能加快網頁讀取速度的方法 (感覺上的速度或是真正的讀取時間)。
->>  * 啟用文字壓縮 (Enable text compression)
->>  * 減少樣式渲染停滯 (Reduce render-blocking stylesheets)
->>  * 內容區塊在使用者屏幕上在讀取 (offscreen images)
->>  * 服務器端渲染 (Server-side Rendering)
+>> * 啟用文字壓縮 (Enable text compression)
+>> * 減少樣式渲染停滯 (Reduce render-blocking stylesheets)
+>> * 內容區塊在使用者屏幕上在讀取 (offscreen images)
+>> * 服務器端渲染 (Server-side Rendering)
+>> * CDN
 * 如果你加入了一個專案，但是他們的程式碼用 tabs，但是你習慣用spaces (空白鍵)，你會怎麼做？
+>> * 使用編輯器的工具, 更改按件縮進格數. 或者試著使用不同的按鍵.
 * 寫一個簡易的投影片頁面。
 * 你用什麼工具來測試你的程式碼效能？
+>> * 使用Chrome提供的dev tools.
 * 如果今年你能精通一項技術，那會是什麼？
+>> * web基礎知識
 * 描述標準和製定標準機構的重要性？
+>> * 有標準=> 有易用性, 可到達性.
 * 什麼是 Flash of Unstyled Content？ 你怎麼避免 FOUC？
+>> * 使用Javascript更改樣式的網站, 會在樣式更改前加載好網頁內容, 此時後就出現未加載樣式的內容, 當javascript加載時, 使用者就會看見頁面上的樣式更動.
+>> * 最簡單的方法是將Javascript文件加載放在&lt;/head&gt;前, 但會阻塞頁面元素的下載與渲染.
+>> * SSR(Server-side-Rendering).
 * 解釋什麼是 ARIA 與 screenreaders，它們是怎麼樣讓網站使用更無障礙？
+>> * 為元素元件加入角色屬性(role), 還有aria-...屬性可以附加到原件, 這些屬性幫助使用者(使用輔助科技的使用者)了解元件的更多資訊.
 * 解釋 CSS 動畫與 JavaScript 動畫之間的憂與劣。
+>> * 基本的動畫兩者皆可實行, 差別在於投入的時間和精力多寡.
+>> * 如果想要複雜控制動畫時, 請使用JavaScript.(動態追蹤輕觸位置, 停止, 暫停, 減速, 倒轉.)
+>> * 使用Javascript寫動畫, 推薦使用 requestAnimationFrame ()函數取代 setTimeout()函數.
 * CORS 是什麼，它解決了什麼問題？
+>> * 跨來源資源共享 (Cross-Origin Resource Sharing), MDN有詳細介紹CORS(https://developer.mozilla.org/zh-TW/docs/Web/HTTP/CORS).
 
 #### <a name='html-questions'>HTML 問題:</a>
 
 * `doctype` 做什麼用的？
+>> * 用來指示瀏覽器使用哪個HTML版本進行編寫頁面.
 * standards mode 和 quirks mode 有什麼不同？
 * 使用 XHTML 有什麼限制？?
 * 如果網頁使用 `application/xhtml+xml` 會有問題嗎？
