@@ -18,8 +18,6 @@
  * HTML
  * CSS
  * JavaScript
- * Vue
- * React
  * Firebase
  * RWD
  * PWA
