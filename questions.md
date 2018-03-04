@@ -46,10 +46,12 @@ wildMio: 此文為在zushenyan提供的前端面試問題集(https://github.com/
 >> * 將樣式表合併到網站後, 使用chrome提供的dev tools查看要作取捨的樣式.
 * 你可以描述漸進增強 (progressive enhancement) 和優美退化 (graceful degradation) 間的差異嗎？
 >> * 優美退化: 一開始建構網站時使用最新的環境與技術, 接著針對較舊的平台撰寫可執行的程式. 
->> * 漸進增強: 建構網站時, 首先確保基本功能在任何環境平台皆可執行, 在逐步加入新技術與功能.
+>> * 漸進增強: 建構網站時, 首先確保基本功能在任何環境平台皆可執行, 在逐步加入新技術與功能. 
+>> * 參考來源:http://augus-blog.logdown.com/posts/143403-graceful_degradation_and_progressive_enhancement
 * 你怎麼優化一個網站的靜態檔案 (assets) 和資源 (resources)？
 >> * 合併, 壓縮CSS(刪去空白,縮排).
->> * 對圖片進行處理(調整尺寸,壓縮圖片).
+>> * 對圖片進行處理(調整尺寸,壓縮圖片). 
+>> * 參考來源: https://itw01.com/GGHTEZR.html
 * 說出三種能加快網頁讀取速度的方法 (感覺上的速度或是真正的讀取時間)。
 >> * 啟用文字壓縮 (Enable text compression)
 >> * 減少樣式渲染停滯 (Reduce render-blocking stylesheets)
@@ -65,25 +67,32 @@ wildMio: 此文為在zushenyan提供的前端面試問題集(https://github.com/
 >> * web基礎知識
 * 描述標準和製定標準機構的重要性？
 >> * 有標準=> 有易用性, 可到達性.
+>> * 參考來源: https://zh.wikipedia.org/wiki/%E7%B6%B2%E9%A0%81%E6%A8%99%E6%BA%96
 * 什麼是 Flash of Unstyled Content？ 你怎麼避免 FOUC？
 >> * 使用Javascript更改樣式的網站, 會在樣式更改前加載好網頁內容, 此時後就出現未加載樣式的內容, 當javascript加載時, 使用者就會看見頁面上的樣式更動.
 >> * 最簡單的方法是將Javascript文件加載放在&lt;/head&gt;前, 但會阻塞頁面元素的下載與渲染.
 >> * SSR(Server-side-Rendering).
+>> * 參考來源: https://zfanw.com/blog/flash-of-unstyled-content.html
 * 解釋什麼是 ARIA 與 screenreaders，它們是怎麼樣讓網站使用更無障礙？
 >> * 為元素元件加入角色屬性(role), 還有aria-...屬性可以附加到原件, 這些屬性幫助使用者(使用輔助科技的使用者)了解元件的更多資訊.
 * 解釋 CSS 動畫與 JavaScript 動畫之間的憂與劣。
 >> * 基本的動畫兩者皆可實行, 差別在於投入的時間和精力多寡.
->> * 如果想要複雜控制動畫時, 請使用JavaScript.(動態追蹤輕觸位置, 停止, 暫停, 減速, 倒轉.)
+>> * 如果想要複雜控制動畫時, 請使用JavaScript.(動態追蹤輕觸位置, 停止, 暫停, 減速, 倒轉.) 
 >> * 使用Javascript寫動畫, 推薦使用 requestAnimationFrame ()函數取代 setTimeout()函數.
+>> * 參考來源: https://developers.google.com/web/fundamentals/design-and-ux/animations/css-vs-javascript
 * CORS 是什麼，它解決了什麼問題？
->> * 跨來源資源共享 (Cross-Origin Resource Sharing), MDN有詳細介紹CORS(https://developer.mozilla.org/zh-TW/docs/Web/HTTP/CORS).
+>> * 跨來源資源共享 (Cross-Origin Resource Sharing), MDN有詳細介紹CORS.
+>> * 參考來源: https://developer.mozilla.org/zh-TW/docs/Web/HTTP/CORS.
 
 #### <a name='html-questions'>HTML 問題:</a>
 
 * `doctype` 做什麼用的？
 >> * 用來指示瀏覽器使用哪個HTML版本進行編寫頁面.
 * standards mode 和 quirks mode 有什麼不同？
+>> * 瀏覽器解析網頁所使用的排版引擎, 在quirks mode 排版繪模擬Navigator 4 與 Internet Explore 5 的非標準行為, 為了支持在網路標準被廣泛採用前, 就已經建置好的網站, 這麼做是必要的. 在standards mode, 網頁行為(期待)油HTML與CSS的規範描述起來.
+>> * 參考來源:https://developer.mozilla.org/zh-TW/docs/Web/HTML/Quirks_Mode_and_Standards_Mode
 * 使用 XHTML 有什麼限制？?
+>> * XHTML是一種類似於HTML的標記語言, 但有更嚴格的語法
 * 如果網頁使用 `application/xhtml+xml` 會有問題嗎？
 * 你怎麼做一個需要支持多國語言的網頁？
 * 當開發和設計一個多國語言網站時，有什麼需要小心的？
@@ -120,6 +129,8 @@ wildMio: 此文為在zushenyan提供的前端面試問題集(https://github.com/
 * 解釋瀏覽器如何按照 CSS selector 找到對應的 element。
 * 解釋你所認知的 box model，以及你如何在 CSS 告訴瀏覽器使用不同 box model 來呈現圖層？
 * 請解釋 `* { box-sizing: border-box; }`？並且說明使用它的好處？
+>> * 使box-model的寬(width)和高(height)不因border與padding而隨之改變.
+>> * 參考資料: https://atomiks.github.io/30-seconds-of-css/#box-sizing-reset
 * 請列出您記憶中 display 屬性的全部值。
 * 請說明 inline 和 inline-block 的差異性？
 * 請說明 relative、fixed、absolute 和 static 元件差異性？
