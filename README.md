@@ -6,6 +6,7 @@
 * 個人網站: https://wildmio.github.io/create-page/
 * 電子信箱: zll12545@gmail.com
 * 希望待遇: 依公司規定
+* 服役紀錄: 役畢(2016).
 
 <hr>
 
