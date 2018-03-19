@@ -5,7 +5,7 @@
 * 目前打算一步一步建立的網站: https://wildmio.github.io/wildmio/
 * 個人網站: https://wildmio.github.io/create-page/
 * 電子信箱: zll12545@gmail.com
-* 希望待遇: 依公司規定
+* 希望待遇: 面議.
 * 服役紀錄: 役畢(2016).
 
 <hr>
@@ -30,13 +30,12 @@
  * JavaScript
  * Firebase
  * RWD
- * PWA
  
 <hr>
 
 ## 語言能力
 
- * 英語 - 中等
+ * 英語 - 一般
 
 <hr>
 
@@ -50,7 +49,7 @@
 ## 未來計劃
  * 進入團隊, 看見不同的視野.
  * 目前打算一步一步建立的網站: https://wildmio.github.io/wildmio/
- * 一天一LeetCode
+ * 一天 LeetCode 30min↑
  * 學習接觸網站的更多知識與技巧
  * Google提供的網頁基礎講解 - https://developers.google.com/web/fundamentals/
  * 持續關注在Youtube上的Google Chrome Developers頻道 - https://www.youtube.com/user/ChromeDevelopers/videos

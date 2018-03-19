@@ -97,19 +97,38 @@ wildMio: 此文為在zushenyan提供的前端面試問題集(https://github.com/
 * 你怎麼做一個需要支持多國語言的網頁？
 * 當開發和設計一個多國語言網站時，有什麼需要小心的？
 * `data-` 屬性的好處在哪？
+>> * 可以使用自定義屬性名稱, 注意到屬性名稱必須小寫.
 * 考慮 HTML5 作為一個開放式的網站平台，組成 HTML5 的技術有哪些？
+>> * 廣義的HTML5是由HTML, CSS, JavaScript所組成的
 * 請描述 `cookies`, `sessionStorage` 和 `localStorage` 的不同？
+>> * 生命週期的不同.
+>> * `sessionStorage`: 分頁關閉時資料即會清空.
+>> * `localStorage`: 透過Javascript手動清空或是使用者清除快取時, 資料才會清空.
+>> * `cookies`: 資料儲存至使用者設定的生命週期或是使用者手動清空.
 * 描述下列之間的不同 `<script>`, `<script async>` & `<script defer>`。
+>> * `<script>`: 下載js檔後, 頁面會停止載入直到執行完此js後頁面才會繼續載入.
+>> * `<script async>`: 下載js檔後, 執行此js時也會繼續載入頁面及其他js.
+>> * `<script defer>`: 下載js檔後, 等到整個頁面下載及分析繪製完後, 才會執行此js檔.(類似將`<script>`放在`</body>`前)
 * 為什麼把 CSS `<link>` 放在 `<head></head>` 之間，與將 JS `<script>` 放在 `</body>` 之前是個較好的主意？有什麼例外情形嗎？
+>> * `CSS <link>`: 放在head中較好, 如此可避免頁面顯示出未經過css樣式處裡的內容.
+>> * `<script>`: 將腳本放在head部分, 可以保證腳本在任何調用之前已被載入. 放在body中的腳本在頁面載入後才會執行, 通常用來生成頁面的內容.
 * 什麼是漸進式呈現？
+>> * 下載顯示圖片時, 會先顯示整張圖片的模糊輪廓, 隨個掃描次數的增加, 圖片會越來越清晰.
 * 有用過 HTML 樣板語言（template languages）嗎？
 
 #### <a name='css-questions'>CSS 問題：</a>
 
 * CSS 的 class 和 ID 兩者有何差異？
+>> * CSS selector 使用不同的字眼.
+>> * class: `.`. 通常使用在多個元素有相同樣式.
+>> * id: `#`. 通常使用在特定一元素有特定樣式.
 * 描述 "resetting" 和 "normalizing" 的差異性？你會選擇哪一種，為什麼選擇它？
+>> * resetting: 將全部屬性重置, 所有一切自己訂.
+>> * normalizing: 賦予元素一套制式屬性.
 * 描述 Floats 並解釋如何運作。
+>> * 盡可能浮動(移動)元素到最右或最左(自訂義).
 * 描述 z-index 並且描述堆疊內容 (stacking context) 如何形成。
+>> * 賦予z-index數值, 數值越大的元素顯示在越前面(上面).
 * 解釋 BFC(Block Formatting Context) 是什麼、如何運作的。
 * 有哪些不同的 clearing 技術？哪個適用在哪種內容上？
 * 描述 CSS sprites, 你如何實作在網頁或網站上？
@@ -128,10 +147,13 @@ wildMio: 此文為在zushenyan提供的前端面試問題集(https://github.com/
 * 你如何使用非標準字體來實作網頁設計？
 * 解釋瀏覽器如何按照 CSS selector 找到對應的 element。
 * 解釋你所認知的 box model，以及你如何在 CSS 告訴瀏覽器使用不同 box model 來呈現圖層？
+>> * box model由外至內由這幾個屬性組成: margin > border > padding > content. 每個屬性皆可設定他們的長度(寬或高).
 * 請解釋 `* { box-sizing: border-box; }`？並且說明使用它的好處？
 >> * 使box-model的寬(width)和高(height)不因border與padding而隨之改變.
 >> * 參考資料: https://atomiks.github.io/30-seconds-of-css/#box-sizing-reset
 * 請列出您記憶中 display 屬性的全部值。
+>> * none, block, inline, inline-block, flex, grid.
+>> * 參考資料: https://developer.mozilla.org/en-US/docs/Web/CSS/display
 * 請說明 inline 和 inline-block 的差異性？
 * 請說明 relative、fixed、absolute 和 static 元件差異性？
 * 'C' 在 CSS 中代表層疊。樣式的優先級（舉出範例）？如何利用這項功能？
