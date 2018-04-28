@@ -5,14 +5,13 @@
 * 目前打算一步一步建立的網站: https://wildmio.github.io/wildmio/
 * 個人網站: https://wildmio.github.io/create-page/
 * 電子信箱: zll12545@gmail.com
-* 希望待遇: 面議.
 * 服役紀錄: 役畢(2016).
 
 <hr>
 
 ## 工作經歷
 
-#### 無
+#### 伈創資訊擔任研發工程師(持續學習中)
 
 <hr>
 
@@ -63,4 +62,3 @@
 
 ## 興趣
  * 喜歡音樂
- * 寫程式
