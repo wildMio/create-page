@@ -156,6 +156,7 @@ wildMio: 此文為在zushenyan提供的前端面試問題集(https://github.com/
 >> * 參考資料: https://developer.mozilla.org/en-US/docs/Web/CSS/display
 * 請說明 inline 和 inline-block 的差異性？
 * 請說明 relative、fixed、absolute 和 static 元件差異性？
+>> * 所有的元件默認position為static, static為"不會被特別定位的元素", 其他三個屬性皆為"可以被定位"的元素.
 * 'C' 在 CSS 中代表層疊。樣式的優先級（舉出範例）？如何利用這項功能？
 * 你目前有使用哪一套 CSS Framework 在開發環境或產品線上？
   * 如果有，請問是哪一套，並且描述如果改善或提昇 CSS Framework？

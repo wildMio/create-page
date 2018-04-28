@@ -30,6 +30,7 @@
  * JavaScript
  * Firebase
  * RWD
+ * PWA
  
 <hr>
 
