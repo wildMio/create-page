@@ -46,6 +46,11 @@
 
 ## 未來計劃
  * 持續在前端路上學習.
+ * 將js基礎打更深
+ * 從angular框架去了解底層架構概念
+ * functional programming
+ * design pattern
+ * 
 
 <hr>
 
