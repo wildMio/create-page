@@ -2,7 +2,7 @@
 
 * 英文名: Mio
 * 目前居住地: 桃園市楊梅區
-* 目前打算一步一步建立的網站: https://wildmio.github.io/wildmio/
+* 目前正在以Angular, Angular Material, Angularfire, Akita建立一個可分享的checklist網站.
 * 個人網站: https://wildmio.github.io/create-page/
 * 電子信箱: zll12545@gmail.com
 * 服役紀錄: 役畢(2016).
